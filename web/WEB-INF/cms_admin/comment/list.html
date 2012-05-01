@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsComment.function"/> - <@s.m "global.list"/></div>
+	<form class="ropt">
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=pagination;cmsComment,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${cmsComment.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${cmsComment.id}</@p.column><#t/>
+	<@p.column code="cmsComment.text">
+		<#if !cmsComment.checked><span style="color:red">[<@s.m "cmsComment.uncheck"/>]</span><br/></#if>
+		<#if cmsComment.recommend>[<span style="color:red"><@s.m "cmsComment.recommend"/></span>]</#if>
+		<a href="v_list.do?contentId=${cmsComment.content.id}">${cmsComment.text?html}</a>
+		<#if cmsComment.reply??><br/><span style="color:red">${cmsComment.reply?html}</span></#if>
+	</@p.column><#t/>
+	<@p.column code="cmsComment.doc">
+		<a href="${cmsComment.content.urlDynamic}" target="_blank" title="${cmsComment.content.title}">${cmsComment.content.title}</a>
+	</@p.column><#t/>
+	<@p.column code="cmsComment.commentUser" align="center">
+		<#if (cmsComment.commentUser.username)??>${cmsComment.commentUser.username}<#else><@s.m "cmsComment.anonymity"/></#if><br/>
+		${cmsComment.ip}<br/>${cmsComment.createTime}
+	</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="v_edit.do?id=${cmsComment.id}&pageNo=${pageNo!}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
+		<a href="o_delete.do?ids=${cmsComment.id}&pageNo=${pageNo!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div style="margin-top:15px;"><input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/></div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

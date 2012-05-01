@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="ContentTxt" table="jc_content_txt">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="content_id">
+			<generator class="foreign"><param name="property">content</param></generator>
+		</id>
+		<property name="txt" column="txt" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+		<property name="txt1" column="txt1" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+		<property name="txt2" column="txt2" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+		<property name="txt3" column="txt3" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+		<one-to-one name="content" class="Content" constrained="true"/>
+	</class>
+</hibernate-mapping>

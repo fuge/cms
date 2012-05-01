@@ -1,0 +1,17 @@
+[#--
+焦点图
+--]
+[#if !flashWidth?? || flashWidth==''][#assign flashWidth='296'/][/#if]
+[#if !flashHeight?? || flashHeight==''][#assign flashHeight='200'/][/#if]
+[#if !textHeight?? || textHeight==''][#assign textHeight='20'/][/#if]
+
+[#if !useShortTitle?? || useShortTitle==''][#assign useShortTitle='1'/][/#if]
+
+[#assign focusType=2 flashHeight=flashHeight?number+textHeight?number textHeight=0]
+[#include "style_3-1_core.html"/]
+
+[#assign flashWidth=''/]
+[#assign flashHeight=''/]
+[#assign textHeight=''/]
+
+[#assign useShortTitle=''/]

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsComment" table="jc_comment">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="integer" column="comment_id"><generator class="identity"/></id>
+		<property name="createTime" column="create_time" type="timestamp" not-null="true" length="19"/>
+		<property name="replayTime" column="reply_time" type="timestamp" not-null="false" length="19"/>
+		<property name="ups" column="ups" type="java.lang.Short" not-null="true" length="5"/>
+		<property name="downs" column="downs" type="java.lang.Short" not-null="true" length="5"/>
+		<property name="recommend" column="is_recommend" type="java.lang.Boolean" not-null="true"/>
+		<property name="checked" column="is_checked" type="java.lang.Boolean" not-null="true"/>
+		<one-to-one name="commentExt" class="CmsCommentExt" cascade="delete"/>
+		<many-to-one name="replayUser" column="reply_user_id" class="foo.cms.entity.main.CmsUser" not-null="false"></many-to-one>
+		<many-to-one name="content" column="content_id" class="foo.cms.entity.main.Content" not-null="true"></many-to-one>
+		<many-to-one name="commentUser" column="comment_user_id" class="foo.cms.entity.main.CmsUser" not-null="false"></many-to-one>
+		<many-to-one name="site" column="site_id" class="foo.cms.entity.main.CmsSite" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

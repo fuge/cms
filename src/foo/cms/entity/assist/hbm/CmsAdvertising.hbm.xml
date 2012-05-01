@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsAdvertising" table="jc_advertising">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="integer" column="advertising_id"><generator class="identity"/></id>
+		<property name="name" column="ad_name" type="string" not-null="true" length="100"/>
+		<property name="category" column="category" type="string" not-null="true" length="50"/>
+		<property name="code" column="ad_code" type="string" not-null="false"/>
+		<property name="weight" column="ad_weight" type="integer" not-null="true" length="10"/>
+		<property name="displayCount" column="display_count" type="java.lang.Long" not-null="true" length="19"/>
+		<property name="clickCount" column="click_count" type="java.lang.Long" not-null="true" length="19"/>
+		<property name="startTime" column="start_time" type="date" not-null="false" length="19"/>
+		<property name="endTime" column="end_time" type="date" not-null="false" length="19"/>
+		<property name="enabled" column="is_enabled" type="java.lang.Boolean" not-null="true" length="1"/>
+		<many-to-one name="adspace" column="adspace_id" class="CmsAdvertisingSpace" not-null="true"></many-to-one>
+		<many-to-one name="site" column="site_id" class="foo.cms.entity.main.CmsSite" not-null="true"></many-to-one>
+		<map name="attr" table="jc_advertising_attr" cascade="all-delete-orphan">
+			<cache usage="read-write"/>
+			<key column="advertising_id" not-null="true"/>
+			<map-key column="attr_name" type="string" length="50"/>
+			<element column="attr_value" type="string" length="255"/>
+		</map>
+	</class>
+</hibernate-mapping>

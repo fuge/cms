@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>投票 - ${site.name} - Powered by JEECMS</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+</head>
+
+<body>
+[@process_time/]
+<h4>${vote.title?html}</h4>
+<form action="${base}/vote.jspx" method="post">
+<input type="hidden" name="voteId" value="${vote.id}"/>
+<ul>
+[#list vote.items as item]
+<li><label><input type="radio" name="itemIds" value="${item.id}"/> ${item.title?html}</label></li>
+[/#list]
+</ul>
+<input type="submit" value="提交"/>
+</form>
+[@process_time/]
+</body>
+</html>

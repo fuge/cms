@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="CmsSiteModel" table="jc_site_model">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Integer" column="model_id"><generator class="identity"/></id>
+		<property name="field" column="model_label" type="string" not-null="true" length="50"/>
+		<property name="label" column="label" type="string" not-null="true" length="100"/>
+		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
+		<property name="uploadPath" column="upload_path" type="string" not-null="false" length="100"/>
+		<property name="size" column="text_size" type="string" not-null="false" length="20"/>
+		<property name="rows" column="area_rows" type="string" not-null="false" length="3"/>
+		<property name="cols" column="area_cols" type="string" not-null="false" length="3"/>
+		<property name="help" column="help" type="string" not-null="false" length="255"/>
+		<property name="helpPosition" column="help_position" type="string" not-null="false" length="1"/>
+		<property name="dataType" column="data_type" type="integer" not-null="false" length="10"/>
+		<property name="single" column="is_single" type="java.lang.Boolean" not-null="false"/>
+	</class>
+</hibernate-mapping>

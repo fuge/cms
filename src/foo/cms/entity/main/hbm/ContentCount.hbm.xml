@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="ContentCount" table="jc_content_count">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="content_id">
+			<generator class="foreign"><param name="property">content</param></generator>
+		</id>
+		<property name="views" column="views" type="java.lang.Integer" not-null="true" length="19"/>
+		<property name="viewsMonth" column="views_month" type="integer" not-null="true" length="10"/>
+		<property name="viewsWeek" column="views_week" type="integer" not-null="true" length="10"/>
+		<property name="viewsDay" column="views_day" type="integer" not-null="true" length="10"/>
+		<property name="comments" column="comments" type="integer" not-null="true" length="10"/>
+		<property name="commentsMonth" column="comments_month" type="integer" not-null="true" length="10"/>
+		<property name="commentsWeek" column="comments_week" type="java.lang.Short" not-null="true" length="5"/>
+		<property name="commentsDay" column="comments_day" type="java.lang.Short" not-null="true" length="5"/>
+		<property name="downloads" column="downloads" type="integer" not-null="true" length="10"/>
+		<property name="downloadsMonth" column="downloads_month" type="integer" not-null="true" length="10"/>
+		<property name="downloadsWeek" column="downloads_week" type="java.lang.Short" not-null="true" length="5"/>
+		<property name="downloadsDay" column="downloads_day" type="java.lang.Short" not-null="true" length="5"/>
+		<property name="ups" column="ups" type="integer" not-null="true" length="10"/>
+		<property name="upsMonth" column="ups_month" type="integer" not-null="true" length="10"/>
+		<property name="upsWeek" column="ups_week" type="java.lang.Short" not-null="true" length="5"/>
+		<property name="upsDay" column="ups_day" type="java.lang.Short" not-null="true" length="5"/>
+		<property name="downs" column="downs" type="integer" not-null="true" length="10"/>
+		<one-to-one name="content" class="Content" constrained="true"/>
+	</class>
+</hibernate-mapping>

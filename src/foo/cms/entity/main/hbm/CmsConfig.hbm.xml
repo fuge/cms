@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="CmsConfig" table="jc_config">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="config_id"><generator class="assigned"/></id>
+		<property name="contextPath" column="context_path" type="string" not-null="false" length="20"/>
+		<property name="servletPoint" column="servlet_point" type="string" not-null="false" length="20"/>
+		<property name="port" column="port" type="integer" not-null="false" length="10"/>
+		<property name="dbFileUri" column="db_file_uri" type="string" not-null="true" length="50"/>
+		<property name="uploadToDb" column="is_upload_to_db" type="java.lang.Boolean" not-null="true"/>
+		<property name="defImg" column="def_img" type="string" not-null="true" length="255"/>
+		<property name="loginUrl" column="login_url" type="string" not-null="true" length="255"/>
+		<property name="processUrl" column="process_url" type="string" not-null="false" length="255"/>
+		<property name="countClearTime" column="count_clear_time" type="date" not-null="true" length="19"/>
+		<property name="countCopyTime" column="count_copy_time" type="timestamp" not-null="true" length="19"/>
+		<property name="downloadCode" column="download_code" type="string" not-null="true" length="32"/>
+		<property name="downloadTime" column="download_time" type="integer" not-null="true" length="10"/>
+		
+		<component name="markConfig" class="MarkConfig">
+		<property name="on" column="mark_on" type="java.lang.Boolean" not-null="true"/>
+		<property name="minWidth" column="mark_width" type="integer" not-null="true" length="10"/>
+		<property name="minHeight" column="mark_height" type="integer" not-null="true" length="10"/>
+		<property name="imagePath" column="mark_image" type="string" not-null="false" length="100"/>
+		<property name="content" column="mark_content" type="string" not-null="true" length="100"/>
+		<property name="size" column="mark_size" type="integer" not-null="true" length="10"/>
+		<property name="color" column="mark_color" type="string" not-null="true" length="10"/>
+		<property name="alpha" column="mark_alpha" type="integer" not-null="true" length="10"/>
+		<property name="pos" column="mark_position" type="integer" not-null="true" length="10"/>
+		<property name="offsetX" column="mark_offset_x" type="integer" not-null="true" length="10"/>
+		<property name="offsetY" column="mark_offset_y" type="integer" not-null="true" length="10"/>
+		</component>
+		
+		<component name="emailConfig" class="EmailConfig">
+		<property name="host" column="email_host" type="string" not-null="false" length="50"/>
+		<property name="encoding" column="email_encoding" type="string" not-null="false" length="20"/>
+		<property name="username" column="email_username" type="string" not-null="false" length="100"/>
+		<property name="password" column="email_password" type="string" not-null="false" length="100"/>
+		<property name="personal" column="email_personal" type="string" not-null="false" length="100"/>
+		</component>
+		
+		<map name="attr" table="jc_config_attr" cascade="all-delete-orphan">
+			<cache usage="read-write"/>
+			<key column="config_id" not-null="true"/>
+			<map-key column="attr_name" type="string" length="30"/>
+			<element column="attr_value" type="string" length="255"/>
+		</map>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function(){
+	$("#browser").treeview({
+		url: "v_tree.do"
+	});
+	Cms.lmenu("lmenu");
+});
+</script>
+</head>
+<body class="lbody">
+<div class="left">
+	<#include "/${admin_dir}/date.html"/>
+	<div class="fresh">
+		 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	          <tr>
+	            <td  height="35" align="center"><img src="${base}/res/jeecms/img/admin/refresh-icon.png" />&nbsp;&nbsp;<a href="javascript:location.href=location.href"><@s.m "global.refresh"/></a></td>
+	           	<@cms_perm url="/template/v_setting.do">
+	            <td width="2" height="35" valign="middle"><img src="${base}/res/jeecms/img/admin/left-line.png" /></td>
+	            <td height="35" align="center"><img src="${base}/res/jeecms/img/admin/set.png" />&nbsp;&nbsp;<a href="v_setting.do" target="rightFrame"><@s.m "template.setting"/></a></td>
+	      	 	</@cms_perm>
+	      	 </tr>
+	     </table>
+	</div>
+</div>
+<ul id="browser" class="filetree"></ul>
+</body>
+</html>

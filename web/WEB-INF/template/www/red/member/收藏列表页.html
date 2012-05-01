@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的收藏- ${site.name} - Powered by JEECMS</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../../${res}/css/member.css" />
+</head>
+<body>
+[#include "../member/会员中心页_页头.html"/]
+<div class="container">
+	 [#include "../member/会员中心页_导航.html"/]
+    <div class="mc_right">
+        [#include "../member/会员中心页_页顶.html"/]
+        <div class="mr-top-position">
+		     <div class="mr-top-tit fl">我的收藏</div>
+		    <div class="modify fr"><a href="${base}/member/collection_list.jspx">我的收藏</a></div>
+		 </div>
+        <div class="mc_content">   
+          	<form id="tableForm" action="collection_list.jspx" method="post">
+            [#if pagination.list?size gt 0]
+            <table border="0" cellpadding="0" cellspacing="1" bgcolor="#C8DCF0" class="tblist">
+            <tr>
+                <th>ID</th>
+                <th>标题</th>
+                <th>栏目</th>
+                <th>状态</th>
+                <th>点击</th>
+                <th>发布时间</th>
+                <th>操作</th>
+            </tr>
+            [#list pagination.list as c]
+            <tr id="tr_${c.id}">	
+                <td bgcolor="#FFFFFF">${c.id}</td>
+                <td bgcolor="#FFFFFF"><a href="${c.url!}">${c.title?html}</a></td>
+                <td bgcolor="#FFFFFF">${c.channel.name}</td>
+                <td bgcolor="#FFFFFF">[#if c.checked]审核通过[#elseif c.checkStep==0]未审核[#else]审核中[/#if]</td>
+                <td bgcolor="#FFFFFF">${c.views}</td>
+                <td bgcolor="#FFFFFF">${c.releaseDate?string('yyyy-MM-dd')}</td>
+                <td bgcolor="#FFFFFF"><span onclick="Cms.cmsCollect('${base}','${c.id}',0)" id="cancelSpan"  style="cursor: pointer;">取消收藏</span></td>
+            </tr>
+            [/#list]
+            </table>
+            <input type="hidden" name="pageNo"/>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center" class="pn-sp">
+                共 ${pagination.totalCount} 条&nbsp;
+                每页 ${pagination.pageSize} 条&nbsp;
+                <input type="button" value="首 页" onclick="_gotoPage('1');"[#if pagination.firstPage] disabled="disabled"[/#if]/>
+                <input type="button" value="上一页" onclick="_gotoPage('${pagination.prePage}');"[#if pagination.firstPage] disabled="disabled"[/#if]/>
+                <input type="button" value="下一页" onclick="_gotoPage('${pagination.nextPage}');"[#if pagination.lastPage] disabled="disabled"[/#if]/>
+                <input type="button" value="尾 页" onclick="_gotoPage('${pagination.totalPage}');"[#if pagination.lastPage] disabled="disabled"[/#if]/>&nbsp;
+                当前 ${pagination.pageNo}/${pagination.totalPage} 页 &nbsp;转到第<input type="text" id="_goPs" style="width:50px" onfocus="this.select();" onkeypress="if(event.keyCode==13){$('#_goPage').click();return false;}"/>页
+                <input id="_goPage" type="button" value="转" onclick="_gotoPage($('#_goPs').val());"[#if pagination.totalPage==1] disabled="disabled"[/#if]/>
+            </td>
+            </tr>
+            </table>
+            <script type="text/javascript">
+            function _gotoPage(pageNo) {
+                try{
+                    var tableForm = document.getElementById("tableForm");
+                    $("input[name=pageNo]").val(pageNo);
+                    tableForm.action="collection_list.jspx";
+                    tableForm.onsubmit=null;
+                    tableForm.submit();
+                } catch(e) {
+                    alert('_gotoPage(pageNo)方法出错');
+                }
+            }
+            </script>
+            [#else]
+                <div>暂无收藏</div>
+            [/#if]
+            </form>
+    	</div>
+  </div>
+     <div style="clear:both"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsAdvertisingSpace" table="jc_advertising_space">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="integer" column="adspace_id"><generator class="identity"/></id>
+		<property name="name" column="ad_name" type="string" not-null="true" length="100"/>
+		<property name="description" column="description" type="string" not-null="false" length="255"/>
+		<property name="enabled" column="is_enabled" type="java.lang.Boolean" not-null="true" length="1"/>
+		<many-to-one name="site" column="site_id" class="foo.cms.entity.main.CmsSite" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

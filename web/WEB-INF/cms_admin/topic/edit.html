@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+	<#if cmsTopic.titleImg??>
+		$("#preImg1").css("width","auto").css("height","auto").attr("src","${cmsTopic.titleImg}?d="+new Date()*1);
+	</#if>
+	<#if cmsTopic.contentImg??>
+		$("#preImg2").css("width","auto").css("height","auto").attr("src","${cmsTopic.contentImg}?d="+new Date()*1);
+	</#if>
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsTopic.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="hidden" name="pageNo" value="${pageNo!}"/>
+		<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>		
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<#include "/common/image_upload.html"/>
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.text colspan="1" width="50" label="cmsTopic.name" name="name" value=cmsTopic.name required="true" class="required" maxlength="150"/>
+<@p.select colspan="1" width="50" label="cmsTopic.channel" name="channelId" value=(cmsTopic.channel.id)! list=channelList listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue="cmsTopic.channel.allChannel"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsTopic.shortName" name="shortName" value=cmsTopic.shortName  maxlength="150"/>
+<@p.text colspan="1" width="50" label="cmsTopic.keywords" name="keywords" value=cmsTopic.keywords style="width:220px" maxlength="255"/><@p.tr/>
+<@p.textarea colspan="2" label="cmsTopic.description" name="description" value=cmsTopic.description rows="3" cols="70" maxlength="255"/><@p.tr/>
+<@p.radio colspan="1" width="50" label="cmsTopic.recommend" name="recommend" value=cmsTopic.recommend list={"true":"global.true","false":"global.false"}/>
+<@p.text colspan="1" width="50" label="cmsTopic.priority" name="priority" value=cmsTopic.priority required="true" class="required" style="width:70px" maxlength="5"/><@p.tr/>
+<@p.select colspan="2" label="cmsTopic.tplContent" name="tplContent" value=cmsTopic.tplContent list=tplList headerKey="" headerValue="global.default"/><@p.tr/>
+<@p.td label="cmsTopic.titleImg" colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath1" name="titleImg" value=cmsTopic.titleImg style="width:220px"/> <input class="preview-button"  type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(1);"/><br/>
+<span id="ufc1" style="position:relative">
+<input type='text' id='uploadFileText1' size="14"/>  
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText1').val(this.value)" size="14" type="file" id="uploadFile1" class="file-button"/>
+</span>
+<label><input type="checkbox" onclick="$('#mark1').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark1" value="false"/> <input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth1" value="139" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight1" value="139" size="5"/> <input class="cut-button" type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(1);"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg1" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+<@p.td label="cmsTopic.contentImg" colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath2" name="contentImg" value=cmsTopic.contentImg style="width:220px"/> <input class="preview-button"  type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(2);"/><br/>
+<span id="ufc2" style="position:relative">
+<input type='text' id='uploadFileText2' size="14"/>  
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText2').val(this.value)" size="14" type="file" id="uploadFile2" class="file-button"/>
+</span>
+<label><input type="checkbox" onclick="$('#mark2').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark2" value="false"/> <input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(2);"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth2" value="310" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight2" value="310" size="5"/> <input class="cut-button" type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(2);"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg2" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+<@p.td colspan="2"><@p.hidden name="id" value=cmsTopic.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

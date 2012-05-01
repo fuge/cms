@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+	<#if cmsFriendlink.logo??>
+	$("#preImg0").css("width","auto").css("height","auto").attr("src","${cmsFriendlink.logo}?d="+new Date()*1);
+	</#if>
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsFriendlink.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do" labelWidth="15">
+<@p.text colspan="1" width="50" label="cmsFriendlink.name" name="name" value=cmsFriendlink.name required="true" class="required" maxlength="150"/>
+<@p.text colspan="1" width="50" label="cmsFriendlink.domain" name="domain" value=cmsFriendlink.domain required="true" class="required" maxlength="255" style="width:200px"/><@p.tr/>
+<@p.select colspan="1" width="50" label="cmsFriendlink.category" name="ctgId" value=cmsFriendlink.category.id list=ctgList listKey="id" listValue="name" required="true" class="required"/>
+<@p.text colspan="1" width="50" label="cmsFriendlink.email" name="email" value=cmsFriendlink.email maxlength="100"/><@p.tr/>
+<@p.td id="linkLogo" label="cmsFriendlink.logo" colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath0" name="logo" value=cmsFriendlink.logo style="width:180px"/> <input class="preview-button" type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(0);"/><br/>
+<span id="ufc0" style="position:relative">
+<input type='text' id='uploadFileText0' size="14"/>  
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText0').val(this.value)" size="14" type="file" id="uploadFile0" class="file-button"/>
+</span>
+<input type="hidden" id="mark0" value="false"/> <input class="upload-button" type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(0);"/><br/>
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg0" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#ccc;border:1px solid #333"/>
+</@p.td><@p.tr/>
+<@p.textarea colspan="2" label="cmsFriendlink.description" name="description" value=cmsFriendlink.description cols="50" rows="3" maxlength="255"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsFriendlink.priority" name="priority" value=cmsFriendlink.priority required="true" class="required" maxlength="11" style="width:100px"/>
+<@p.text colspan="1" width="50" label="cmsFriendlink.views" name="views" value=cmsFriendlink.views required="true" class="required" maxlength="11" style="width:100px"/><@p.tr/>
+<@p.radio colspan="2" label="cmsFriendlink.enabled" name="enabled" value=cmsFriendlink.enabled list={"true":"global.true","false","global.false"} required="true" class="required"/><@p.tr/>
+<@p.td colspan="2"><@p.hidden name="id" value=cmsFriendlink.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

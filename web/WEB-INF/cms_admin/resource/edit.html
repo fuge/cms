@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function ajaxSubmit() {
+	$.post("o_update.do", {
+		"root" : $("#root").val(),
+		"name" : $("#name").val(),
+		"source" : $("#source").val()
+	}, function(data) {
+		if (data.success) {
+			alert("<@s.m "global.success.save"/>");
+		} else {
+			alert(data.msg);
+		}
+	}, "json");
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "resource.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="hidden" name="root" value="${root}"/>
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do'" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do" labelWidth="15" onsubmit="ajaxSubmit();return false;">
+<@p.td label="resource.filename" help="resource.source.help"><input type="text" value="${filename}" readonly="readonly" class="disabled" size="40"/></@p.td><@p.tr/>
+<@p.td>
+	<@p.textarea id="source" name="source" value=source style="width:90%;height:350px;" wrap="off" maxlength="1232896" onkeydown="if((event.keyCode==115||event.keyCode==83)&&event.ctrlKey){ajaxSubmit();return false;}"/>
+</@p.td><@p.tr/>
+<@p.td>
+	<@p.hidden id="name" name="name" value=name/>
+	<@p.hidden id="root" name="root" value=root/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsConfig.function"/> - <@s.m "cmsConfig.function.system"/> - <@s.m "global.edit"/></div>
+	<#include "inc_opt.html"/>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_system_update.do" labelWidth="10">
+<@p.text colspan="1" width="50" label="cmsConfig.contextPath" name="contextPath" value=cmsConfig.contextPath maxlength="20" help="cmsConfig.contextPath.help"/>
+<@p.text colspan="1" width="50" label="cmsConfig.port" name="port" value=cmsConfig.port class="digits" help="cmsConfig.port.help"/><@p.tr/>
+<#--极少使用，暂时不显示-->
+<#--<@p.text colspan="2" label="cmsConfig.servletPoint" name="servletPoint" value=cmsConfig.servletPoint maxlength="20" help="cmsConfig.servletPoint.help"/><@p.tr/>-->
+<@p.text colspan="2" label="cmsConfig.defImg" name="defImg" value=cmsConfig.defImg style="width:300px" required="true" class="required" maxlength="100" help="cmsConfig.defImg.help"/><@p.tr/>
+<@p.radio colspan="1" width="50" label="cmsConfig.uploadToDb" name="uploadToDb" value=cmsConfig.uploadToDb required="true" list={"true":"global.true","false":"global.false"}/>
+<@p.text colspan="1" width="50" label="cmsConfig.dbFileUri" name="dbFileUri" value=cmsConfig.dbFileUri required="true" class="required" maxlength="50" help="cmsConfig.dbFileUri.help"/><@p.tr/>
+<@p.td colspan="2"><@p.hidden name="id" value=cmsConfig.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

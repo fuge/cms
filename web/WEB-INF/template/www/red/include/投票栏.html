@@ -1,0 +1,33 @@
+[@cms_vote]
+	[#if !tag_bean??]
+<div>没有默认投票主题</div>
+[#else]
+<form name="votes" action="${base}/vote.jspx" method="post" target="_blank">
+  <table width="100%" border="0" cellspacing="5" cellpadding="0">
+    <tr>
+      <td height="30" colspan="2" align="left">${tag_bean.title?html}
+        <input type="hidden" name="voteId" value="${tag_bean.id}"/></td>
+    </tr>
+    [#if tag_bean.multiSelect gt 1]
+    [#list tag_bean.items as item]
+    <tr>
+      <td width="9%" height="20" align="center"><input type="checkbox" name="itemIds" value="${item.id}" onClick="check_votes(${tag_bean.multiSelect})" id="${item.id}"/></td>
+      <td width="91%" align="left">${item.title?html}</td>
+    </tr>
+    [/#list]
+    [#else]
+    [#list tag_bean.items as item]
+    <tr>
+      <td width="9%" height="20" align="center"><input type="radio" name="itemIds" value="${item.id}"/></td>
+      <td width="91%" align="left">${item.title?html}</td>
+    </tr>
+    [/#list]
+    [/#if]
+    <tr>
+      <td height="35" colspan="2" align="center"><input type="submit" value="投 票" onClick="return check_votes(${tag_bean.multiSelect})"/>
+      &nbsp; <a href="${base}/vote_result.jspx?voteId=${tag_bean.id}" target="_blank">查看投票结果</a> </td>
+    </tr>
+  </table>
+</form>
+[/#if]
+[/@cms_vote]

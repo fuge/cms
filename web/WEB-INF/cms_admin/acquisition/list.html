@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+
+function optBatchStart() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'cmsAcquisition.isStart'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_start.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsAcquisition.function"/> - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input class="add" type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=list;cmsAcquisition,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${cmsAcquisition.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${cmsAcquisition.id}</@p.column><#t/>
+	<@p.column code="cmsAcquisition.name">${cmsAcquisition.name}</@p.column><#t/>
+	<@p.column code="cmsAcquisition.status" align="center"><#if cmsAcquisition.status==1><strong style="color:red"></#if><@s.m "cmsAcquisition.status."+cmsAcquisition.status/><#if cmsAcquisition.status==1></strong></#if></@p.column><#t/>
+	<@p.column code="cmsAcquisition.num" align="center">${cmsAcquisition.currNum}.${cmsAcquisition.currItem}/${cmsAcquisition.totalNum}.${cmsAcquisition.totalItem}</@p.column><#t/>
+	<@p.column code="cmsAcquisition.startTime" align="center">${(cmsAcquisition.startTime?string('yyyy-MM-dd HH:mm:ss'))!}</@p.column><#t/>
+	<@p.column code="cmsAcquisition.endTime" align="center">${(cmsAcquisition.endTime?string('yyyy-MM-dd HH:mm:ss'))!}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+	<#if cmsAcquisition.queue gt 0>
+			<span style="color:red"><@s.m "cmsAcquisition.wait"/> (${cmsAcquisition.queue})</span>| <#rt/>
+			<a href="o_cancel.do?id=${cmsAcquisition.id}" class="pn-opt"><@s.m "cmsAcquisition.cancel"/></a>| <#rt/>
+	<#else>
+		<#if cmsAcquisition.status==0 || cmsAcquisition.status==2>
+		<a href="o_start.do?ids=${cmsAcquisition.id}" class="pn-opt"><@s.m "cmsAcquisition.opt.start"/></a> | <#rt/>
+		<#else>
+		<@s.m "cmsAcquisition.opt.start"/> | <#rt/>
+		</#if>
+		<#if cmsAcquisition.status==1>
+		<a href="o_pause.do?id=${cmsAcquisition.id}" class="pn-opt"><@s.m "cmsAcquisition.opt.pause"/></a> | <#rt/>
+		<#else>
+		<@s.m "cmsAcquisition.opt.pause"/> | <#rt/>
+		</#if>
+		<#if cmsAcquisition.status==1 || cmsAcquisition.status==1>
+		<a href="o_end.do?id=${cmsAcquisition.id}" class="pn-opt"><@s.m "cmsAcquisition.opt.end"/></a> | <#rt/>
+		<#else>
+		<@s.m "cmsAcquisition.opt.end"/> | <#rt/>
+		</#if>
+	</#if>
+		<a href="v_edit.do?id=${cmsAcquisition.id}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
+		<a href="o_delete.do?ids=${cmsAcquisition.id}" class="pn-opt" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div style="margin-top:15px;"><input class="start-acqu" type="button" value="<@s.m "cmsAcquisition.startAcquisition"/>" onclick="optBatchStart();"/><input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/></div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

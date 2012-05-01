@@ -1,0 +1,7 @@
+<form class="ropt" action="v_list.do" method="post" id="listFrom">
+		<input type="hidden" name="box" value="${box!}" id="box"/>
+		<input class="send-message" type="submit" value="<@s.m "cmsMessage.sendMessage"/>" onclick="this.form.action='v_add.do'"/>
+		<input class="inbox" type="button" value="<@s.m "cmsMessage.inbox"/>" onclick="toList(0)"/>
+		<input class="sendbox" type="button" value="<@s.m "cmsMessage.sendbox"/>" onclick="toList(1)"/>
+		<input class="trash" type="button" value="<@s.m "cmsMessage.trashbox"/>" onclick="toList(3)"/>
+</form>

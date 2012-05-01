@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#rejectDialog").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 380,
+		height: 200,
+		position: ["center",50],
+		buttons: {
+			"OK": function() {
+				rejectSubmit();
+			}
+		}
+	});
+});
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optCheck() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_check.do";
+	f.submit();
+}
+function optStatic() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_static.do";
+	f.submit();
+}
+function optReject() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	$("#rejectDialog").dialog("open");
+}
+function rejectSubmit() {
+	$("input[name=rejectOpinion]").val($("#rejectOpinion").val());
+	$("input[name=rejectStep]").val($("#rejectStep").val());
+	$("#rejectDialog").dialog("close");
+	var f = getTableForm();
+	f.action="o_reject.do";
+	f.submit();
+}
+function chgStatus() {
+	var queryStatus = $("input[name=queryStatus]:checked").val();
+	location.href="v_list.do?cid=${cid!}&queryStatus=" + queryStatus;
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "content.function"/> - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<@cms_perm url="/content/v_add.do">
+		<input class="add" type="submit" value="<@s.m "global.add"/>" onclick="this.form.action='v_add.do';"/>
+		</@cms_perm>
+		<input type="hidden" name="cid" value="${cid!}"/>
+	</form>
+	<div class="clear"></div>
+</div>
+
+
+<div class="body-box">
+<form action="v_list.do" method="post" style="padding-top:5px;">
+<div>
+<@s.m "content.title"/>: <input type="text" name="queryTitle" value="${queryTitle!}" style="width:100px"/>
+<@s.m "content.user"/>: <input type="text" name="queryInputUsername" value="${queryInputUsername!}" style="width:70px"/>
+<label><input type="checkbox" name="queryTopLevel" value="true"<#if queryTopLevel?? && queryTopLevel> checked="checked"</#if>/><@s.m "content.topLevel.query"/></label>
+<label><input type="checkbox" name="queryRecommend" value="true"<#if queryRecommend?? && queryRecommend> checked="checked"</#if>/><@s.m "content.recommend"/></label>
+<@p.select name="queryTypeId" value=queryTypeId list=typeList listKey="id" listValue="name" headerKey="" headerValue="content.query.allType"/>
+<#--
+<@p.select name="queryStatus" value=queryStatus list={"0":"content.status.0","1":"content.status.1","2":"content.status.2"} headerKey="" headerValue="content.query.allStatus"/>
+-->
+<@p.select name="queryOrderBy" value=queryOrderBy list={"0":"content.orderBy.0","1":"content.orderBy.1","2":"content.orderBy.2","3":"content.orderBy.3","4":"content.orderBy.4","5":"content.orderBy.5","6":"content.orderBy.6","7":"content.orderBy.7","8":"content.orderBy.8","9":"content.orderBy.9","10":"content.orderBy.10","11":"content.orderBy.11","12":"content.orderBy.12","13":"content.orderBy.13","14":"content.orderBy.14","15":"content.orderBy.15","16":"content.orderBy.16","17":"content.orderBy.17","18":"content.orderBy.18","19":"content.orderBy.19","20":"content.orderBy.20","21":"content.orderBy.21"}/>
+<input type="hidden" name="cid" value="${cid!}"/>
+<input class="query" type="submit" value="<@s.m "global.query"/>"/>
+</div>
+<div style="padding-top:5px">
+<label><input type="radio" name="queryStatus" value="all" onclick="chgStatus();"<#if !status?? || queryStatus="all"> checked="checked"</#if>/><@s.m "content.status.all"/></label>
+<label><input type="radio" name="queryStatus" value="draft" onclick="chgStatus();"<#if queryStatus?? && queryStatus=="draft"> checked="checked"</#if>/><@s.m "content.status.draft"/></label>
+<label><input type="radio" name="queryStatus" value="prepared" onclick="chgStatus();"<#if queryStatus?? && queryStatus=="prepared"> checked="checked"</#if>/><@s.m "content.status.prepared"/></label>
+<label><input type="radio" name="queryStatus" value="passed" onclick="chgStatus();"<#if queryStatus?? && queryStatus=="passed"> checked="checked"</#if>/><@s.m "content.status.passed"/></label>
+<label><input type="radio" name="queryStatus" value="checked" onclick="chgStatus();"<#if queryStatus?? && queryStatus=="checked"> checked="checked"</#if>/><@s.m "content.status.checked"/></label>
+<label><input type="radio" name="queryStatus" value="rejected" onclick="chgStatus();"<#if queryStatus?? && queryStatus=="rejected"> checked="checked"</#if>/><@s.m "content.status.rejected"/></label>
+</div>
+</form>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="cid" value="${cid!}"/>
+<#list .data_model?keys as pkey>
+	<#if pkey?starts_with('query')><input type="hidden" name="${pkey}" value="${(.data_model[pkey])!?string}"/></#if><#t/>
+</#list>
+<input type="hidden" name="rejectStep"/>
+<input type="hidden" name="rejectOpinion"/>
+
+<@p.table value=pagination;content,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${content.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${content.id}</@p.column><#t/>
+	<@p.column code="content.title">
+		<#if content.topLevel gt 0><span style="color:red">[<@s.m "content.topLevel.short"/>${content.topLevel}]</span></#if>
+		<#if content.recommend><span style="color:red">[<@s.m "content.recommend.short"/>]</span></#if>
+		<strong>[${content.channel.name}]</strong>
+		<a href="${content.url}" target="_blank"><@text_cut s=content.title?html len=25 append="..."/></a>
+		<#if content.checkOpinion??>
+		<br/><span style="color:red">${content.checkOpinion}</span>
+		</#if>
+	</@p.column><#t/>
+	<@p.column code="content.type" align="center">${content.type.name}</@p.column><#t/>
+	<@p.column code="content.user" align="center">${content.user.username}</@p.column><#t/>
+	<@p.column code="content.views" align="right">${content.views}</@p.column><#t/>
+	<#if queryOrderBy??>
+		<#switch queryOrderBy>
+		<#case 6>
+			<@p.column code="content.viewsDay" align="right">${content.viewsDay}</@p.column><#t/>
+			<#break>
+		<#case 7>
+			<@p.column code="content.viewsWeek" align="right">${content.contentCount.viewsWeek}</@p.column><#t/>
+			<#break>
+		<#case 8>
+			<@p.column code="content.viewsMonth" align="right">${content.contentCount.viewsMonth}</@p.column><#t/>
+			<#break>
+		<#case 10>
+			<@p.column code="content.commentsDay" align="right">${content.commentsDay}</@p.column><#t/>
+			<#break>
+		<#case 11>
+			<@p.column code="content.commentsWeek" align="right">${content.contentCount.commentsWeek}</@p.column><#t/>
+			<#break>
+		<#case 12>
+			<@p.column code="content.commentsMonth" align="right">${content.contentCount.commentsMonth}</@p.column><#t/>
+			<#break>
+		<#case 13>
+			<@p.column code="content.comments" align="right">${content.contentCount.comments}</@p.column><#t/>
+			<#break>			
+		<#case 14>
+			<@p.column code="content.downloadsDay" align="right">${content.downloadsDay}</@p.column><#t/>
+			<#break>
+		<#case 15>
+			<@p.column code="content.downloadsWeek" align="right">${content.contentCount.downloadsWeek}</@p.column><#t/>
+			<#break>
+		<#case 16>
+			<@p.column code="content.downloadsMonth" align="right">${content.contentCount.downloadsMonth}</@p.column><#t/>
+			<#break>
+		<#case 17>
+			<@p.column code="content.downloads" align="right">${content.contentCount.downloads}</@p.column><#t/>
+			<#break>			
+		<#case 18>
+			<@p.column code="content.upsDay" align="right">${content.upsDay}</@p.column><#t/>
+			<#break>
+		<#case 19>
+			<@p.column code="content.upsWeek" align="right">${content.contentCount.upsWeek}</@p.column><#t/>
+			<#break>
+		<#case 20>
+			<@p.column code="content.upsMonth" align="right">${content.contentCount.upsMonth}</@p.column><#t/>
+			<#break>
+		<#case 21>
+			<@p.column code="content.ups" align="right">${content.contentCount.ups}</@p.column><#t/>
+			<#break>
+		<#default>	
+		</#switch>
+	</#if>
+	<@p.column code="content.releaseDate" align="center">${content.releaseDate?string('yyyy-MM-dd')}</@p.column><#t/>
+	<@p.column code="content.status" align="center">
+		<@s.m "content.status."+content.status/>
+		<#if content.status==1> ${content.checkStep}<#if content.rejected> <span style="color:red"><@s.m "content.status.rejected"/></span></#if></#if>
+	</@p.column><#t/>
+	<@p.column code="content.static.status" align="center">
+		<#if content.needRegenerate> <span style="color:red"><@s.m "content.static.needRegenerate"/></span><#else><span style="color:green"><@s.m "content.static.hasGenerated"/></span></#if>
+	</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<#assign params>&cid=${cid!}&pageNo=${pageNo!}&queryTitle=${queryTitle!?url}&queryInputUsername=${queryInputUsername!?url}&queryTopLevel=${(queryTopLevel!false)?string}&queryRecommend=${(queryRecommend!false)?string}&queryTypeId=${queryTypeId!}&queryStatus=${queryStatus!}&queryOrderBy=${queryOrderBy!}</#assign>
+		<@cms_perm url="/content/v_view.do">
+		<a href="v_view.do?id=${content.id}${params}" class="pn-opt"><@s.m "content.opt.view"/></a> | <#rt/>
+		</@cms_perm>
+		<@cms_perm url="/content/v_edit.do">
+		<a href="v_edit.do?id=${content.id}${params}" class="pn-opt"><@s.m "global.edit"/></a> | <#rt/>
+		</@cms_perm>
+		<@cms_perm url="/content/o_delete.do">
+		<#if content.hasDeleteRight><a href="o_delete.do?ids=${content.id}${params}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}" class="pn-opt"><@s.m "global.delete"/></a>
+		<#else><span class="disabled"><@s.m "global.delete"/></span>
+		</#if>
+		</@cms_perm><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div style="margin-top:15px;">
+	<@cms_perm url="/content/o_delete.do">
+	<input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();" class="del-button"/>
+	</@cms_perm>
+	<@cms_perm url="/content/o_check.do">
+	<input type="button" value="<@s.m "content.opt.check"/>" onclick="optCheck();" class="check"/>
+	</@cms_perm>
+	<@cms_perm url="/content/o_reject.do">
+	<input id="rejectButton" type="button" value="<@s.m "content.opt.reject"/>" onclick="optReject();" class="reject"/>
+	</@cms_perm>
+	<@cms_perm url="/content/o_static.do">
+	<input type="button" value="<@s.m "content.opt.static"/>" onclick="optStatic();" class="generate-static"/>
+	</@cms_perm>
+</div>
+</form>
+</div>
+<div id="rejectDialog" style="display:none" title="<@s.m "content.rejectOpinion"/>">
+<p><@s.m "content.rejectOpinion"/>: <input type="text" id="rejectOpinion" style="width:260px" onkeypress="if(event.keyCode==13){rejectSubmit();return false;}"/></p>
+<p><@s.m "content.rejectStep"/>:
+	<select id="rejectStep">
+		<option value=""><@s.m "content.rejectBack"/></option>
+		<#list currStep-1..0 as i><option value="${i}">${i}</option></#list>
+	</select>
+</p>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

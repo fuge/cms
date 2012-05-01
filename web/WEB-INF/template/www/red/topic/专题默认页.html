@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${topic.name} - ${site.name}专题 - Powered by JEECMS</title>
+<meta http-equiv="keywords" content="${topic.keywords!}"/>
+<meta http-equiv="description" content="${topic.description!}"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script src="/${res}/js/common.js" type="text/javascript"></script>
+<link href="/${res}/css/layout.css" rel="stylesheet" type="text/css" >
+<style type="text/css">
+body{margin:0;font:14px Verdana, Arial, Helvetica, sans-serif,"宋体"; color:#42515A; background:#dbf1fc; word-break:break-all;}
+.b01{border: 1px #D0EAFF solid;}
+h2{color:#0066CC; font-weight:700;}
+ul.list li.toptext a h3{text-align:center; font-weight:bold; font-size:16px; color:#f54100;}
+.rgt{font-size:12px;}
+dl.zt{width:260px; margin:5px; padding-bottom:10px;}
+dl.zt dt,dl.zt dd.text{width:160px;}
+ul.zxk{width:650px; margin:5px auto; padding:0;}
+ul.zxk li{width:320px; float:left; height:25px; line-height:25px;}
+</style>
+</head>
+
+<body>
+<!--top_begin-->
+<!--top_end-->
+<table width="980" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="1000" valign="top" bgcolor="#FFFFFF">
+	<table width="960" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="503" height="30" align="left" background="/${res}/img/bg1.jpg"> 【<a href="${base}/" target="_blank">JEECMS官网主页</a>】</td>
+        <td width="457" align="center" background="/${res}/img/bg1.jpg">
+		<a href="${base}/tag.jspx">TAG标签</a> | <a href="${base}/search.jspx">搜索</a> | <a href="${base}/rss.jspx">RSS订阅</a> | <a href="#">WAP版</a> | 
+		<a href="#">帮助</a> | <a href="#" onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.jeecms.cn');">设为主页</a> |
+	    <a onclick="javascript:window.external.AddFavorite('index.html', '${site.name}');" href="javascript:void(0)" class="login_user">加入收藏</a>		</td>
+      </tr>
+    </table>
+	<table width="960" border="0" align="center" cellpadding="0" cellspacing="0" class="mt5">
+      <tr>
+        <td colspan="2" align="center"><img src="${topic.contentImg!'/${res}/img/topic/no_banner.jpg'}" width="960"/></td>
+      </tr>
+    </table>
+	<table width="960" border="0" align="center" cellpadding="8" cellspacing="1" bgcolor="#D0EAFF" style="line-height:1.6em; font-size:14px; margin-top:5px;" >
+      <tr>
+        <td bgcolor="#F1F9FF"><strong>专题概要：</strong>	${topic.description!}</td>
+        </tr>
+    </table>
+	
+	<table width="960" border="0" align="center" cellpadding="0" cellspacing="0" class="mt5">
+      <tr>
+        <td width="650" valign="top">
+		<table width="650" border="0" cellpadding="0" cellspacing="0" class="b01">
+          <tr>
+            <td width="40" background="/${res}/img/topic/lmbj.gif"><img src="/${res}/img/topic/lm_2.gif"/></td>
+            <td width="610" align="left" background="/${res}/img/topic/lmbj.gif"><h2>专题资讯头条</h2></td>
+            </tr>
+          <tr>
+            <td colspan="2" valign="top" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="310" height="210" align="center">
+				[@cms_content_list topicId=topic.id typeId='3' styleList='3-1' titLen='20' count='5' flashWidth='280' flashHeight='200' textHeight='20' channelOption='1' tpl='2'/]
+				</td>
+                <td width="5">&nbsp;</td>
+                <td valign="top">
+				[@cms_content_list topicId=topic.id count='6' orderBy='4' titLen='15' descLen='66' append='...' channelOption='1']
+				  <ul class="list">
+				[#list tag_list as a]
+				[#if a_index = 0]
+				  <li class="toptext">
+				  <a href="${a.url}" title="${a.title}" target="_blank"><h3>[@text_cut s=a.title len=titLen append=append/]</h3></a>		
+				  <p>[@text_cut s=a.desc len=descLen append=append/]</p>
+				  </li>
+				[#else]	 
+				  <li><img src="${base}/r/cms/head-mark2.gif" align="middle"  border="0"/> <a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen append=append/]</a></li>
+				[/#if]			
+				[/#list]
+				</ul>
+				[/@cms_content_list]				 
+				</td>
+              </tr>
+            </table>
+			</td>
+            </tr>
+        </table>
+		
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="b01 mt5">
+          <tr>
+            <td width="40" background="/${res}/img/topic/lmbj.gif"><img src="/${res}/img/topic/lm_2.gif"/></td>
+            <td width="610" background="/${res}/img/topic/lmbj.gif"><h2>专题精彩图文</h2></td>
+          </tr>
+          <tr>
+            <td height="180" colspan="2" bgcolor="#FFFFFF">
+			  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td height="170">
+					[@cms_content_list topicId=topic.id typeId='2' count='8' styleList='2-2' titLen='16' rollDisplayHeight='170' rollCols='4' rollRows='1' rollSpan='1' isSleep='1' channelOption='1' tpl='2'/]
+					</td>
+                  </tr>
+              </table>
+              </td>
+          </tr>
+        </table>
+		
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="b01 mt5">
+          <tr>
+            <td width="40" background="/${res}/img/topic/lmbj.gif"><img src="/${res}/img/topic/lm_2.gif"/></td>
+            <td width="640" background="/${res}/img/topic/lmbj.gif"><h2>专题资讯库</h2></td>
+          </tr>
+          <tr>
+            <td height="400" colspan="2" valign="top" bgcolor="#FFFFFF">			
+		      [@cms_content_page topicId=topic.id count='40' titLen='15' append='...' orderBy='2' dateFormat='MM-dd' channelOption='1']
+				<ul class="zxk box">
+		        [#list tag_pagination.list as a]
+					<li> · <a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen append=append/]</a> [${a.date?string(dateFormat)}]</li>
+				[/#list]
+				</ul>
+		      [/@cms_content_page]
+			</td>	
+          </tr>		  
+          <tr>
+            <td height="30" colspan="2" align="center" bgcolor="#FFFFFF">
+			
+			</td>
+		  </tr>
+        </table></td>
+        <td width="10">&nbsp;</td>
+        <td width="300" valign="top" class="rgt">
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="b01">
+          <tr>
+            <td width="40" background="/${res}/img/topic/lmbj.gif"><img src="/${res}/img/topic/lm_2.gif"/></td>
+            <td width="260" background="/${res}/img/topic/lmbj.gif"><h2>专题资讯关注排行</h2></td>
+          </tr>
+          <tr>
+            <td colspan="2" bgcolor="#FFFFFF">
+			<ul class="order">
+			[@cms_content_list topicId=topic.id count='10' titLen='17' orderBy='8' channelOption='1']
+		  	[#list tag_list as a]
+		  	<li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen append=append/]</a></li>
+		  	[/#list]
+		  	[/@cms_content_list]
+			</ul>
+			</td>
+          </tr>
+        </table>
+		
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="b01 mt5">
+          <tr>
+            <td width="40" background="/${res}/img/topic/lmbj.gif"><img src="/${res}/img/topic/lm_2.gif"/></td>
+            <td width="260" background="/${res}/img/topic/lmbj.gif"><h2>专题热评资讯</h2></td>
+          </tr>
+          <tr>
+            <td colspan="2" bgcolor="#FFFFFF">
+			[@cms_comment_list count='5' recommend='1' textLen='50' append='...']
+			<dl class="rmpl">
+			[#list tag_list as c]
+				<dt><span>${(c.commentUser.username)!"匿名网友"}</span> 对 <a href="${c.content.url}" target="_blank">${c.content.title}</a> 评论道:</dt>
+				<dd>[@text_cut s=c.textHtml len=textLen append=append/]</dd>
+				<dd class="line"></dd>
+			[/#list]
+			</dl>
+			[/@cms_comment_list]
+			</td>
+          </tr>
+        </table>
+		
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="b01 mt5">
+          <tr>
+            <td width="40" background="/${res}/img/topic/lmbj.gif"><img src="/${res}/img/topic/lm_2.gif"/></td>
+            <td width="260" align="left" background="/${res}/img/topic/lmbj.gif"><h2>其它热门专题</h2></td>
+          </tr>
+          <tr>
+            <td colspan="2" bgcolor="#FFFFFF">				
+		   [@cms_topic_list count='4' descLen='36' append='...']
+		   [#list tag_list as t]	
+			<dl class="list line zt box">
+				<dt><a href="${base}/topic/${t.id}.jspx" target="_blank">${t.name}</a></dt>
+				<dd class="pic"><a href="${base}/topic/${t.id}.jspx"><img src="${t.titleImg!site.defImg}"/></a></dd>
+				<dd class="text">[@text_cut s=t.description len=descLen append=append/]</dd>
+			</dl>
+		   [/#list]
+	       [/@cms_topic_list]			
+			</td>
+          </tr>
+        </table>
+		</td>
+      </tr>
+    </table>
+	
+	<table width="960" border="0" align="center" cellpadding="8" cellspacing="1" bgcolor="#D0EAFF" class="mt5 rgt">
+      <tr>
+        <td height="20" align="center" bgcolor="#F1F9FF">
+		<a target="_blank" href="http://www.jeecms.com/news/743.htm">关于我们</a> - 
+		<a target="_blank" href="http://www.jeecms.com/yjdt/826.htm">联系我们</a> - 
+		<a target="_blank" href="http://www.jeecms.com">诚聘英才</a> -
+		<a target="_blank" href="http://www.jeecms.com">友情链接</a> - 
+		<a target="_blank" href="http://www.jeecms.com/download/index.htm">程序下载</a> - 
+		<a target="_blank" href="http://www.jeecms.com">合作服务</a> - 
+		<a target="_blank" href="http://www.jeecms.com/yjdt/825.htm">许可协议</a> - 
+		<a onClick="this.style.behavior='url(#default#homepage)';this.setHomePage(location.href)" href="javascript:void(0);">设为首页</a> -		<a onClick="window.external.addFavorite('http://www.jeecms.com','jeecms-国内专业、开源、免费的JAVA (JSP)版网站管理系统')" href="javascript:void(0);">加入收藏</a> - 
+		<a target="_blank" href="${base}/jeeadmin/jeecms/index.do">管理登录</a>
+		</td>
+        </tr>
+    </table>	
+	<table width="960" border="0" align="center" cellpadding="0" cellspacing="0" class="mt5 rgt" style="line-height:1.8em;">
+      <tr>
+        <td height="50" align="center">
+		电话：0791-6538070、13576281815　传真：0791-6538070  [@process_time/]<br />
+Powered by <a target="_blank" href="http://www.jeecms.com">JEECMS</a> Copyright &copy; 2007-2010 www.jeecms.com, All Rights Reserved
+         </td>
+      </tr>
+    </table>	
+	</td>
+  </tr>
+</table>
+</body>
+</html>

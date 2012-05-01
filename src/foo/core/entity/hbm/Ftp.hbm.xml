@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.core.entity">
+	<class name="Ftp" table="jo_ftp">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="ftp_id"><generator class="identity"/></id>
+		<property name="name" column="ftp_name" type="string" not-null="true" length="100"/>
+		<property name="ip" column="ip" type="string" not-null="true" length="50"/>
+		<property name="port" column="port" type="integer" not-null="true" length="10"/>
+		<property name="username" column="username" type="string" not-null="false" length="100"/>
+		<property name="password" column="password" type="string" not-null="false" length="100"/>
+		<property name="encoding" column="encoding" type="string" not-null="true" length="20"/>
+		<property name="timeout" column="timeout" type="integer" not-null="false" length="10"/>
+		<property name="path" column="ftp_path" type="string" not-null="false" length="255"/>
+		<property name="url" column="url" type="string" not-null="true" length="255"/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>留言板 - ${site.name} - Powered by JEECMS</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+</head>
+
+<body>
+[@process_time/]
+<h1>全文检索输入</h1>
+<form action="search.jspx">
+<input type="text" name="q" value="${q!}"/>
+<input type="submit" value="搜索"/>
+</form>
+
+[#if q??]
+[@cms_lucene_page q=q tpl='2' styleList='1-1' lineHeight='2' bottomLine='1' headMark='3' dateFormat='MM-dd' datePosition='3' titLen='15' append='...' count='20'/]
+[/#if]
+
+[@process_time/]
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+	$(getTableForm()).validate();
+});
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+function optSaveContent() {
+	var f = getTableForm();
+	f.action="o_update.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsKeyword.function"/> - <@s.m "global.list"/></div>
+	<form class="ropt">
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form id="jvForm" action="o_save.do" method="post" style="padding:5px 0 0 5px">
+<@s.m "cmsKeyword.name"/>:<input type="text" name="name" class="required" maxlength="255" style="width:120px"/>
+<@s.m "cmsKeyword.url"/>:<input type="text" name="url" class="required" maxlength="255" style="width:500px"/>
+<input class="add" type="submit" value="<@s.m "global.add"/>"/>
+</form>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<@p.table value=list;cmsKeyword,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${cmsKeyword.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${cmsKeyword.id}<input type="hidden" name="id" value="${cmsKeyword.id}"/></@p.column><#t/>
+	<@p.column code="cmsKeyword.name" align="center"><input type="text" name="name" value="${cmsKeyword.name}" class="required" maxlength="255" style="width:120px"/></@p.column><#t/>
+	<@p.column code="cmsKeyword.url" align="center"><input type="text" name="url" value="${cmsKeyword.url?html}" class="required" maxlength="255" style="width:500px"/></@p.column><#t/>
+	<@p.column code="cmsKeyword.enabled" align="center"><input type="checkbox"<#if !cmsKeyword.disabled> checked="checked"</#if>  onclick="$('#disabled${i}').val(!this.checked)"/> <input type="hidden" id="disabled${i}" name="disabled" value="${cmsKeyword.disabled?string}"/></@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="o_delete.do?ids=${cmsKeyword.id}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div style="margin-top:15px;">
+	<input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/>
+&nbsp; <input class="save-content" type="button" value="<@s.m "cmsKeyword.saveContent"/>" onclick="optSaveContent();"/>
+</div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

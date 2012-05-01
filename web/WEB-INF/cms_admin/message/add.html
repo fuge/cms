@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script src="${base}/res/common/js/message.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function checkReceiverUser(){
+	if($("#username").val()==""&&$("#groupId").val()==-1){
+		$("#usernameMsg").html("<@s.m 'cmsMessage.noSendUserError'/>");
+	}else{
+		$("#usernameMsg").html();
+		$("#jvForm").submit();
+	}
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsMessage.function"/> - <@s.m "cmsMessage.sendMessage"/></div>
+	<form class="ropt">
+		<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do?box=1';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="v_send.do" labelWidth="10">
+<@p.td  label="cmsMessage.sendUser" colspan="2" width="50">
+<input  name="username" id="username" maxlength="100" onchange="find_user()" <#if message??>value="${message.username!}"</#if>/>
+<@s.m "cmsMessage.groupSelect"/>
+<select name="groupId" id="groupId">
+  <option value="-1"><@s.m "cmsMessage.sendUserSelect"/></option>
+  <option value="0"><@s.m "cmsMessage.allMember"/></option>
+  <#list groupList as group>
+  	 <option value="${group.id!}">${group.name!}</option>
+  </#list>
+</select>
+<@s.m "cmsMessage.help"/>
+<span style="color: red;" id="usernameMsg"></span>
+</@p.td>
+<@p.tr/>
+<#if message??>
+	<@p.text colspan="2" width="50" label="cmsMessage.title" name="msgTitle"  required="true" class="required" maxlength="100" value="${message.titleHtml!}" />
+	<@p.tr/>
+	<@p.textarea  style="width:90%;height:350px" wrap="off" maxlength="1024000"  label="cmsMessage.content" name="msgContent" value="${message.msgContent!}"/>
+	<@p.tr/>
+<#else>
+	<@p.text colspan="2" width="50" label="cmsMessage.title" name="msgTitle"  required="true" class="required"  maxlength="100"/>
+	<@p.tr/>
+	<@p.textarea  style="width:90%;height:350px" wrap="off" maxlength="1024000"  label="cmsMessage.content" name="msgContent"/>
+	<@p.tr/>
+</#if>
+
+
+<@p.td colspan="2"><@p.button code="global.submit" onclick="checkReceiverUser()" class="submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+
+</@p.form>
+</div>
+</body>
+</html>

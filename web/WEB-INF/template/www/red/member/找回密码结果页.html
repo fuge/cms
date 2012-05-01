@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>找回密码 - ${site.name} - Powered by JEECMS</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/${res}/css/regist.css" />
+</head>
+
+<body>
+<div class="container">
+<div class="toolbar box">
+   <div class="toolbar-inner">
+    <div class="fl " id="logincontent"></div>
+    <div class="fr">
+	<a href="${base}/tag.jspx" target="_blank">Tags</a>|<a href="${base}/search.jspx" target="_blank">高级搜索</a>|<a href="${base}/rss.jspx" target="_blank">RSS订阅</a>|<a href="#" onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.jeecms.com');">设为主页</a>|
+	<a onclick="javascript:window.external.AddFavorite('index.html', '${site.name}');" href="javascript:void(0)" class="login_user">加入收藏</a>
+	</div>
+  </div>
+</div>
+
+<div class="header box">
+    <div class="brand fl">
+        <h1><a href="${base}/"> ${site.name}</a></h1>
+    </div>
+</div>
+
+<div class="main" style="height:380px;">
+  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td height="40" align="center"><h2>找回密码：</h2></td>
+    </tr>
+    <tr>
+      <td height="200">
+	  <form id="jvForm" action="forgot_password.jspx" method="post">
+		<table width="800" border="0" align="center" cellpadding="0" cellspacing="5">
+			<tr>
+				<td height="300" align="center" valign="middle">
+				[#if status==0]
+				您的新密码已经发至您的邮箱${(user.email)!}，请注意查收。
+				[#elseif status==1]
+				用户名不存在
+				[#elseif status==2]
+				该用户没有邮箱
+				[#elseif status==3]
+				邮箱输入错误
+				[#elseif status==4]
+				邮件服务器设置不正确
+				[#elseif status==5]
+				邮件模板设置不正确
+				[#elseif status==100]
+				发送邮件异常：${message!}
+				[#else]
+				未知错误
+				[/#if]
+				</td>
+			</tr>
+		</table>
+		</form>
+	  </td>
+    </tr>
+  </table>
+</div>
+
+<div class="footer">
+    <div class="clearfix footer-inner">
+        <p class="extralink">
+            <a target="_blank" href="http://www.jeecms.com/news/743.htm">关于我们</a> - 
+			<a target="_blank" href="http://www.jeecms.com/yjdt/826.htm">联系我们</a> - 
+			<a target="_blank" href="http://www.jeecms.com">诚聘英才</a> -
+			<a target="_blank" href="http://www.jeecms.com">友情链接</a> - 
+			<a target="_blank" href="http://www.jeecms.com/download/index.htm">程序下载</a> - 
+			<a target="_blank" href="http://www.jeecms.com">合作服务</a> - 
+			<a target="_blank" href="http://www.jeecms.com/yjdt/825.htm">许可协议</a> - 
+			<a onClick="this.style.behavior='url(#default#homepage)';this.setHomePage(location.href)" href="javascript:void(0);">设为首页</a> - 
+			<a onClick="window.external.addFavorite('http://www.jeecms.com','jeecms-国内专业、开源、免费的JAVA (JSP)版网站管理系统')" href="javascript:void(0);">加入收藏</a> - 
+			<a target="_blank" href="${base}/jeeadmin/jeecms/index.do">管理登录</a>
+
+        </p>
+        <p class="copyright">           
+Powered by <a target="_blank" href="http://www.jeecms.com">JEECMS</a> Copyright &copy; 2007-2010 www.jeecms.com, All Rights Reserved 
+        </p>
+        <p class="extrainfo">
+          电话：0791-6538070、13576281815　传真：0791-6538070  [@process_time/]<br />
+        </p>
+    </div>
+</div>
+</div>
+</body>
+</html>

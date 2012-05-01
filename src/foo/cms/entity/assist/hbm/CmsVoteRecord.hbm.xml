@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsVoteRecord" table="jc_vote_record">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="integer" column="voterecored_id"><generator class="identity"/></id>
+		<property name="time" column="vote_time" type="timestamp" not-null="true" length="19"/>
+		<property name="ip" column="vote_ip" type="string" not-null="true" length="50"/>
+		<property name="cookie" column="vote_cookie" type="string" not-null="true" length="32"/>
+		<many-to-one name="user" column="user_id" class="foo.cms.entity.main.CmsUser" not-null="false"></many-to-one>
+		<many-to-one name="topic" column="votetopic_id" class="CmsVoteTopic" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

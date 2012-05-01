@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsReceiverMessage" table="jc_receiver_message">
+		<meta attribute="sync-DAO">false</meta>
+		<id
+			name="id"
+			type="integer"
+			column="msg_re_id"
+		>
+			<generator class="identity"/>
+		</id>
+		<property
+			name="msgTitle"
+			column="msg_title"
+			type="string"
+			not-null="true"
+			length="255"
+		/>
+		<property
+			name="msgContent"
+			column="msg_content"
+			type="string"
+			not-null="false"
+		/>
+		<property
+			name="sendTime"
+			column="send_time"
+			type="timestamp"
+			not-null="false"
+		/>
+		<property
+			name="msgStatus"
+			column="msg_status"
+			type="boolean"
+			not-null="true"
+		/>
+		<property
+			name="msgBox"
+			column="msg_box"
+			type="integer"
+			not-null="true"
+			length="10"
+		/>
+		<many-to-one
+			name="msgReceiverUser"
+			column="msg_receiver_user"
+			class="foo.cms.entity.main.CmsUser"
+			not-null="true"
+		>
+		</many-to-one>
+		<many-to-one
+			name="msgSendUser"
+			column="msg_send_user"
+			class="foo.cms.entity.main.CmsUser"
+			not-null="true"
+		>
+		</many-to-one>
+		<many-to-one
+			name="site"
+			column="site_id"
+			class="foo.cms.entity.main.CmsSite"
+			not-null="true"
+		>
+		</many-to-one>
+		<many-to-one
+			name="message"
+			column="msg_id"
+			class="CmsMessage"
+			not-null="false"
+		>
+		</many-to-one>
+		</class>
+</hibernate-mapping>

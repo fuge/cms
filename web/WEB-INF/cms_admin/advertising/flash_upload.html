@@ -1,0 +1,27 @@
+<script type="text/javascript">
+//上传附件
+function uploadFlash(n) {
+	var af = $('#flashFile'+n);
+	//检查是否选择了文件
+	if(af.val()=='') {
+		alert('<@s.m "advertising.error.noFileSelected"/>');
+		return;
+	}
+	//将file移动至上传表单
+	$('#flashContent').empty();
+	$('#flashContent').append(af);
+	//复制一个file放至原处
+	$('#ffc'+n).append(af.clone().attr('value',''));
+	//修改属性
+	$('#flashFileText'+n).attr('value','');
+	af.attr('id','');
+	//其他表单
+	$('#flashNum').val(n);
+	$('#flashForm').submit();
+}
+</script>
+<form id="flashForm" action="o_upload_flash.do" method="post" enctype="multipart/form-data" target="flash_iframe" style="display:none;width:0px;height:0px;">
+<span id="flashContent"></span>
+<input type="hidden" id="flashNum" name="flashNum"/>
+</form>
+<iframe name="flash_iframe" frameborder="0" border="0" style="display:none;width:0px;height:0px;"></iframe>

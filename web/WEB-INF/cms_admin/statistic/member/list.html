@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+</head>
+<script>
+function getQueryForm(){
+	return document.getElementById("queryForm");
+}
+
+Statistic = {};
+Statistic.date = new Date();
+Statistic.MonthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];  
+Statistic.CurrYear = function(){
+	return this.date.getFullYear().toString();  
+};  
+Statistic.CurrMonth = function(){
+	return this.date.getMonth();  
+};  
+Statistic.CurrDay = function(){
+	return this.date.getDate();  
+};  
+Statistic.InitYearSelect = function(){
+	var years = this.CurrYear();
+	for (var i = years - 10; i <= years; i++) {  
+		$("#year").get(0).options.add(new Option(i, i));  
+	}   
+}
+Statistic.InitMonthSelect = function(){
+	for (var i = 1; i < 13; i++) {  
+        $("#month").get(0).options.add(new Option(i, i));  
+    }  
+};
+
+Statistic.InitData = function(){
+	$("#year").val(<#if year??>${year}<#else>this.CurrYear()</#if>);
+	$("#month").val(<#if month??>${month}<#else>this.CurrMonth()+1</#if>);
+	FlushDay();
+	$("#day").val(<#if day??>${day}<#else>this.CurrDay()</#if>);
+}
+
+function FlushDay(){
+	var year = $("#year");  
+    var month = $("#month");  
+    var day = $("#day");  
+	var mn = month.val();  
+    var ye = year.val();  
+    var n = Statistic.MonthDays[mn - 1];  
+    day.empty();  
+    if (ye % 4 == 0 && mn==2) {  
+            n++;  
+    }  
+    for (var i = 1; i < n + 1; i++) {  
+        day.get(0).options.add(new Option(i, i));  
+    }  
+}
+
+function init(){
+	$("#year").change(FlushDay);
+    $("#month").change(FlushDay); 
+	Statistic.InitYearSelect();
+	Statistic.InitMonthSelect();
+    chgModel($("input[name='queryModel']:checked").val()); 
+    Statistic.InitData();
+}
+
+function chgModel(queryModel){
+	if(queryModel=="year"){
+		FlushDay();
+		$("#month").attr("disabled","1");
+		$("#day").attr("disabled","1");
+	}
+	if(queryModel=="month"){
+		FlushDay();
+		$("#month").attr("disabled","");
+		$("#day").attr("disabled","1");
+	}
+	if(queryModel=="week"){
+		$("#month").attr("disabled","");
+		$("#day").attr("disabled","");
+	}
+	if(queryModel=="day"){
+		$("#month").attr("disabled","");
+		$("#day").attr("disabled","");
+	}
+}
+
+function querySubmit(){
+	$("input[name='year']").val($("#year").val());
+	$("input[name='month']").val($("#month").val());
+	$("input[name='day']").val($("#day").val());
+	getQueryForm().submit();
+}
+
+
+$(function(){
+	init();
+});
+</script>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cms.function.statistic"/> - <@s.m "statistic.function.member"/> - <@s.m "statistic.member.totalRegisters"/>:<span style="color:red">${total}</span></div>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+
+<form id="queryForm" action="v_list.do" method="post" style="padding-top:5px;">
+<input type="hidden" name="year"/>
+<input type="hidden" name="month"/>
+<input type="hidden" name="day"/>
+<div style="padding-top:5px">
+	<select id="year"></select><@s.m "statistic.year"/>
+	<select id="month"></select><@s.m "statistic.month"/>
+	<select id="day"></select><@s.m "statistic.date"/>
+	<input class="query" type="button" value="<@s.m "global.query"/>" onclick="querySubmit();"/>
+</div>
+<div style="padding-top:5px">
+<label><input type="radio" name="queryModel" value="year" <#if statisticModel=="year">checked="checked"</#if> onclick="chgModel(this.value);"/><@s.m "statistic.report.year"/></label>
+<label><input type="radio" name="queryModel" value="month" <#if statisticModel=="month">checked="checked"</#if> onclick="chgModel(this.value);"/><@s.m "statistic.report.month"/></label>
+<label><input type="radio" name="queryModel" value="week" <#if statisticModel=="week">checked="checked"</#if> onclick="chgModel(this.value);"/><@s.m "statistic.report.week"/></label>
+<label><input type="radio" name="queryModel" value="day" <#if statisticModel=="day">checked="checked"</#if> onclick="chgModel(this.value);"/><@s.m "statistic.report.day"/></label>
+</div>
+</form>
+
+<form id="tableForm" method="post">
+<@p.table value=list;cmsStatistic,i,has_next><#rt/>
+<#switch statisticModel>
+	<#case "year">
+		<@p.column code="statistic.month2">${cmsStatistic.description}<@s.m "statistic.month"/></@p.column><#t/>
+	<#break>
+	<#case "month">
+		<@p.column code="statistic.date2">${cmsStatistic.description}<@s.m "statistic.date"/></@p.column><#t/>
+	<#break>
+	<#case "week">
+		<@p.column code="statistic.week"><@s.m "statistic.week."+cmsStatistic.description/></@p.column><#t/>
+	<#break>
+	<#case "day">
+		<@p.column code="statistic.hour">${cmsStatistic.description}</@p.column><#t/>
+	<#default>
+	<#break>
+</#switch>
+	<@p.column code="statistic.member.registers">${cmsStatistic.count}</@p.column><#t/>
+	<@p.column code="statistic.percent"><img src="${base}/res/jeecms/img/admin/vote_bar.gif" width="${cmsStatistic.barWidth}" height="10px" border="0"/>${cmsStatistic.percent}</@p.column><#t/>
+</@p.table>
+</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="Channel" table="jc_channel" dynamic-update="true">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="channel_id"><generator class="identity"/></id>
+		<property name="path" column="channel_path" type="string" not-null="false" length="30"/>
+		<property name="lft" column="lft" type="integer" not-null="true" length="10"/>
+		<property name="rgt" column="rgt" type="integer" not-null="true" length="10"/>
+		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
+		<property name="hasContent" column="has_content" type="java.lang.Boolean" not-null="true"/>
+		<property name="display" column="is_display" type="java.lang.Boolean" not-null="true"/>
+		<one-to-one name="channelExt" class="ChannelExt" cascade="delete"/>
+		<many-to-one name="site" column="site_id" class="CmsSite" not-null="true"></many-to-one>
+		<many-to-one name="model" column="model_id" class="CmsModel" not-null="true"></many-to-one>
+		<many-to-one name="parent" column="parent_id" class="Channel" not-null="false"></many-to-one>
+		<set name="child" inverse="true" cascade="delete" sort="foo.common.hibernate3.PriorityComparator">
+			<cache usage="read-write"/>
+			<key column="parent_id"/>
+			<one-to-many class="Channel"/>
+		</set>
+		<set name="viewGroups" table="jc_chnl_group_view" sort="foo.common.hibernate3.PriorityComparator">
+			<cache usage="read-write"/>
+			<key column="channel_id"/>
+			<many-to-many column="group_id" class="CmsGroup"/>
+		</set>
+		<set name="contriGroups" table="jc_chnl_group_contri" sort="foo.common.hibernate3.PriorityComparator">
+			<cache usage="read-write"/>
+			<key column="channel_id"/>
+			<many-to-many column="group_id" class="CmsGroup"/>
+		</set>
+		<set name="users" table="jc_channel_user" sort="foo.common.hibernate3.PriorityComparator">
+			<cache usage="read-write"/>
+			<key column="channel_id"/>
+			<many-to-many column="user_id" class="CmsUser"/>
+		</set>
+		<set name="channelTxtSet" inverse="true" cascade="delete-orphan">
+			<cache usage="read-write"/>
+			<key column="channel_id"/>
+			<one-to-many class="ChannelTxt"/>
+		</set>
+		<map name="attr" table="jc_channel_attr" cascade="all-delete-orphan">
+			<cache usage="read-write"/>
+			<key column="channel_id" not-null="true"/>
+			<map-key column="attr_name" type="string" length="30"/>
+			<element column="attr_value" type="string" length="255"/>
+		</map>
+	</class>
+</hibernate-mapping>

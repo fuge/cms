@@ -1,0 +1,7 @@
+<dl class="rmpl">
+[#list list as c]
+  <dt><span>${(c.commentUser.username)!"匿名网友"}</span> 于 ${c.createTime} 评论道:</dt>
+  <dd>${c.textHtml!}</dd>
+  <dd class="line"></dd>
+[/#list]
+</dl>

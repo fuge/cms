@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+	<#if channel.titleImg??>
+	$("#preImg1").css("width","auto").css("height","auto").attr("src","${channel.titleImg}?d="+new Date()*1);
+	</#if>
+	<#if channel.contentImg??>
+	$("#preImg2").css("width","auto").css("height","auto").attr("src","${channel.contentImg}?d="+new Date()*1);
+	</#if>
+});
+</script>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "channel.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="hidden" id="root" name="root" value="${channel.id}"/>
+		<select name="modelId" onchange="if(this.options[this.selectedIndex].value!=''){this.form.action='v_add.do';this.form.submit();}">
+			<option>--<@s.m "channel.addChild"/>--</option>
+			<#list modelList as model>
+			<option value="${model.id}">${model.name}</option>
+			</#list>
+		</select>
+&nbsp;	<input type="submit" value="<@s.m "global.backToList"/>" onclick="$('#root').val('${(channel.parent.id)!}');this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do" labelWidth="10">
+<@p.td colspan="1" width="50" label="channel.parent">
+	<@p.select name="parentId" list=channelList value=(channel.parent.id)! listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue="channel.top"/>
+	<#--<#if channel.parent??>${channel.parent.name}<#else><@s.m "channel.top"/></#if>-->
+</@p.td>
+<@p.td colspan="1" width="50" label="channel.model">${channel.model.name}</@p.td><@p.tr/>
+<#assign count=0/>
+<#list itemList as item>
+<#if !item.single><#assign count=count+1/></#if>
+<#if !item.custom>
+
+<#if item.field=="name">
+<@p.text value=channel.name required="true" class="required" maxlength="100" size="${item.size!}" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="path">
+<@p.text value=channel.path required="true" class="required" maxlength="30" size="${item.size!}" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="title">
+<@p.text value=channel.title maxlength="255" size="${item.size!35}" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="keywords">
+<@p.text value=channel.keywords maxlength="255" size="${item.size!35}" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="description">
+<@p.textarea value=channel.description maxlength="255" rows="${item.rows!3}" cols="${item.cols!70}" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="tplChannel">
+<@p.select value=tplChannel headerKey="" headerValue="global.default" list=channelTplList help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="tplContent">
+<@p.select value=tplContent headerKey="" headerValue="global.default" list=contentTplList help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="channelStatic">
+<@p.td label=item.label colspan="2" width="100">
+<label><input type="checkbox" onclick="$('#staticChannel').val(this.checked)"<#if channel.staticChannel> checked="checked"</#if>/><@s.m "channel.staticOn"/><input type="hidden" id="staticChannel" name="staticChannel" value="${channel.staticChannel?string('true','false')}"/></label>
+<input type="text" name="channelRule" value="${channel.channelRule!}" style="width:220px"/>
+<label><input type="checkbox" onclick="$('#accessByDir').val(this.checked)"<#if channel.accessByDir> checked="checked"</#if>/><@s.m "channel.accessByDir"/><input type="hidden" id="accessByDir" name="accessByDir" value="${channel.accessByDir?string('true','false')}"/></label>
+<label><input type="checkbox" onclick="$('#listChild').val(this.checked)"<#if channel.listChild> checked="checked"</#if>/><@s.m "channel.listChild"/><input type="hidden" id="listChild" name="listChild" value="${channel.listChild?string('true','false')}"/></label>
+&nbsp;<@s.m "channel.pageSize"/>:<input type="text" name="pageSize" value="${channel.pageSize!}" style="width:40px" class="digits" maxlength="5"/>
+</@p.td><@p.tr/>
+
+<#elseif item.field=="contentStatic">
+<@p.td label=item.label colspan="2" width="100">
+<label><input type="checkbox" onclick="$('#staticContent').val(this.checked)"<#if channel.staticContent> checked="checked"</#if>/><@s.m "channel.staticOn"/><input type="hidden" id="staticContent" name="staticContent" value="${channel.staticContent?string('true','false')}"/></label>
+<input type="text" name="contentRule" value="${channel.contentRule!}" style="width:350px"/>
+</@p.td><@p.tr/>
+
+<#elseif item.field=="priority">
+<@p.text value=channel.priority required="true" class="reuqired digits" maxlength="255" size="${item.size!10}" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="display">
+<@p.td required="true" help=item.help helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+<@p.radio value=channel.display list={"true":"global.true","false":"global.false"} name=item.field />
+&nbsp; <label><input type="checkbox" onclick="$('#blank').val(this.checked);"<#if channel.blank> checked="checked"</#if>/><@s.m "channel.blank"/></label><input type="hidden" id="blank" name="blank" value="${channel.blank?string('true','false')}"/>
+</@p.td><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="docImg">
+<@p.td label="channel.docTitleImg" colspan="1" width="50">
+<label><input type="checkbox" onclick="$('#hasTitleImg').val(this.checked);$('#ti').toggle(this.checked);"<#if channel.hasTitleImg> checked="checked"</#if>/><@s.m "global.have"/></label>
+<input type="hidden" id="hasTitleImg" name="hasTitleImg" value="${channel.hasTitleImg?string('true','false')}"/>
+<span id="ti"<#if !channel.hasTitleImg> style="display:none"</#if>>
+	<@s.m "global.width"/>: <input type="text" name="titleImgWidth" value="${channel.titleImgWidth}" class="required digits" style="width:50px"/>
+	<@s.m "global.height"/>: <input type="text" name="titleImgHeight" value="${channel.titleImgHeight}" class="required digits" style="width:50px"/>
+</span>
+</@p.td>
+<@p.td label="channel.docContentImg" colspan="1" width="50">
+<label><input type="checkbox" onclick="$('#hasContentImg').val(this.checked);$('#ci').toggle(this.checked);"<#if channel.hasContentImg> checked="checked"</#if>/><@s.m "global.have"/></label>
+<input type="hidden" id="hasContentImg" name="hasContentImg" value="${channel.hasContentImg?string('true','false')}"/>
+<span id="ci"<#if !channel.hasContentImg> style="display:none"</#if>>
+	<@s.m "global.width"/>: <input type="text" name="contentImgWidth" value="${channel.contentImgWidth}" class="required digits" style="width:50px"/>
+	<@s.m "global.height"/>: <input type="text" name="contentImgHeight" value="${channel.contentImgHeight}" class="required digits" style="width:50px"/>
+</span>
+</@p.td><@p.tr/>
+
+<#elseif item.field=="finalStep">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "channel."+item.field+".help"/></#if></#assign>
+<@p.text value=channel.finalStep maxlength="5" size="${item.size!12}" help="${h}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="afterCheck">
+<@p.select value=channel.afterCheck headerKey="" headerValue="global.default" list={"1":"cmsSite.afterCheck.1","2":"cmsSite.afterCheck.2","3":"cmsSite.afterCheck.3"} help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="commentControl">
+<@p.radio value=channel.commentControl list={"0":"channel.commentControl.0","1":"channel.commentControl.1","2":"channel.commentControl.2"} help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="allowUpdown">
+<@p.radio value=channel.allowUpdown list={"true":"global.allow","false":"global.notAllow"} help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="viewGroupIds">
+<@p.checkboxlist valueList=viewGroupIds list=viewGroups listKey="id" listValue="name" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="contriGroupIds">
+<@p.checkboxlist valueList=contriGroupIds list=contriGroups listKey="id" listValue="name" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="userIds" && users?size gt 0>
+<@p.checkboxlist valueList=userIds list=users listKey="id" listValue="username" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="link">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.text value=channel.link maxlength="255" size="${item.size!35}" help="${h}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/><#if count%2==0><@p.tr/></#if>
+
+<#elseif item.field=="titleImg">
+<@p.td label=item.label colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath1" name="titleImg" value=channel.titleImg style="width:220px"/> <input type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(1);" class="preview-button"/><br/>
+<span id="ufc1" style="position:relative">
+<input type='text' id='uploadFileText1' size="14"/>  
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText1').val(this.value)" size="14" type="file" id="uploadFile1" class="file-button"/>
+</span>
+<label><input type="checkbox" onclick="$('#mark1').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark1" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);" class="upload-button"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth1" value="${model.titleImgWidth}" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight1" value="${model.titleImgHeight}" size="5"/> <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(1);" class="cut-button"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg1" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+
+<#elseif item.field=="contentImg">
+<@p.td label=item.label colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath2" name="contentImg" value=channel.contentImg style="width:220px"/> <input type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(2);" class="preview-button"/><br/>
+<span id="ufc2" style="position:relative">
+<input type='text' id='uploadFileText2' size="14"/>  
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText2').val(this.value)" size="14" type="file" id="uploadFile2" class="file-button"/>
+</span>
+<label><input type="checkbox" onclick="$('#mark2').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark2" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(2);" class="upload-button"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth2" value="${model.contentImgWidth}" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight2" value="${model.contentImgHeight}" size="5"/> <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(2);" class="cut-button"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg2" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#CCCCCC;border:1px solid #333"/>
+</@p.td><@p.tr/>
+
+<#elseif item.field=="txt">
+<@p.editor value=channel.txt colspan="2" help=item.help helpPosition="${item.helpPosition!1}" label=item.label name=item.field/><@p.tr/>
+
+<#elseif item.field=="txt1">
+<@p.editor value=channel.txt1 colspan="2" help=item.help helpPosition="${item.helpPosition!1}" label=item.label name=item.field/><@p.tr/>
+
+<#elseif item.field=="txt2">
+<@p.editor value=channel.txt2 colspan="2" help=item.help helpPosition="${item.helpPosition!1}" label=item.label name=item.field/><@p.tr/>
+
+<#elseif item.field=="txt3">
+<@p.editor value=channel.txt3 colspan="2" help=item.help helpPosition="${item.helpPosition!1}" label=item.label name=item.field/><@p.tr/>
+</#if>
+
+<#else>
+<@p.selfDefineWidget name="attr_${item.field}" value=channel.attr[item.field] size="${item.size!}" list="${item.optValue!}" help=item.help helpPosition="${item.helpPosition!2}" rows="${item.rows!}" cols="${item.cols!}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}" type="${item.dataType}"/><#if count%2==0><@p.tr/></#if>
+</#if>
+
+</#list>
+<@p.td colspan="2">
+	<@p.hidden name="root" value=root!(channel.parent.id)!/>
+	<@p.hidden name="id" value=channel.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

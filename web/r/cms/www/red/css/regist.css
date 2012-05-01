@@ -1,0 +1,42 @@
+/*----------------------------------------
+Name: regist.css
+Developed by: JEECMS
+Date Created: 2010-06-27
+Last Updated: 2010-06-27
+Copyright: JEECMS
+----------------------------------------*/
+@charset "utf-8";
+@import url(global.css);  
+
+.container{min-width:980px;margin:0 auto;}
+ 
+.toolbar{margin-bottom:15px;background:#fafafa url(../img/member/toolbar.gif) repeat-x 0 100%;}
+.toolbar-inner{width:980px;height:31px; line-height:31px; margin:0 auto;}
+.toolbar a{padding:0 5px;}
+
+.header{width:980px; height:70px; margin:0 auto 10px;}
+.header .brand{float:left;padding-left:20px;}
+.header .brand h1 a{display:block;width:292px; height:70px;overflow:hidden;text-indent:-9999px;margin-right:10px;background:url(../img/member/login-logo.gif) no-repeat; cursor:pointer;}
+
+.main{width:980px;margin:0 auto; font-size:14px; margin-bottom:20px;}
+.main h2{text-indent:20px; color:#3e3e3e;}
+
+.input/*width:200px; */{height:20px; line-height:20px; border:1px solid #ccc; width:135px;}
+.input2/*width:200px; */{height:20px; line-height:20px; border:1px solid #ccc; width:230px;}
+
+.login-button{background:url(../img/member/denglu.gif) no-repeat; width:94px; height:32px; border:0 none; color:#fff; font-size:14px; font-weight:bold; cursor:pointer;}
+ .footer{width:980px;margin:0 auto;padding:20px 0;line-height:1.8;text-align:center;color:#999;background:url(../img/member/foot_bg.png) no-repeat 50% 0;}
+.footer a:link,.footer a:visited{color:#999;}
+ 
+ .login-bg{background:url(../img/member/login-bg.gif) no-repeat; width:327px; height:308px;}
+.button001{height:50px; width:63px; background:url(../img/denglu.jpg); background-repeat:repeat-x}
+label.error{font-size:12px;}
+.forgot-password a:link,.forgot-password a:visited{color:#999999;}
+.forgot-password a:hover,.forgot-password a:active{color:#999999; text-decoration:underline;}
+
+.regist-header{background:url(../img/member/bg1.gif) repeat-x;width:100%; height:125px;}
+.rgheader{width:980px; height:87px; margin:0 auto 10px;}
+.rgheader .brand{float:left;padding-left:20px;}
+.rgheader .brand h1 a{display:block;width:292px; height:87px;overflow:hidden;text-indent:-9999px;margin-right:10px;background:url(../img/member/regist-logo.gif) no-repeat;}
+.rg-tbg{background:url(../img/member/regist-tbg.gif) no-repeat top; width:952px;}
+.regist-submit{background:url(../img/member/regist-sumbit.gif) no-repeat; width:202px; height:43px; border:0 none; cursor:pointer;}

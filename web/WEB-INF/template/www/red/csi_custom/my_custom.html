@@ -1,0 +1,8 @@
+<!--自定义客户端包含模板页-->
+[@cms_channel_list]
+<ul>
+[#list tag_list as c]
+<li><a href="${c.url}">${c.name}</a></li>
+[/#list]
+</ul>
+[/@cms_channel_list]

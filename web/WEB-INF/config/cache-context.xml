@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-lazy-init="true">
+	<!--缓存-->
+	<bean id="cacheManager" class="foo.common.web.WebEhCacheManagerFacotryBean">
+		<property name="configLocation">
+			<value>classpath:ehcache-application.xml</value>
+		</property>
+		<property name="diskStoreLocation">
+			<value>/WEB-INF/cache/application</value>
+		</property>
+	</bean>
+	<!--SESSION缓存-->
+	<bean id="ehSessionCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager">
+			<ref local="cacheManager"/>
+		</property>
+		<property name="cacheName">
+			<value>foo.common.web.Session</value>
+		</property>
+		<qualifier value="session"/>
+	</bean>
+	<!--内容计数缓存-->
+	<bean id="ehContentCountCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager">
+			<ref local="cacheManager"/>
+		</property>
+		<property name="cacheName">
+			<value>foo.cms.front.ContentCount</value>
+		</property>		
+		<qualifier value="contentCount"/>
+	</bean>
+	
+	<!--站点流量缓存-->
+	<bean id="ehCmsSiteFlowCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager">
+			<ref local="cacheManager"/>
+		</property>
+		<property name="cacheName">
+			<value>foo.cms.front.CmsSiteFlow</value>
+		</property>		
+		<qualifier value="cmsSiteFlow"/>
+	</bean>
+</beans>

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+/*
+function createIndex() {
+	var button = $("#createButton");
+	var value = button.val();
+	button.val("<@s.m "cmsStatic.wait"/>").attr("disabled","disabled");
+	
+	$.getJSON("o_content.do",function(data) {
+		button.val(value).removeAttr("disabled");
+		if(data.success) {
+			alert("<@s.m "cmsStatic.success"/>"+data.count);
+		} else {
+			alert(data.msg);
+		}
+	});
+}
+*/
+$(function() {
+	$("#jvForm").validate( {
+		submitHandler : function(form) {
+			var button = $("#createButton");
+			var value = button.val();
+			button.val("<@s.m "cmsStatic.wait"/>").attr("disabled","disabled");
+			$(form).ajaxSubmit( {
+				"success" : function(data) {
+					button.val(value).removeAttr("disabled");
+					if(data.success) {
+						alert("<@s.m "cmsStatic.success"/>"+data.count);
+					} else {
+						alert(data.msg);
+					}
+				},
+				"dataType" : "json"
+			});
+		}
+	});
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsStatic.function"/> - <@s.m "cmsStatic.content"/></div>
+	<form class="ropt">
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_content.do">
+<@p.select label="cmsStatic.channel" name="channelId" list=channelList listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue="cmsStatic.allChannel"/>
+<@p.text label="cmsStatic.startDate" name="startDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<@p.td>
+	<input class="generate-content-page" id="createButton" type="submit" value="<@s.m "cmsStatic.contentStatic"/>"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

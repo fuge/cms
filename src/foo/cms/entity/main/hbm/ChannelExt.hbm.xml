@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="ChannelExt" table="jc_channel_ext">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="channel_id">
+			<generator class="foreign"><param name="property">channel</param></generator>
+		</id>
+		<property name="name" column="channel_name" type="string" not-null="true" length="100"/>
+		<property name="finalStep" column="final_step" type="java.lang.Byte" not-null="false" length="3"/>
+		<property name="afterCheck" column="after_check" type="java.lang.Byte" not-null="false" length="3"/>		
+		<property name="staticChannel" column="is_static_channel" type="java.lang.Boolean" not-null="true"/>
+		<property name="staticContent" column="is_static_content" type="java.lang.Boolean" not-null="true"/>
+		<property name="accessByDir" column="is_access_by_dir" type="java.lang.Boolean" not-null="true"/>
+		<property name="listChild" column="is_list_child" type="java.lang.Boolean" not-null="true"/>
+		<property name="pageSize" column="page_size" type="integer" not-null="true" length="10"/>
+		<property name="channelRule" column="channel_rule" type="string" not-null="false" length="150"/>
+		<property name="contentRule" column="content_rule" type="string" not-null="false" length="150"/>
+		<property name="link" column="link" type="string" not-null="false" length="255"/>
+		<property name="tplChannel" column="tpl_channel" type="string" not-null="false" length="100"/>
+		<property name="tplContent" column="tpl_content" type="string" not-null="false" length="100"/>
+		<property name="titleImg" column="title_img" 	type="string" not-null="false" length="100"/>
+		<property name="contentImg" column="content_img" type="string" not-null="false" length="100"/>
+		<property name="hasTitleImg" column="has_title_img" type="java.lang.Boolean" not-null="true"/>
+		<property name="hasContentImg" column="has_content_img" type="java.lang.Boolean" not-null="true"/>
+		<property name="titleImgWidth" column="title_img_width" type="integer" not-null="true" length="10"/>
+		<property name="titleImgHeight" column="title_img_height" type="integer" not-null="true" length="10"/>
+		<property name="contentImgWidth" column="content_img_width" type="integer" not-null="true" length="10"/>
+		<property name="contentImgHeight" column="content_img_height" type="integer" not-null="true" length="10"/>
+		<property name="commentControl" column="comment_control" type="integer" not-null="true" length="10"/>
+		<property name="allowUpdown" column="allow_updown" type="java.lang.Boolean" not-null="false"/>
+		<property name="blank" column="is_blank" type="java.lang.Boolean" not-null="true"/>
+		<property name="title" column="title" type="string" not-null="false" length="255"/>
+		<property name="keywords" column="keywords" type="string" not-null="false" length="255"/>
+		<property name="description" column="description" type="string" not-null="false" length="255"/>
+		<one-to-one name="channel" class="Channel" constrained="true"/>
+	</class>
+</hibernate-mapping>

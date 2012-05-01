@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsCommentExt" table="jc_comment_ext">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="comment_id">
+			<generator class="foreign"><param name="property">comment</param></generator>
+		</id>
+		<property name="ip" column="ip" type="string" not-null="false" length="50"/>
+		<property name="text" column="text" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+		<property name="reply" column="reply" type="org.springframework.orm.hibernate3.support.ClobStringType" not-null="false"/>
+		<one-to-one name="comment" class="CmsComment" constrained="true"/>
+	</class>
+</hibernate-mapping>

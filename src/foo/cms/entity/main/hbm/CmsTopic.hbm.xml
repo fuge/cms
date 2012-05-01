@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="CmsTopic" table="jc_topic">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Integer" column="topic_id"><generator class="identity"/></id>
+		<property name="name" column="topic_name" type="string" not-null="true" length="150"/>
+		<property name="shortName" column="short_name" type="string" not-null="false" length="150"/>
+		<property name="keywords" column="keywords" type="string" not-null="false" length="255"/>
+		<property name="description" column="description" type="string" not-null="false" length="255"/>
+		<property name="titleImg" column="title_img" type="string" not-null="false" length="100"/>
+		<property name="contentImg" column="content_img" type="string" not-null="false" length="100"/>
+		<property name="tplContent" column="tpl_content" type="string" not-null="false" length="100"/>
+		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
+		<property name="recommend" column="is_recommend" type="java.lang.Boolean" not-null="true"/>
+		<many-to-one name="channel" column="channel_id" class="Channel" not-null="false"></many-to-one>
+	</class>
+	<sql-query name="CmsTopic.deleteContentRef">
+		delete from jc_content_topic where topic_id=?
+	</sql-query>
+</hibernate-mapping>

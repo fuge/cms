@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "template.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="hidden" name="root" value="${root}"/>
+		<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do'"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<div class="editor-style">
+<div class="editor-bbg">
+<form action="v_edit.do" method="post" style="padding-top:5px;">
+<input type="hidden" name="root" value="${root}"/>
+<input type="hidden" name="name" value="${name!}"/>
+<input type="radio" name="style" value="textarea" onclick="this.form.submit();" style="margin-left:40px;"/><@s.m "template.textarea"/>
+<input type="radio" name="style" value="editor" checked="checked" onclick="this.form.submit();" style="margin-left:95px;"/><@s.m "template.editor"/>
+</form>
+</div>
+</div>
+<@p.form id="jvForm" action="o_update.do" labelWidth="15">
+<@p.td label="template.filename"><input type="text" value="${template.filename}" readonly="readonly" size="40" class="disabled"/></@p.td><@p.tr/>
+<@p.td colspan="2"><@p.editor value=template.source name="source" height="500" fullPage="true"/></@p.td><@p.tr/>
+<@p.td>
+	<@p.hidden id="name" name="name" value=template.name/>
+	<@p.hidden id="root" name="root" value=root/>
+	<@p.submit code="global.save"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

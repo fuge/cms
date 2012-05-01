@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsGuestbook" table="jc_guestbook">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="integer" column="guestbook_id"><generator class="identity"/></id>
+		<property name="ip" column="ip" type="string" not-null="true" length="50"/>
+		<property name="createTime" column="create_time" type="timestamp" not-null="true" length="19"/>
+		<property name="replayTime" column="replay_time" type="timestamp" not-null="false" length="19"/>
+		<property name="checked" column="is_checked" type="java.lang.Boolean" not-null="true"/>
+		<property name="recommend" column="is_recommend" type="java.lang.Boolean" not-null="true"/>
+		<one-to-one name="ext" class="CmsGuestbookExt" cascade="delete"/>
+		<many-to-one name="member" column="member_id" class="foo.cms.entity.main.CmsUser" not-null="false"></many-to-one>
+		<many-to-one name="admin" column="admin_id" class="foo.cms.entity.main.CmsUser" not-null="false"></many-to-one>
+		<many-to-one name="site" column="site_id" class="foo.cms.entity.main.CmsSite" not-null="true"></many-to-one>
+		<many-to-one name="ctg" column="guestbookctg_id" class="CmsGuestbookCtg" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

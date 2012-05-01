@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+function setDefSolution() {
+	$.post("o_def_template.do", {
+		"solution" : $("#defSolution").val()
+	}, function(data) {
+		if (data.success) {
+			alert("<@s.m "global.success.save"/>");
+		} else {
+			alert(data.msg);
+		}
+	}, "json");
+}
+function exportTpl() {
+	var form = document.getElementById("jvForm");
+	form.action = "o_export.do";
+	form.encoding = "application/x-www-form-urlencoded";
+	form.submit();
+}
+function importTpl() {
+	if($("#tplZip").val()=="") {
+		alert("<@s.m "template.error.pleaseSelectFile"/>");
+		return;
+	}
+	var form = document.getElementById("jvForm");
+	form.action = "o_import.do";
+	form.encoding = "multipart/form-data";
+	form.submit();
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "template.function"/> - <@s.m "template.setting"/></div>
+	<form class="ropt">
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm">
+<@cms_perm url="/template/o_def_template.do">
+<@p.td label="template.default">
+	<@p.select id="defSolution" list=solutions value=defSolution/>
+&nbsp; <input class="setting" type="button" onclick="setDefSolution();" value="<@s.m "template.setting"/>"/>
+</@p.td><@p.tr/>
+</@cms_perm>
+<@cms_perm url="/template/o_export.do">
+<@p.td label="template.export">
+	<@p.select name="solution" list=solutions value=defSolution/>
+&nbsp; <input class="export" type="button" onclick="exportTpl();" value="<@s.m "template.export"/>"/>
+</@p.td><@p.tr/>
+</@cms_perm>
+<@cms_perm url="/template/o_import.do">
+<@p.td label="template.import">
+<span style="position:relative">
+<input type='text' id='tplZipText'/>  
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#tplZipText').val(this.value)" type="file" id="tplZip" name="tplZip" class="file-button"/>
+</span>
+&nbsp; <input class="import" type="button" onclick="importTpl();" value="<@s.m "template.import"/>"/>
+</@p.td>
+</@cms_perm>
+</@p.form>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-lazy-init="true">
+	<!--COOKIE登录-->
+	<bean id="rememberMeService" class="foo.common.security.rememberme.TokenBasedRememberMeServices">
+		<property name="key" value="foocms"/>
+		<!--<property name="alwaysRemember" value="true"/>-->
+		<property name="userDetailsService" ref="memberMng"/>
+	</bean>
+	
+	<!--HttpSession-->
+	<bean id="sessionProvider" class="foo.common.web.session.HttpSessionProvider"/>
+	<!--缓存Session
+		<bean id="sessionProvider" class="foo.common.web.session.CacheSessionProvider">
+			<property name="sessionCache" ref="sessionCache"/>
+			<property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+		</bean>
+		-->
+	<!--Memcached缓存
+		<bean id="sessionCache" class="foo.common.web.session.cache.MemcachedDangaCache">		
+			<property name="servers">
+				<list>
+					<value>127.0.0.1:11211</value>
+				</list>
+			</property>
+			<property name="weights">
+				<list>
+					<value>1</value>
+				</list>
+			</property>
+		</bean>
+		-->
+	<!--Ehcache缓存
+		<bean id="sessionCache" class="foo.common.web.session.cache.EhcacheSessionCache">
+			<property name="cache" ref="ehSessionCache"/>
+		</bean>
+		-->
+	<!--SessionId生成器
+		<bean id="sessionIdGenerator" class="foo.common.web.session.id.JdkUUIDGenerator"/>
+		-->
+	<!--图片处理-->
+	<bean id="imageScale" class="foo.common.image.ImageScaleImpl" init-method="init">
+		<property name="tryMagick" value="false"/>
+	</bean>
+	<!--密码加密器-->
+	<bean id="pwdEncoder" class="foo.common.security.encoder.Md5PwdEncoder"/>
+		
+	<!--执行时间标签-->
+	<bean id="uuid" class="foo.common.web.freemarker.UUIDDirective"/>
+	<bean id="process_time" class="foo.common.web.freemarker.ProcessTimeDirective"/>
+	<bean id="text_cut" class="foo.common.web.freemarker.TextCutDirective"/>
+	<bean id="html_cut" class="foo.common.web.freemarker.HtmlCutDirective"/>
+	
+	<bean id="realPathResolver" class="foo.common.web.springmvc.ServletContextRealPathResolver"/>
+	<bean id="fileRepository" class="foo.common.upload.FileRepository"/>
+	<!--文件模板-->
+	<bean id="tplManager" class="foo.core.tpl.FileTplManagerImpl"/>
+	<!--数据库模板
+		<bean id="dbTplDao" class="foo.core.dao.impl.DbTplDaoImpl"/>
+		<bean id="tplManager" class="foo.core.manager.impl.DbTplMngImpl"/>
+		-->
+
+	<bean id="ipSeeker" class="foo.common.ipseek.IPSeekerImpl" init-method="init">
+		<property name="dir" value="/WEB-INF/ipseek"/>
+		<property name="filename" value="QQWry.Dat"/>
+	</bean>
+	<bean id="authenticationDao" class="foo.core.dao.impl.AuthenticationDaoImpl"/>
+	<bean id="dbFileDao" class="foo.core.dao.impl.DbFileDaoImpl"/>
+	<bean id="unifiedUserDao" class="foo.core.dao.impl.UnifiedUserDaoImpl"/>
+	<bean id="ftpDao" class="foo.core.dao.impl.FtpDaoImpl"/>
+	<bean id="configDao" class="foo.core.dao.impl.ConfigDaoImpl"/>
+
+	<bean id="authenticationMng" class="foo.core.manager.impl.AuthenticationMngImpl"/>
+	<bean id="dbFileMng" class="foo.core.manager.impl.DbFileMngImpl"/>
+	<bean id="unifiedUserMng" class="foo.core.manager.impl.UnifiedUserMngImpl"/>
+	<bean id="ftpMng" class="foo.core.manager.impl.FtpMngImpl"/>
+	<bean id="configMng" class="foo.core.manager.impl.ConfigMngImpl"/>
+</beans>

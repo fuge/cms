@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#rejectDialog").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 380,
+		height: 200,
+		position: ["center",50],
+		buttons: {
+			"OK": function() {
+				rejectSubmit();
+			}
+		}
+	});
+});
+function rejectSubmit() {
+	$("input[name=rejectOpinion]").val($("#rejectOpinion").val());
+	$("input[name=rejectStep]").val($("#rejectStep").val());
+	$("#rejectDialog").dialog("close");
+	var f = $("#jvForm")[0];
+	f.action="o_reject.do";
+	f.submit();
+}
+</script>
+<style type="text/css">
+h1{text-align:center;font-size:18px;}
+.info{text-align:center;}
+</style>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "content.function"/> - <@s.m "content.opt.view"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+		<input type="hidden" name="pageNo" value="${pageNo!}"/>
+		<input type="hidden" name="cid" value="${cid!}"/>
+		<#list .data_model?keys as pkey>
+		<#if pkey?starts_with('query')><input type="hidden" name="${pkey}" value="${(.data_model[pkey])!?string}"/></#if><#t/>
+		</#list>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form id="jvForm" method="post" style="padding-top:5px">
+	<@p.hidden name="id" value=content.id/>
+	<@p.hidden name="ids" value=content.id/>
+	<input type="hidden" name="pageNo" value="${pageNo!}"/>
+	<input type="hidden" name="cid" value="${cid!}"/>
+	<#list .data_model?keys as pkey>
+	<#if pkey?starts_with('query')><input type="hidden" name="${pkey}" value="${(.data_model[pkey])!?string}"/></#if><#t/>
+	</#list>	
+	<input type="hidden" name="rejectStep"/>
+	<input type="hidden" name="rejectOpinion"/>
+	<input class="check" type="submit" value="<@s.m "content.opt.check"/>" onclick="this.form.action='o_check.do'"/>
+	<input class="reject" type="button" value="<@s.m "content.opt.reject"/>" onclick="$('#rejectDialog').dialog('open');"/>
+	<input class="edit" type="submit" value="<@s.m "global.edit"/>" onclick="this.form.action='v_edit.do'"/>
+	<input class="front-view" type="button" value="<@s.m "content.opt.viewInFront"/>" onclick="$('#viewInFront').submit();"/>
+</form>
+<form id="viewInFront" action="${content.urlDynamic}" target="_blank" method="get"></form>
+<div id="rejectDialog" style="display:none" title="<@s.m "content.rejectOpinion"/>">
+<p><@s.m "content.rejectOpinion"/>: <input type="text" id="rejectOpinion" style="width:260px" onkeypress="if(event.keyCode==13){rejectSubmit();return false;}"/></p>
+<p><@s.m "content.rejectStep"/>:
+	<select id="rejectStep">
+		<option value=""><@s.m "content.rejectBack"/></option>
+		<#list currStep-1..0 as i><option value="${i}">${i}</option></#list>
+	</select>
+</p>
+</div>
+<div style="border:1px solid #ccc;">
+	<h1>${content.title?html}</h1>
+	<p class="info">
+		<@s.m "content.user"/>: ${content.user.username}
+		<#if content.author??>&nbsp; <@s.m "content.author"/>: ${content.author}</#if>
+		<#if content.origin??>&nbsp; <@s.m "content.origin"/>: ${content.origin}</#if>
+		&nbsp; <@s.m "content.views"/>: ${content.views}
+		&nbsp; <@s.m "content.releaseDate"/>: ${content.releaseDate}		
+	</p>
+	<div>
+	${content.txt!}
+	</div>
+</div>
+</div>
+</body>
+</html>

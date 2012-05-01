@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.core.entity">
+	<class name="DbTpl" table="jo_template">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="string" column="tpl_name"><generator class="assigned"/></id>
+		<property name="source" column="tpl_source" type="string" not-null="false"/>
+		<property name="lastModified" column="last_modified" type="long" not-null="true" length="19"/>
+		<property name="directory" column="is_directory" type="boolean" not-null="true"/>
+	</class>
+</hibernate-mapping>

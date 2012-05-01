@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "user.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input class="return-button" type="button" value="<@s.m "global.backToList"/>" onclick="history.back();"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<#assign errorUserExist><@s.m "error.usernameExist"/></#assign>
+<#assign errorEmailExist><@s.m "error.emailExist"/></#assign>
+<@p.form id="jvForm" action="o_update.do">
+<@p.td label="user.username">${user.username}</@p.td><@p.tr/>
+<@p.text label="user.email" name="email" value=user.email rvalue=user.email required="true" vld="{required:true,email:true,rangelength:[3,100],remote:'v_check_email.do',messages:{remote:'${errorEmailExist}'}}"/>
+<@p.password label="user.password" id="password" name="password" class="required" minlength="3" maxlength="32" help="user.password.help"/>
+<@p.password label="user.pwdAgain" id="pwdAgain" name="pwdAgain" equalTo="#password"/>
+<@p.td><@p.hidden name="id" value=user.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

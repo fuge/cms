@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=7" /> 
+<title>${channel.title!channel.name} - ${site.name} - Powered by JEECMS</title>
+<meta http-equiv="keywords" content="${channel.keywords!}"/>
+<meta http-equiv="description" content="${channel.description!}"/>
+<link href="/${res}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="/${res}/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/${res}/css/global.css" type="text/css" rel="stylesheet" />
+<link href="/${res}/css/layout.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script src="/${res}/js/common.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	Cms.siteFlow("${base}", location.href, document.referrer);
+});
+</script>
+</head>
+
+<body>
+[#include "../include/页头顶栏.html"/]
+[#include "../include/页头导航栏.html"/]
+	<div id="wrapper" style="margin-bottom:10px;">
+    	 <div class="works-left fl">
+         	  <div class="works-tit"><h1>按分类查看</h1></div>
+              <ul>
+              [@cms_channel_list parentId=channel.nodeList[0].id]
+                 [#list tag_list as sub]
+              	 <li><h3><div class="type-tit"><a href="${sub.url}">${sub.name}</a> </div></h3></li>
+                 [@cms_channel_list parentId=sub.id]
+                     [#list tag_list as sub1]
+                 <dd class="sub"><a href="${sub1.url}">${sub1.name}</a></dd>
+                     [/#list]
+                    [/@cms_channel_list]  
+                  [/#list]
+              [/@cms_channel_list]   
+              </ul>
+         </div>
+         <div class="works-right fr">
+         	  <div class="works-rgmk">
+              	   <div class="works-tit"><h1>最新作品</h1></div>
+                   [@cms_content_list count='4' orderBy='4' channelId='47' titLen='15' descLen='50' append='...' orderBy='4' typeId='2' channelOption='1']
+                    [#list tag_list as a]
+                       <dl class="new-works">
+                           <dt><a href="${a.url}" target="_blank">[@text_cut s=a.title len=titLen append=append /]</a></dt>
+                           <dd class="works-pic fl"><a href="${a.url}" title="${a.title}" target="_blank"><img src="${a.typeImg!site.defImg}" width="157" height="94"/></a></dd>
+                           <dd class="works-txt fr">[@text_cut s=a.desc len=descLen append=append /]</dd>
+                       </dl>
+                     [/#list]
+                    [/@cms_content_list] 
+                   <div class="clear"></div>
+              </div>
+              <div class="works-rgmk mt10">
+              	   <div class="works-tit"><h1>推荐作品</h1></div>
+                   <ul class="works-ul">
+                   [@cms_content_list count='8' orderBy='4' channelId='47' titLen='14' append='...' orderBy='4' typeId='2' recommend='1'  dateFormat='yyyy-MM-dd' channelOption='1']  
+                      [#list tag_list as a]
+                   	  <li>
+                      	 <a href="${a.url}" target="_blank" title="${a.title}"><img src="${a.typeImg!site.defImg}" width="157" height="94" /></a>
+                        <p> <a href="${a.url}" target="_blank" title="${a.title}">[@text_cut s=a.title len=titLen append=append /]</a></p>
+                         <p>${a.date?string(dateFormat)}</p>
+                      </li>
+                      [/#list]
+                    [/@cms_content_list]   
+                      <div class="clear"></div>
+                   </ul>
+              </div>
+         </div>
+         <div class="clear"></div>
+    </div>
+[#include "../include/页脚友情链接栏.html"/]
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

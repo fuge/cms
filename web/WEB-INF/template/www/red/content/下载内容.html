@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${title} - ${site.name} - Powered by JEECMS</title>
+<meta http-equiv="keywords" content="${content.tagStr!}"/>
+<meta http-equiv="description" content="${content.description!}"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script src="/${res}/js/common.js" type="text/javascript"></script>
+<link href="/${res}/css/layout.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(function() {
+  Cms.attachment("${base}","${content.id}","${content.attachments?size}","attach");
+  Cms.viewCount("${base}","${content.id}");
+  Cms.siteFlow("${base}",location.href, document.referrer);
+});
+</script>
+</head>
+<body>
+[#include "../include/页头导航栏.html"/]
+<div id="main">
+  <div class="page4 position1"> 您现在正在浏览： <a href="${base}/">首页</a> &raquo; [#list channel.nodeList as n]<a href="${n.url}" target="_blank">${n.name}</a>[#if n_has_next] &raquo; [/#if][/#list] &raquo; 正文</div>
+  <!--cjbd_begin-->
+  <div class="page4 box">
+    <div class="w720 fl">
+      <div class="rb_top"></div>
+      <div class="rb_mid box">
+        <div class="w96">
+          
+		<table width="99%" border="0" align="center" cellpadding="5" cellspacing="0" class="mt10">
+            <tr>
+              <td height="20" colspan="2" bgcolor="#F3F3F3"><h3>${content.title}</h3></td>
+            </tr>
+            <tr>
+              <td width="192" align="center"><img src="${content.contentImg!site.defImg}" class="img_border"/></td>
+              <td width="459" valign="top">
+			   <table width="450" border="0" align="center" cellpadding="0" cellspacing="3">
+                <tr>
+                  <td width="70" height="25"><strong>软件类型：</strong></td>
+                  <td width="120" align="left">${content.attr.softType!}</td>
+                  <td width="80" align="right"><strong>浏览次数：</strong></td>
+                  <td align="left"><span id="views"></span> 次 </td>
+                </tr>
+                <tr>                  
+                  <td height="25"><strong>授权方式：</strong></td>
+                  <td align="left">${content.attr.warrant!}</td>
+                  <td align="right"><strong>下载次数：</strong></td>
+                  <td align="left"><span id="downloads"></span> 次</td>
+                </tr>
+                <tr>
+				  <td height="25"><strong>相关链接：</strong></td>
+                  <td align="left"><a href="${content.attr.relatedLink!}" target="_blank">点击查看</a></td>
+                  <td align="right"><strong>演示地址：</strong></td>
+                  <td align="left"><a href="${content.attr.demoUrl!}" target="_blank">Demo Url</a></td>
+                </tr>
+                <tr>
+				  <td height="25"><strong>更新时间：</strong></td>
+                  <td align="left">${content.date?string('yyyy-MM-dd')}</td>
+                  <td align="right"><strong>发布人员：</strong></td>
+                  <td align="left">${content.author!}</td>
+                </tr>
+                <tr>
+                  <td height="40" colspan="4">
+				  [#if content.attachments?size gt 0]
+				  [#list content.attachments as attach]
+				  <a id="attach${attach_index}"><img src="/${res}/img/download/down.gif" border="0"/></a>
+				  [/#list]
+				  [/#if]
+				  &nbsp;
+				  <a onclick="javascript:window.external.AddFavorite('${content.url!}','${content.title!}');" href="javascript:void(0);">
+				  <img src="/${res}/img/download/fav.gif" border="0"/></a>&nbsp;
+				  <a href="#ping"><img src="/${res}/img/download/comment.gif" border="0"/></a> </td>
+                </tr>
+              </table>
+			  </td>
+            </tr>            
+        </table>
+		
+		<table width="99%" border="0" align="center" cellpadding="5" cellspacing="0" style="margin-top:5px;">
+            <tr>
+              <td height="20" bgcolor="#F3F3F3"><h4>软件介绍:</h4></td>
+            </tr>
+            <tr>
+              <td align="left" style="text-indent:20px; line-height:1.7em;">
+			  ${txt!}
+			  </td>
+            </tr>            
+        </table>
+		
+		<table width="99%" border="0" align="center" cellpadding="5" cellspacing="0" style="margin-top:5px;">
+            <tr>
+              <td height="20" bgcolor="#F3F3F3"><h4>下载说明:</h4></td>
+            </tr>
+            <tr>
+              <td align="left">
+			    <ul class="blocklist">
+				   <li>1、推荐使用迅雷等下载工具下载本站软件，使用 WinRAR v3.10 以上版本解压本站软件。</li>
+				   <li>2、如果该软件不能下载，请留言报告错误,谢谢合作。</li>
+				   <li>3、下载本站资源时，如果遇到服务器忙暂不能下载的情况，请过一段时间重试。</li>
+				   <li>4、如果您有任何意见或建议，欢迎给我们留言，我们将提供更多 、更好的资源。</li>
+				   <li>5、本站提供的一些商业软件是供学习研究之用，如用于商业用途，请购买正版。</li>
+			    </ul>  
+              </td>
+            </tr>            
+        </table>
+		  
+          <div class="other box">
+            [#if channel.allowUpdown]
+            <div class="ding fl" onclick="Cms.up('${base}',${content.id},${content.ups});"><span id="ups"></span>
+              <p>顶</p>
+            </div>
+            <div class="cai fl" onclick="Cms.down('${base}',${content.id},${content.downs});"><span id="downs"></span>
+              <p>踩</p>
+            </div>
+			[/#if]
+            <ul>
+              <li><strong>上一篇：</strong>[@cms_content id=content.id next='1' channelId=channel.id][#if tag_bean??]<a href="${tag_bean.url}">${tag_bean.title}</a>[#else]没有了[/#if][/@cms_content]</li>
+              <li><strong>下一篇：</strong>[@cms_content id=content.id next='0' channelId=channel.id][#if tag_bean??]<a href="${tag_bean.url}">${tag_bean.title}</a>[#else]没有了[/#if][/@cms_content]</li>
+            </ul>
+          </div>
+        </div>
+        <!--网友评论_Begin-->
+        [#if channel.commentControl!=2]
+		  [#include "inc_comment_input.html"/]
+		[/#if]
+		<!--网友评论_End-->
+		
+      </div>
+      <div class="rb_low"></div>
+    </div>
+    <div class="w250 fr mt5">      
+      <div class="rb_right_top">
+        <h2>&nbsp;&nbsp;最新下载</h2>
+      </div>
+      <div class="rb_right_div">
+        <!--最新下载_Begin-->
+        <div class="w98"> 
+	    [@cms_content_list channelId='38' count='4' titLen='10' channelOption='1']  
+			<ul class="list right_pic">       
+			[#list tag_list as d]
+				<li><a href="${d.url}" target="_blank"><img src="${d.contentImg!site.defImg}" alt="${d.title}" /></a><a href="${d.url}" title="${d.title}" target="_blank">[@text_cut s=d.stit len=titLen append=append/]</a></li>
+			[/#list]
+			</ul>	
+		[/@cms_content_list]		
+		</div>
+        <!--最新下载_End-->		
+        
+		
+        <!--本周热门资讯排行_Begin-->
+        <h2>本周热门下载排行</h2>
+        <div class="w98">
+			<ul class="order">
+			  [@cms_content_list channelId='38' count='10' titLen='15' orderBy='7' channelOption='1']
+			  [#list tag_list as a]
+			  <li><a href="${a.url}" title="${a.title}" target="_blank">[@text_cut s=a.title len=titLen append=append/]</a></li>
+			  [/#list]
+			  [/@cms_content_list]
+			</ul>
+        </div>
+        <!--本周热门资讯排行_End-->
+        <h2>精彩专题</h2>
+        <div class="w98">
+		   [@cms_topic_list count='4' descLen='30' append='...']
+		   [#list tag_list as t]
+			<dl class="list[#if t_has_next] line[#else] mt5[/#if] box">
+				<dt><a href="${base}/topic/${t.id}.jspx" target="_blank">${t.name}</a></dt>
+				<dd class="pic"><a href="${base}/topic/${t.id}.jspx"><img src="${t.titleImg!site.defImg}"/></a></dd>
+				<dd class="text">[@text_cut s=t.description len=descLen append=append/]</dd>
+			</dl>
+			[/#list]
+		   [/@cms_topic_list]
+        </div>
+      </div>
+      <div class="rb_right_low"></div>
+      <!--相关文章_End-->
+    </div>
+  </div>
+</div>
+[#include "../include/页脚友情链接栏.html"/]
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

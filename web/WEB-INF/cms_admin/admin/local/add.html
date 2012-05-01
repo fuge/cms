@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+	//栏目权限对话框
+	$("#channelDialog").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 280,
+		height: 420,
+		position: ["center",20],
+		buttons: {
+			"OK": function() {
+				$(this).dialog("close");
+			}
+		},
+		close: function(event, ui) {
+			//将列表框中已选中的项复制到隐藏表单中
+			var s="";
+			$("#channels").children().each(function(){
+				if($(this).attr("selected")) {
+					s += "<input type='hidden' name='channelIds' value='" +$(this).val()+ "'/>";
+				}
+			});
+			$("#channelIdsContainer").empty().append(s);
+		}
+	});
+	var channels_opened = false;
+	$('#channel').click(function(){
+		//第一次打开，需要获取数据。
+		if(!channels_opened) {
+			//获取数据
+			$.get("v_channels_add.do",{"siteId":${site.id}},function(s) {
+				$(s).appendTo("#channels");
+			});
+			channels_opened = true;
+		}
+		$('#channelDialog').dialog('open');
+		return false;
+	});	
+});
+function disChannels(chk) {
+	$("#allChannel").val(chk);
+	if(chk) {
+		$("#channels").addClass("disabled").attr("disabled","disabled").children().each(function(){$(this).removeAttr("selected")});
+		$("#channelIdsContainer").empty();
+	} else {
+		$("#channels").removeAttr("disabled").removeClass("disabled");
+	}
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsAdminLocal.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<#assign usernameExist><@s.m "error.usernameExist"/></#assign>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text width="50" colspan="1" label="cmsUser.username" name="username" required="true" maxlength="100" vld="{required:true,username:true,remote:'v_check_username.do',messages:{remote:'${usernameExist}'}}"/>
+<@p.text width="50" colspan="1" label="cmsUser.email" name="email" size="30" maxlength="100" class="email"/><@p.tr/>
+<@p.password width="50" colspan="1" label="cmsUser.password" id="password" name="password" maxlength="100" class="required" required="true"/>
+<@p.password width="50" colspan="1" label="cmsUser.pwdAgain" equalTo="#password" required="true"/><@p.tr/>
+<@p.select width="50" colspan="1" label="cmsUser.group" name="groupId" list=groupList listKey="id" listValue="name" required="true"/>
+<@p.text width="50" colspan="1" label="cmsUser.rank" name="rank" value=currRank-1 style="width:70px" required="true" class="required digits" maxlength="5" max=currRank help="cmsUser.rank.help"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.realname" name="realname" maxlength="100"/>
+<@p.radio width="50" colspan="1" label="cmsUser.gender" name="gender" list={"true":"cmsUser.male","false":"cmsUser.female","":"cmsUser.secrecy"}/><@p.tr/>
+<@p.radio width="50" colspan="1" label="cmsUser.selfAdmin" name="selfAdmin" value="false" list={"true":"global.true","false":"global.false"} required="true" help="cmsUser.selfAdmin.help"/>
+<@p.radio width="50" colspan="1" label="cmsUser.viewonlyAdmin" name="viewonlyAdmin" value="false" list={"true":"global.true","false":"global.false"} required="true" help="cmsUser.viewonlyAdmin.help"/><@p.tr/>
+<@p.checkboxlist colspan="2" label="cmsUser.role" name="roleIds" list=roleList listKey="id" listValue="name"/><@p.tr/>
+<@p.td colspan="2" label="cmsUser.checkStep" required="true">
+	<@p.text name="steps" value="1" class="required digits" style="width:40px"/>	
+	<input class="channel-right" id="channel" type="button" value="<@s.m "cmsUser.channels"/>"/>	
+	<input type="hidden" id="allChannel" name="allChannels" value="true"/>
+	<span id="channelIdsContainer"></span>
+	<div id="channelDialog" title="<@s.m "cmsUser.channels"/>(${site.name})" style="display:none;">
+		<label><input type="checkbox" onclick="disChannels(this.checked)" checked="checked"/><@s.m "cmsUser.channels.allChannel"/></label>
+		<select id="channels" disabled="disabled" class="disabled" multiple="multiple" size="15" style="width:100%;"></select>
+	</div>
+<div style="clear:both"></div>
+</@p.td><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

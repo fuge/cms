@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="ContentCheck" table="jc_content_check">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="content_id">
+			<generator class="foreign"><param name="property">content</param></generator>
+		</id>
+		<property name="checkStep" column="check_step" type="java.lang.Byte" not-null="true" length="3"/>
+		<property name="checkOpinion" column="check_opinion" type="string" not-null="false" length="255"/>
+		<property name="rejected" column="is_rejected" type="java.lang.Boolean" not-null="true"/>
+		<one-to-one name="content" class="Content" constrained="true"/>
+	</class>
+</hibernate-mapping>

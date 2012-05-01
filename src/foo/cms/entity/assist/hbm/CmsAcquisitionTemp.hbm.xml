@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsAcquisitionTemp" table="jc_acquisition_temp">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="temp_id"><generator class="native"/></id>
+		<property name="channelUrl" column="channel_url" type="string" not-null="true" length="255"/>
+		<property name="contentUrl" column="content_url" type="string" not-null="true" length="255"/>
+		<property name="title" type="string" length="255"/>
+		<property name="percent" type="integer" not-null="true" length="3"/>
+		<property name="description" type="string" not-null="true" length="20"/>
+		<property name="seq" type="integer" not-null="true" length="3"/>
+		<many-to-one name="site" column="site_id" class="foo.cms.entity.main.CmsSite"></many-to-one>
+	</class>
+</hibernate-mapping>

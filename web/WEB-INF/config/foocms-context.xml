@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-lazy-init="true">
+
+	<bean id="tplMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="cacheSeconds" value="0"/>
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/languages/foocms_tpl/messages</value>
+			</list>
+		</property>
+	</bean>
+	<!--标签-->
+	<bean id="cms_pagination" class="foo.cms.action.directive.PaginationDirective"/>
+	<bean id="cms_channel_list" class="foo.cms.action.directive.ChannelListDirective"/>
+	<bean id="cms_channel_page" class="foo.cms.action.directive.ChannelPageDirective"/>
+	<bean id="cms_channel" class="foo.cms.action.directive.ChannelDirective"/>
+	<bean id="cms_content" class="foo.cms.action.directive.ContentDirective"/>
+	<bean id="cms_content_list" class="foo.cms.action.directive.ContentListDirective"/>
+	<bean id="cms_content_page" class="foo.cms.action.directive.ContentPageDirective"/>
+	<bean id="cms_tag_list" class="foo.cms.action.directive.ContentTagListDirective"/>
+	<bean id="cms_tag_page" class="foo.cms.action.directive.ContentTagPageDirective"/>
+	<bean id="cms_topic_list" class="foo.cms.action.directive.CmsTopicListDirective"/>
+	<bean id="cms_topic_page" class="foo.cms.action.directive.CmsTopicPageDirective"/>
+	<bean id="cms_comment_list" class="foo.cms.action.directive.CmsCommentListDirective"/>
+	<bean id="cms_comment_page" class="foo.cms.action.directive.CmsCommentPageDirective"/>
+	<bean id="cms_guestbook_ctg_list" class="foo.cms.action.directive.CmsGuestbookCtgListDirective"/>
+	<bean id="cms_guestbook_list" class="foo.cms.action.directive.CmsGuestbookListDirective"/>
+	<bean id="cms_guestbook_page" class="foo.cms.action.directive.CmsGuestbookPageDirective"/>
+	<bean id="cms_vote" class="foo.cms.action.directive.CmsVoteDirective"/>
+	<bean id="cms_friendlink_ctg_list" class="foo.cms.action.directive.CmsFriendlinkCtgListDirective"/>
+	<bean id="cms_friendlink_list" class="foo.cms.action.directive.CmsFriendlinkListDirective"/>
+	<bean id="cms_lucene_list" class="foo.cms.lucene.LuceneDirectiveList"/>
+	<bean id="cms_lucene_page" class="foo.cms.lucene.LuceneDirectivePage"/>
+	<bean id="cms_advertising" class="foo.cms.action.directive.CmsAdvertisingDirective"/>
+	
+	<!--后台权限标签-->
+	<bean id="cms_perm" class="foo.cms.web.PermistionDirective"/>
+	
+	<!--SERVICE-->
+	<bean id="contentCountCache" class="foo.cms.service.ContentCountCacheImpl"/>
+	<bean id="cmsSiteFlowCache" class="foo.cms.service.CmsSiteFlowCacheImpl"/>
+	<bean id="acquisitionSvc" class="foo.cms.service.AcquisitionSvcImpl"/>
+	<bean id="luceneContentSvc" class="foo.cms.lucene.LuceneContentSvcImpl"/>
+	<bean id="staticPageSvc" class="foo.cms.staticpage.StaticPageSvcImpl">
+		<property name="tplMessageSource" ref="tplMessageSource"/>
+		<property name="freeMarkerConfigurer">
+			<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+				<property name="freemarkerVariables">
+					<map>
+						<entry key="uuid" value-ref="uuid"/>
+						<entry key="process_time" value-ref="process_time"/>
+						<entry key="text_cut" value-ref="text_cut"/>
+						<entry key="html_cut" value-ref="html_cut"/>
+						<entry key="cms_pagination" value-ref="cms_pagination"/>
+						<entry key="cms_channel_list" value-ref="cms_channel_list"/>
+						<entry key="cms_channel_page" value-ref="cms_channel_page"/>
+						<entry key="cms_channel" value-ref="cms_channel"/>
+						<entry key="cms_content" value-ref="cms_content"/>
+						<entry key="cms_content_list" value-ref="cms_content_list"/>
+						<entry key="cms_content_page" value-ref="cms_content_page"/>
+						<entry key="cms_tag_list" value-ref="cms_tag_list"/>
+						<entry key="cms_tag_page" value-ref="cms_tag_page"/>
+						<entry key="cms_topic_list" value-ref="cms_topic_list"/>
+						<entry key="cms_topic_page" value-ref="cms_topic_page"/>
+						<entry key="cms_comment_list" value-ref="cms_comment_list"/>
+						<entry key="cms_comment_page" value-ref="cms_comment_page"/>
+						<entry key="cms_guestbook_ctg_list" value-ref="cms_guestbook_ctg_list"/>
+						<entry key="cms_guestbook_list" value-ref="cms_guestbook_list"/>
+						<entry key="cms_guestbook_page" value-ref="cms_guestbook_page"/>
+						<entry key="cms_vote" value-ref="cms_vote"/>
+						<entry key="cms_friendlink_ctg_list" value-ref="cms_friendlink_ctg_list"/>
+						<entry key="cms_friendlink_list" value-ref="cms_friendlink_list"/>
+						<entry key="cms_lucene_list" value-ref="cms_lucene_list"/>
+						<entry key="cms_lucene_page" value-ref="cms_lucene_page"/>
+						<entry key="cms_advertising" value-ref="cms_advertising"/>
+					</map>
+				</property>
+				<property name="templateLoaderPath" value=""/>
+				<property name="freemarkerSettings">
+					<props>
+						<prop key="tag_syntax">auto_detect</prop>
+						<prop key="template_update_delay">1</prop>
+						<prop key="defaultEncoding">UTF-8</prop>
+						<prop key="url_escaping_charset">UTF-8</prop>
+						<prop key="locale">zh_CN</prop>
+						<prop key="boolean_format">true,false</prop>
+						<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+						<prop key="date_format">yyyy-MM-dd</prop>
+						<prop key="time_format">HH:mm:ss</prop>
+						<prop key="number_format">0.######</prop>
+						<prop key="whitespace_stripping">true</prop>
+						<prop key="auto_import">/WEB-INF/ftl/pony/index.ftl as p,/WEB-INF/ftl/spring.ftl as s</prop>
+					</props>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="cmsStatistSvc" class="foo.cms.statistic.CmsStatisticSvcImpl"/>
+	
+	<!--LISTENER-->
+	<bean id="contentLuceneListener" class="foo.cms.lucene.ContentLuceneListener"/>
+	<bean id="contentStaticPageListener" class="foo.cms.staticpage.ContentStaticPageListener"/>
+	
+	<!--MANAGER-->
+	<bean id="channelMng" class="foo.cms.manager.main.impl.ChannelMngImpl">
+		<property name="deleteCheckerList">
+			<list>
+				<ref bean="contentMng"/>
+				<ref bean="cmsTopicMng"/>
+				<ref bean="cmsAcquisitionMng"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="channelExtMng" class="foo.cms.manager.main.impl.ChannelExtMngImpl"/>
+	<bean id="channelTxtMng" class="foo.cms.manager.main.impl.ChannelTxtMngImpl"/>
+	<bean id="contentMng" class="foo.cms.manager.main.impl.ContentMngImpl">
+		<property name="listenerList">
+			<list>
+				<ref bean="contentLuceneListener"/>
+				<ref bean="contentStaticPageListener"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="contentTagMng" class="foo.cms.manager.main.impl.ContentTagMngImpl"/>
+	<bean id="contentTypeMng" class="foo.cms.manager.main.impl.ContentTypeMngImpl"/>
+	<bean id="contentExtMng" class="foo.cms.manager.main.impl.ContentExtMngImpl"/>
+	<bean id="contentTxtMng" class="foo.cms.manager.main.impl.ContentTxtMngImpl"/>
+	<bean id="contentCountMng" class="foo.cms.manager.main.impl.ContentCountMngImpl"/>
+	<bean id="contentCheckMng" class="foo.cms.manager.main.impl.ContentCheckMngImpl"/>
+	<bean id="cmsSiteMng" class="foo.cms.manager.main.impl.CmsSiteMngImpl"/>
+	<bean id="cmsConfigMng" class="foo.cms.manager.main.impl.CmsConfigMngImpl"/>
+	<bean id="cmsUserMng" class="foo.cms.manager.main.impl.CmsUserMngImpl"/>
+	<bean id="cmsUserExtMng" class="foo.cms.manager.main.impl.CmsUserExtMngImpl"/>
+	<bean id="cmsUserSiteMng" class="foo.cms.manager.main.impl.CmsUserSiteMngImpl"/>
+	<bean id="cmsModelMng" class="foo.cms.manager.main.impl.CmsModelMngImpl"/>
+	<bean id="cmsModelItemMng" class="foo.cms.manager.main.impl.CmsModelItemMngImpl"/>
+	<bean id="cmsTopicMng" class="foo.cms.manager.main.impl.CmsTopicMngImpl"/>
+	<bean id="cmsGroupMng" class="foo.cms.manager.main.impl.CmsGroupMngImpl"/>
+	<bean id="cmsRoleMng" class="foo.cms.manager.main.impl.CmsRoleMngImpl"/>
+	<bean id="cmsLogMng" class="foo.cms.manager.main.impl.CmsLogMngImpl"/>
+	
+	<bean id="cmsAcquisitionMng" class="foo.cms.manager.assist.impl.CmsAcquisitionMngImpl"/>
+	<bean id="cmsAcquisitionHistoryMng" class="foo.cms.manager.assist.impl.CmsAcquisitionHistoryMngImpl"/>
+	<bean id="cmsAcquisitionTempMng" class="foo.cms.manager.assist.impl.CmsAcquisitionTempMngImpl"/>
+	<bean id="cmsCommentMng" class="foo.cms.manager.assist.impl.CmsCommentMngImpl"/>
+	<bean id="cmsCommentExtMng" class="foo.cms.manager.assist.impl.CmsCommentExtMngImpl"/>
+	<bean id="cmsKeywordMng" class="foo.cms.manager.assist.impl.CmsKeywordMngImpl"/>
+	<bean id="cmsSensitivityMng" class="foo.cms.manager.assist.impl.CmsSensitivityMngImpl"/>
+	<bean id="cmsResourceMng" class="foo.cms.manager.assist.impl.CmsResourceMngImpl"/>
+	<bean id="cmsGuestbookCtgMng" class="foo.cms.manager.assist.impl.CmsGuestbookCtgMngImpl"/>
+	<bean id="cmsGuestbookExtMng" class="foo.cms.manager.assist.impl.CmsGuestbookExtMngImpl"/>
+	<bean id="cmsGuestbookMng" class="foo.cms.manager.assist.impl.CmsGuestbookMngImpl"/>	
+	<bean id="cmsVoteTopicMng" class="foo.cms.manager.assist.impl.CmsVoteTopicMngImpl"/>
+	<bean id="cmsVoteItemMng" class="foo.cms.manager.assist.impl.CmsVoteItemMngImpl"/>
+	<bean id="cmsVoteRecordMng" class="foo.cms.manager.assist.impl.CmsVoteRecordMngImpl"/>
+	<bean id="cmsFriendlinkCtgMng" class="foo.cms.manager.assist.impl.CmsFriendlinkCtgMngImpl"/>
+	<bean id="cmsFriendlinkMng" class="foo.cms.manager.assist.impl.CmsFriendlinkMngImpl"/>
+	<bean id="cmsAdvertisingSpaceMng" class="foo.cms.manager.assist.impl.CmsAdvertisingSpaceMngImpl"/>
+	<bean id="cmsAdvertisingMng" class="foo.cms.manager.assist.impl.CmsAdvertisingMngImpl"/>
+	<bean id="cmsMessageMng" class="foo.cms.manager.assist.impl.CmsMessageMngImpl"/>
+	<bean id="cmsReceiverMessageMng" class="foo.cms.manager.assist.impl.CmsReceiverMessageMngImpl"/>
+	
+	<bean id="cmsSiteFlowMng" class="foo.cms.manager.assist.impl.CmsSiteFlowMngImpl"/>
+	
+	<!--DAO-->
+	<bean id="channelDao" class="foo.cms.dao.main.impl.ChannelDaoImpl"/>
+	<bean id="channelExtDao" class="foo.cms.dao.main.impl.ChannelExtDaoImpl"/>
+	<bean id="channelTxtDao" class="foo.cms.dao.main.impl.ChannelTxtDaoImpl"/>
+	<bean id="contentDao" class="foo.cms.dao.main.impl.ContentDaoImpl"/>
+	<bean id="contentTagDao" class="foo.cms.dao.main.impl.ContentTagDaoImpl"/>
+	<bean id="contentTypeDao" class="foo.cms.dao.main.impl.ContentTypeDaoImpl"/>
+	<bean id="contentExtDao" class="foo.cms.dao.main.impl.ContentExtDaoImpl"/>
+	<bean id="contentTxtDao" class="foo.cms.dao.main.impl.ContentTxtDaoImpl"/>
+	<bean id="contentCountDao" class="foo.cms.dao.main.impl.ContentCountDaoImpl"/>
+	<bean id="contentCheckDao" class="foo.cms.dao.main.impl.ContentCheckDaoImpl"/>
+	<bean id="cmsSiteDao" class="foo.cms.dao.main.impl.CmsSiteDaoImpl"/>
+	<bean id="cmsConfigDao" class="foo.cms.dao.main.impl.CmsConfigDaoImpl"/>
+	<bean id="cmsUserDao" class="foo.cms.dao.main.impl.CmsUserDaoImpl"/>
+	<bean id="cmsUserExtDao" class="foo.cms.dao.main.impl.CmsUserExtDaoImpl"/>
+	<bean id="cmsUserSiteDao" class="foo.cms.dao.main.impl.CmsUserSiteDaoImpl"/>
+	<bean id="cmsModelDao" class="foo.cms.dao.main.impl.CmsModelDaoImpl"/>
+	<bean id="cmsModelItemDao" class="foo.cms.dao.main.impl.CmsModelItemDaoImpl"/>
+	<bean id="cmsTopicDao" class="foo.cms.dao.main.impl.CmsTopicDaoImpl"/>
+	<bean id="cmsGroupDao" class="foo.cms.dao.main.impl.CmsGroupDaoImpl"/>
+	<bean id="cmsRoleDao" class="foo.cms.dao.main.impl.CmsRoleDaoImpl"/>
+	<bean id="cmsLogDao" class="foo.cms.dao.main.impl.CmsLogDaoImpl"/>
+	
+	<bean id="cmsAcquisitionDao" class="foo.cms.dao.assist.impl.CmsAcquisitionDaoImpl"/>
+	<bean id="cmsAcquisitionHistoryDao" class="foo.cms.dao.assist.impl.CmsAcquisitionHistoryDaoImpl"/>
+	<bean id="cmsAcquisitionTempDao" class="foo.cms.dao.assist.impl.CmsAcquisitionTempDaoImpl"/>
+	<bean id="cmsCommentDao" class="foo.cms.dao.assist.impl.CmsCommentDaoImpl"/>
+	<bean id="cmsCommentExtDao" class="foo.cms.dao.assist.impl.CmsCommentExtDaoImpl"/>
+	<bean id="cmsKeywordDao" class="foo.cms.dao.assist.impl.CmsKeywordDaoImpl"/>
+	<bean id="cmsSensitivityDao" class="foo.cms.dao.assist.impl.CmsSensitivityDaoImpl"/>
+	<bean id="cmsGuestbookCtgDao" class="foo.cms.dao.assist.impl.CmsGuestbookCtgDaoImpl"/>
+	<bean id="cmsGuestbookExtDao" class="foo.cms.dao.assist.impl.CmsGuestbookExtDaoImpl"/>
+	<bean id="cmsGuestbookDao" class="foo.cms.dao.assist.impl.CmsGuestbookDaoImpl"/>	
+	<bean id="cmsVoteTopicDao" class="foo.cms.dao.assist.impl.CmsVoteTopicDaoImpl"/>
+	<bean id="cmsVoteItemDao" class="foo.cms.dao.assist.impl.CmsVoteItemDaoImpl"/>
+	<bean id="cmsVoteRecordDao" class="foo.cms.dao.assist.impl.CmsVoteRecordDaoImpl"/>
+	<bean id="cmsFriendlinkCtgDao" class="foo.cms.dao.assist.impl.CmsFriendlinkCtgDaoImpl"/>
+	<bean id="cmsFriendlinkDao" class="foo.cms.dao.assist.impl.CmsFriendlinkDaoImpl"/>
+	<bean id="cmsAdvertisingSpaceDao" class="foo.cms.dao.assist.impl.CmsAdvertisingSpaceDaoImpl"/>
+	<bean id="cmsAdvertisingDao" class="foo.cms.dao.assist.impl.CmsAdvertisingDaoImpl"/>
+	<bean id="cmsMessageDao" class="foo.cms.dao.assist.impl.CmsMessageDaoImpl"/>
+	<bean id="cmsReceiverMessageDao" class="foo.cms.dao.assist.impl.CmsReceiverMessageDaoImpl"/>
+	
+	<bean id="luceneContentDao" class="foo.cms.lucene.LuceneContentDaoImpl"/>
+	<bean id="staticPageDao" class="foo.cms.staticpage.StaticPageDaoImpl"/>
+	<bean id="cmsStatisticDao" class="foo.cms.statistic.CmsStatisticDaoImpl"/>
+	
+	<bean id="cmsSiteFlowDao" class="foo.cms.dao.assist.impl.CmsSiteFlowDaoImpl"/>
+</beans>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="true">
+	
+	<bean id="fckAct" class="foo.cms.action.admin.FckAct"/>
+	<bean id="imageUploadAct" class="foo.cms.action.admin.ImageUploadAct"/>
+	<bean id="imageCutAct" class="foo.cms.action.admin.ImageCutAct"/>
+	<bean id="cmsLoginAct" class="foo.cms.action.admin.CmsLoginAct"/>
+	<bean id="welcomeAct" class="foo.cms.action.admin.WelcomeAct"/>
+	<bean id="frameAct" class="foo.cms.action.admin.FrameAct"/>
+	<bean id="personalAct" class="foo.cms.action.admin.PersonalAct"/>
+	
+	<bean id="luceneContentAct" class="foo.cms.lucene.LuceneContentAct"/>
+	<bean id="staticAct" class="foo.cms.staticpage.StaticAct"/>
+
+	<bean id="ftpAct" class="foo.cms.action.admin.main.FtpAct"/>
+	<bean id="unifiedUserAct" class="foo.cms.action.admin.main.UnifiedUserAct"/>
+	<bean id="cmsSiteAct" class="foo.cms.action.admin.main.CmsSiteAct"/>
+	<bean id="cmsSiteConfigAct" class="foo.cms.action.admin.main.CmsSiteConfigAct"/>
+	<bean id="cmsConfigAct" class="foo.cms.action.admin.main.CmsConfigAct"/>
+	<bean id="cmsAdminGlobalAct" class="foo.cms.action.admin.main.CmsAdminGlobalAct"/>
+	<bean id="cmsAdminLocalAct" class="foo.cms.action.admin.main.CmsAdminLocalAct"/>
+	<bean id="cmsMemberAct" class="foo.cms.action.admin.main.CmsMemberAct"/>
+	<bean id="cmsModelAct" class="foo.cms.action.admin.main.CmsModelAct"/>
+	<bean id="cmsModelItemAct" class="foo.cms.action.admin.main.CmsModelItemAct"/>
+	<bean id="channelAct" class="foo.cms.action.admin.main.ChannelAct"/>
+	<bean id="contentAct" class="foo.cms.action.admin.main.ContentAct"/>
+	<bean id="contentTypeAct" class="foo.cms.action.admin.main.ContentTypeAct"/>
+	<bean id="contentTagAct" class="foo.cms.action.admin.main.ContentTagAct"/>
+	<bean id="cmsTopicAct" class="foo.cms.action.admin.main.CmsTopicAct"/>
+	<bean id="cmsGroupAct" class="foo.cms.action.admin.main.CmsGroupAct"/>
+	<bean id="cmsRoleAct" class="foo.cms.action.admin.main.CmsRoleAct"/>	
+	<bean id="cmsLogAct" class="foo.cms.action.admin.main.CmsLogAct"/>	
+	
+	<bean id="templateAct" class="foo.cms.action.admin.assist.TemplateAct">
+		<property name="tplManager" ref="tplManager"/>
+	</bean>
+	<bean id="resourceAct" class="foo.cms.action.admin.assist.ResourceAct"/>
+	<bean id="cmsAcquisitionAct" class="foo.cms.action.admin.assist.CmsAcquisitionAct"/>
+	<bean id="cmsCommentAct" class="foo.cms.action.admin.assist.CmsCommentAct"/>
+	<bean id="cmsKeywordAct" class="foo.cms.action.admin.assist.CmsKeywordAct"/>
+	<bean id="cmsSensitivityAct" class="foo.cms.action.admin.assist.CmsSensitivityAct"/>
+	<bean id="cmsGuestbookCtgAct" class="foo.cms.action.admin.assist.CmsGuestbookCtgAct"/>
+	<bean id="cmsGuestbookAct" class="foo.cms.action.admin.assist.CmsGuestbookAct"/>
+	<bean id="cmsVoteTopicAct" class="foo.cms.action.admin.assist.CmsVoteTopicAct"/>
+	<bean id="cmsFriendlinkCtgAct" class="foo.cms.action.admin.assist.CmsFriendlinkCtgAct"/>
+	<bean id="cmsFriendlinkAct" class="foo.cms.action.admin.assist.CmsFriendlinkAct"/>
+	<bean id="cmsAdvertisingSpaceAct" class="foo.cms.action.admin.assist.CmsAdvertisingSpaceAct"/>
+	<bean id="cmsAdvertisingAct" class="foo.cms.action.admin.assist.CmsAdvertisingAct"/>
+	
+	<bean id="cmsMessageAct" class="foo.cms.action.admin.assist.CmsMessageAct"/>
+	
+	<bean id="cmsStatististAct" class="foo.cms.statistic.CmsStatisticAct"/>
+	
+</beans>

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsGuestbook.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do"labelWidth="12">
+<@p.select colspan="2" label="cmsGuestbook.ctg" name="ctgId" value=cmsGuestbook.ctg.id list=ctgList listKey="id" listValue="name" required="true"/><@p.tr/>
+<@p.text colspan="2" label="cmsGuestbook.title" name="title" value=cmsGuestbook.title size="70" maxlength="255"/><@p.tr/>
+<@p.textarea colspan="2" label="cmsGuestbook.content" name="content" value=cmsGuestbook.content rows="5" cols="70" maxlength="255"/><@p.tr/>
+<@p.textarea colspan="2" label="cmsGuestbook.reply" name="reply" value=cmsGuestbook.reply rows="5" cols="70" maxlength="255"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsGuestbook.email" name="email" value=cmsGuestbook.email maxlength="100"/>
+<@p.text colspan="1" width="50" label="cmsGuestbook.phone" name="phone" value=cmsGuestbook.phone maxlength="100"/><@p.tr/>
+<@p.text colspan="2" label="cmsGuestbook.qq" name="qq" value=cmsGuestbook.qq maxlength="50"/><@p.tr/>
+<@p.radio colspan="1" width="50" label="cmsGuestbook.checked" name="checked" value=cmsGuestbook.checked list={"true":"global.true","false":"global.false"}/>
+<@p.radio colspan="1" width="50" label="cmsGuestbook.recommend" name="recommend" value=cmsGuestbook.recommend list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<@p.td colspan="2">
+	<@p.hidden name="id" value=cmsGuestbook.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function(){
+	Cms.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<div class="left">
+<#include "/${admin_dir}/date.html"/>
+     <ul class="w-lful">
+     	<li><a href="assistant_right.do" target="rightFrame"><@s.m "global.admin.index"/></a></li>
+		<@cms_perm url="/comment/v_list.do">
+		<li><a href="../comment/v_list.do" target="rightFrame"><@s.m "cmsComment.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/vote_topic/v_list.do">
+		<li><a href="../vote_topic/v_list.do" target="rightFrame"><@s.m "cmsVoteTopic.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/guestbook/v_list.do">
+		<li><a href="../guestbook/v_list.do" target="rightFrame"><@s.m "cmsGuestbook.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/guestbook_ctg/v_list.do">
+		<li><a href="../guestbook_ctg/v_list.do" target="rightFrame"><@s.m "cmsGuestbookCtg.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/advertising/v_list.do">
+		<li><a href="../advertising/v_list.do" target="rightFrame"><@s.m "cmsAdvertising.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/advertising_space/v_list.do">
+		<li><a href="../advertising_space/v_list.do" target="rightFrame"><@s.m "cmsAdvertisingSpace.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/friendlink/v_list.do">
+		<li><a href="../friendlink/v_list.do" target="rightFrame"><@s.m "cmsFriendlink.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/friendlink_ctg/v_list.do">
+		<li><a href="../friendlink_ctg/v_list.do" target="rightFrame"><@s.m "cmsFriendlinkCtg.function"/></a></li>
+		</@cms_perm>
+     </ul>
+</div>
+</body>
+</html>

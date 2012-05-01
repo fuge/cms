@@ -1,0 +1,34 @@
+<#if isRoot>
+[{
+	"text": "<a href='v_list.do' target='rightFrame'><@s.m "channel.root"/></a>",
+	"classes": "folder"
+	<#if list?size gt 0>,
+	"expanded": true,
+	"children": [
+	<#list list as channel>
+	<#if channel.hasContent || channel.child?size gt 0>
+		{
+		"id": "${channel.id}",
+		"text": "<a href='v_list.do?cid=${channel.id}' target='rightFrame'>${channel.name} [<span style='color:red'>${channel.model.name}</span>]</a>",
+		"classes": "<#if channel.child?size gt 0>folder<#else>file</#if>",
+		"hasChildren": <#if channel.child?size gt 0>true<#else>false</#if>
+		}<#if channel_has_next>,</#if>
+	</#if>
+	</#list>
+	]
+	</#if>
+}]
+<#else>
+	[
+	<#list list as channel>
+	<#if channel.hasContent || channel.child?size gt 0>
+		{
+		"id": "${channel.id}",
+		"text": "<a href='v_list.do?cid=${channel.id}' target='rightFrame'>${channel.name} [<span style='color:red'>${channel.model.name}</span>]</a>",
+		"classes": "<#if channel.child?size gt 0>folder<#else>file</#if>",
+		"hasChildren": <#if channel.child?size gt 0>true<#else>false</#if>
+		}<#if channel_has_next>,</#if>
+	</#if>
+	</#list>
+	]
+</#if>

@@ -1,0 +1,27 @@
+<script type="text/javascript">
+//上传附件
+function uploadAttachment(n) {
+	var af = $('#attachmentFile'+n);
+	//检查是否选择了文件
+	if(af.val()=='') {
+		alert('<@s.m "content.error.noFileSelected"/>');
+		return;
+	}
+	//将file移动至上传表单
+	$('#attachmentContent').empty();
+	$('#attachmentContent').append(af);
+	//复制一个file放至原处
+	$('#afc'+n).append(af.clone().attr('value',''));
+	$('#attachmentText'+n).attr('value','');
+	//修改属性
+	af.attr('id','');
+	//其他表单
+	$('#attachmentNum').val(n);
+	$('#attachmentForm').submit();
+}
+</script>
+<form id="attachmentForm" action="o_upload_attachment.do" method="post" enctype="multipart/form-data" target="attachment_iframe" style="display:none;width:0px;height:0px;">
+<span id="attachmentContent"></span>
+<input type="hidden" id="attachmentNum" name="attachmentNum"/>
+</form>
+<iframe name="attachment_iframe" frameborder="0" border="0" style="display:none;width:0px;height:0px;"></iframe>

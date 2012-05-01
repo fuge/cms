@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "ftp.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text colspan="1" width="50" label="ftp.name" name="name" required="true" class="required" maxlength="100"/>
+<@p.text colspan="1" width="50" label="ftp.ip" name="ip" required="true" class="required" maxlength="50"/><@p.tr/>
+<@p.text colspan="1" width="50" label="ftp.port" name="port" value="21" style="width:70px" required="true" class="required digits" maxlength="10" help="ftp.port.help"/>
+<@p.text colspan="1" width="50" label="ftp.timeout" name="timeout" value="0" style="width:70px" required="true" class="required digits" maxlength="10" help="ftp.timeout.help"/><@p.tr/>
+<@p.text colspan="1" width="50" label="ftp.username" name="username" required="true" class="required" maxlength="100"/>
+<@p.text colspan="1" width="50" label="ftp.password" name="password" required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text colspan="1" width="50" label="ftp.path" name="path" maxlength="255" help="ftp.path.help"/>
+<@p.text colspan="1" width="50" label="ftp.encoding" name="encoding" value="UTF-8" required="true" class="required" maxlength="255"/><@p.tr/>
+<@p.text colspan="2" label="ftp.url" name="url" style="width:260px;" required="true" class="required" maxlength="255" help="ftp.url.help"/><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

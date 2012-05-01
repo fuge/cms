@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="true">
+	
+	<bean id="dynamicAct" class="foo.cms.action.front.DynamicPageAct"/>
+	<bean id="tagAct" class="foo.cms.action.front.TagAct"/>
+	<bean id="topicAct" class="foo.cms.action.front.TopicAct"/>
+	<bean id="searchAct" class="foo.cms.action.front.SearchAct"/>
+	<bean id="voteAct" class="foo.cms.action.front.VoteAct"/>
+	<bean id="friendlinkAct" class="foo.cms.action.front.FriendlinkAct"/>
+	
+	<bean id="contentCountAct" class="foo.cms.action.front.ContentCountAct"/>
+	<bean id="attachmentAct" class="foo.cms.action.front.AttachmentAct"/>
+	<bean id="commentAct" class="foo.cms.action.front.CommentAct"/>
+	<bean id="guestbookAct" class="foo.cms.action.front.GuestbookAct"/>
+	<bean id="rssAct" class="foo.cms.action.front.RssAct"/>
+	<bean id="csiCustomAct" class="foo.cms.action.front.CsiCustomAct"/>
+	<bean id="advertisingAct" class="foo.cms.action.front.AdvertisingAct"/>
+	
+	<bean id="casLoginAct" class="foo.cms.action.member.CasLoginAct"/>
+	<bean id="loginAct" class="foo.cms.action.member.LoginAct"/>
+	<bean id="memberAct" class="foo.cms.action.member.MemberAct"/>
+	<bean id="contributeAct" class="foo.cms.action.member.ContributeAct"/>
+	<bean id="fckAct" class="foo.cms.action.member.FckAct"/>
+	<bean id="registerAct" class="foo.cms.action.member.RegisterAct"/>
+	<bean id="forgotPasswordAct" class="foo.cms.action.member.ForgotPasswordAct"/>
+	<bean id="imageCutAct" class="foo.cms.action.member.ImageCutAct"/>
+	<bean id="imageUploadAct" class="foo.cms.action.member.ImageUploadAct"/>
+	<bean id="commentMemberAct" class="foo.cms.action.member.CommentMemberAct"/>
+	<bean id="guestbookMemberAct" class="foo.cms.action.member.GuestbookMemberAct"/>
+	<bean id="collectionMemberAct" class="foo.cms.action.member.CollectionMemberAct"/>
+	<bean id="messageAct" class="foo.cms.action.member.MessageAct"/>
+
+	<bean id="siteFlowAct" class="foo.cms.action.front.CmsSiteFlowAct"/>
+</beans>

@@ -1,0 +1,77 @@
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="/${res}/css/member.css" />
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script src="/${res}/js/common.js" type="text/javascript"></script>
+<script src="${base}/r/cms/www/red/js/message.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+<form id="tableForm" action="message_list.jspx" method="post">
+[#if pagination.list?size gt 0]
+<table border="0" cellpadding="0" cellspacing="1" bgcolor="#C8DCF0" class="tblist">
+<tr>
+	<th width="5%">选择</th>
+	<th width="45%">标题</th>
+	<th width="20%">收件人</th>
+	<th width="30%">发送时间</th>
+</tr>
+[#list pagination.list as c]
+<tr id="tr_${c.id!}">	
+	<td bgcolor="#FFFFFF" >
+		<input type="checkbox" name="ids" value="${c.id!}"/>
+	</td>
+	<td bgcolor="#FFFFFF">
+	<a href="${base}/member/message_read.jspx?id=${c.id!}&&box=1">
+		[@text_cut s=c.titleHtml len='15' append='...'/]
+	</a>
+	</td>
+	<td bgcolor="#FFFFFF">${c.msgReceiverUser.username!}</td>
+	<td bgcolor="#FFFFFF">${c.sendTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+</tr>
+[/#list]
+<tr>
+	<td bgcolor="#FFFFFF">
+		<input type="checkbox" id="ids" onclick="checkAll();"/>
+	</td>
+	<td colspan="3" align="left" bgcolor="#FFFFFF">
+		<input type="button" onclick="toTrash()" value="删除" class="member_del_button"/>
+   		<span id="msgDiv" style="color: red;"></span>
+	</td>
+</tr>
+</table>
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="box" value="${box!}"/>
+<input type="hidden" name="msg" value="您选择的站内信息已被移动到垃圾箱 "/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center" class="pn-sp">
+	共 ${pagination.totalCount} 条&nbsp;
+	每页 ${pagination.pageSize} 条&nbsp;
+	<input type="button" value="首 页" onclick="_gotoPage('1');"[#if pagination.firstPage] disabled="disabled"[/#if]/>
+	<input type="button" value="上一页" onclick="_gotoPage('${pagination.prePage}');"[#if pagination.firstPage] disabled="disabled"[/#if]/>
+	<input type="button" value="下一页" onclick="_gotoPage('${pagination.nextPage}');"[#if pagination.lastPage] disabled="disabled"[/#if]/>
+	<input type="button" value="尾 页" onclick="_gotoPage('${pagination.totalPage}');"[#if pagination.lastPage] disabled="disabled"[/#if]/>&nbsp;
+	当前 ${pagination.pageNo}/${pagination.totalPage} 页 &nbsp;转到第<input type="text" id="_goPs" style="width:50px" onfocus="this.select();" onkeypress="if(event.keyCode==13){$('#_goPage').click();return false;}"/>页
+	<input id="_goPage" type="button" value="转" onclick="_gotoPage($('#_goPs').val());"[#if pagination.totalPage==1] disabled="disabled"[/#if]/>
+</td>
+</tr>
+</table>
+<script type="text/javascript">
+function _gotoPage(pageNo) {
+	try{
+		var tableForm = document.getElementById("tableForm");
+		$("input[name=pageNo]").val(pageNo);
+		tableForm.action="message_list.jspx";
+		tableForm.onsubmit=null;
+		tableForm.submit();
+	} catch(e) {
+		alert('_gotoPage(pageNo)方法出错');
+	}
+}
+</script>
+[#else]
+	<div bgcolor="#C8DCF0">暂无发信</div>
+[/#if]
+</form>
+

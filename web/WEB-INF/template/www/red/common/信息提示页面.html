@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/${res}/css/layout.css" rel="stylesheet" type="text/css"/>
+<title>信息提示页面 - ${site.name} - Powered by JEECMS</title>
+</head>
+<body>
+<div class="prompt">
+  <dl>
+    <dt></dt>
+    <dd class="msg">系统信息提示：</dd>
+    <dd>[#if args??][@s.mat code=message args=args text=message/][#else][@s.mt code=message text=message/][/#if]</dd>
+    <dd>
+    <script>setTimeout("window.location.href ='${base}/';", 2000);</script>
+		【<a href="${base}/">如果您的浏览器没有自动跳转，请点击此链接</a>】
+	</dd>
+  </dl>
+</div>
+</body>
+</html>

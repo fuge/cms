@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#color").colorPicker();
+	//new Pn.ColorPicker("#color");
+	$("#jvForm").validate();
+});
+function preview() {
+	var img = $('#imagePath').val();
+	if(img!="") {
+		$('#markPreview').attr('src','${base}'+img);		
+	} else {
+		$('#markPreview').removeAttr('src');
+	}
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsConfig.function"/> - <@s.m "cmsConfig.function.mark"/> - <@s.m "global.edit"/></div>
+	<#include "inc_opt.html"/>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_mark_update.do" labelWidth="15">
+<@p.radio label="cmsConfig.mark.on" name="on" value=markConfig.on list={"true":"global.true","false":"global.false"} required="true"/>
+<@p.td label="cmsConfig.mark.control" required="true" help="cmsConfig.mark.control.help">
+<@s.m "cmsConfig.mark.minWidth"/>: <input type="text" name="minWidth" value="${markConfig.minWidth}" style="width:70px" class="required ditigs" maxlength="5"/>
+&nbsp; <@s.m "cmsConfig.mark.minHeight"/>: <input type="text" name="minHeight" value="${markConfig.minHeight}" style="width:70px" class="required ditigs" maxlength="5"/>
+</@p.td><@p.tr/>
+<@p.td label="cmsConfig.mark.imagePath" help="cmsConfig.mark.imagePath.help">
+<@p.text id="imagePath" name="imagePath" value=markConfig.imagePath style="width:200px" maxlength="100"/>
+<input class="preview-button" type="button" value="<@s.m "imageupload.preview"/>" onclick="preview();"/>
+<img id="markPreview" style="border:1px solid #ccc;vertical-align:middle" alt="<@s.m "imageupload.preview"/>"<#if markConfig.imagePath??> src="${base+markConfig.imagePath}"</#if>/>
+</@p.td><@p.tr/>
+<@p.text label="cmsConfig.mark.content" name="content" value=markConfig.content style="width:200px" required="true" class="required" maxlength="100" help="cmsConfig.mark.content.help"/>
+<@p.td label="cmsConfig.mark.textAttr" required="true">
+<@s.m "cmsConfig.mark.size"/>: <@p.text name="size" value=markConfig.size style="width:70px" class="required digits" maxlength="5"/>
+&nbsp; <@s.m "cmsConfig.mark.color"/>: <@p.text id="color" name="color" value=markConfig.color style="width:70px" class="required" maxlength="7"/>
+&nbsp; <@s.m "cmsConfig.mark.alpha"/>: <@p.text name="alpha" value=markConfig.alpha style="width:70px" class="required digits" maxlength="3" help="cmsConfig.mark.alpha.help"/>
+</@p.td><@p.tr/>
+<@p.td label="cmsConfig.mark.pos" required="true">
+<@p.select name="pos" value=markConfig.pos list={"0":"cmsConfig.mark.pos.random","1":"cmsConfig.mark.pos.leftTop","2":"cmsConfig.mark.pos.rightTop","3":"cmsConfig.mark.pos.leftBottom","4":"cmsConfig.mark.pos.rightBottom","5":"cmsConfig.mark.pos.center"}/>
+&nbsp; <@s.m "cmsConfig.mark.offsetX"/>: <input type="text" name="offsetX" value="${markConfig.offsetX}" class="required number" maxlength="5" style="width:70px"/>
+&nbsp; <@s.m "cmsConfig.mark.offsetY"/>: <input type="text" name="offsetY" value="${markConfig.offsetY}" class="required number" maxlength="5" style="width:70px"/>
+</@p.td><@p.tr/>
+<@p.td><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

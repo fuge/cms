@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsGuestbookExt" table="jc_guestbook_ext">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="guestbook_id">
+			<generator class="foreign"><param name="property">guestbook</param></generator>
+		</id>
+		<property name="title" column="title" type="string" not-null="false" length="255"/>
+		<property name="content" column="content" type="string" not-null="false"/>
+		<property name="reply" column="reply" type="string" not-null="false"/>
+		<property name="email" column="email" type="string" not-null="false" length="100"/>
+		<property name="phone" column="phone" type="string" not-null="false" length="100"/>
+		<property name="qq" column="qq" type="string" not-null="false" length="50"/>
+		<one-to-one name="guestbook" class="CmsGuestbook" constrained="true"/>
+	</class>
+</hibernate-mapping>

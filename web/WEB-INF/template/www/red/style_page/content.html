@@ -1,0 +1,15 @@
+[#assign p=pagination/]
+[#if p.totalPage gt 1]
+<div[#if cssClass??] class="${cssClass!}"[/#if][#if cssStyle??] style="${cssStyle!}"[/#if]>
+	[#if !p.firstPage]
+		<a href="${hrefFormer}[#if p.prePage gt 1]_${p.prePage}[/#if]${hrefLatter}">[上一页]</a>[#t/]
+	[/#if]
+	[#list 1..p.totalPage as i]
+		<a href="${hrefFormer}[#if i gt 1]_${i}[/#if]${hrefLatter}">[[#t/]
+		[#if p.pageNo == i]<span class="p2-crr">${i}</span>[#else]${i}[/#if]]</a>&nbsp;[#t/]
+	[/#list]
+	[#if !p.lastPage]
+		<a href="${hrefFormer+'_'+p.nextPage+hrefLatter}">[下一页]</a>[#lt/]
+	[/#if]
+</div>
+[/#if]

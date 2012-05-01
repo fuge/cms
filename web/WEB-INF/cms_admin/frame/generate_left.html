@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function(){
+	Cms.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<div class="left">
+<#include "/${admin_dir}/date.html"/>
+     <ul class="w-lful">
+		<li><a href="generate_right.do" target="rightFrame"><@s.m "global.admin.index"/></a></li>
+		<@cms_perm url="/static/v_index.do">
+		<li><a href="../static/v_index.do" target="rightFrame"><@s.m "cmsStatic.function.index"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/static/v_channel.do">
+		<li><a href="../static/v_channel.do" target="rightFrame"><@s.m "cmsStatic.function.channel"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/static/v_content.do">
+		<li><a href="../static/v_content.do" target="rightFrame"><@s.m "cmsStatic.function.content"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/lucene/v_index.do">
+		<li><a href="../lucene/v_index.do" target="rightFrame"><@s.m "cmsLucene.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/acquisition/v_list.do">
+		<li><a href="../acquisition/v_list.do" target="rightFrame"><@s.m "cmsAcquisition.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/acquisition/v_history.do">
+		<li><a href="../acquisition/v_history.do" target="rightFrame"><@s.m "cmsAcquisition.function.history"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/acquisition/v_progress.do">
+		<li><a href="../acquisition/v_progress.do" target="rightFrame"><@s.m "cmsAcquisition.function.progress"/></a></li>
+		</@cms_perm>
+     </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+
+function ajaxSubmit() {
+	$.post("o_ajaxUpdate.do", {
+		"root" : $("#root").val(),
+		"name" : $("#name").val(),
+		"source" : $("#source").val()
+	}, function(data) {
+		if (data.success) {
+			alert("<@s.m "global.success.save"/>");
+		} else {
+			alert(data.msg);
+		}
+	}, "json");
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "template.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="hidden" name="root" value="${root}"/>
+		<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do'"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<div class="editor-style">
+<div class="editor-bbg">
+<form action="v_edit.do" method="post" style="padding-top:5px;">
+<input type="hidden" name="root" value="${root}"/>
+<input type="hidden" name="name" value="${name!}"/>
+<input type="radio" name="style" value="textarea" checked="checked" onclick="this.form.submit();" style="margin-left:40px;"/><@s.m "template.textarea"/>
+<input type="radio" name="style" value="editor" onclick="this.form.submit();" style="margin-left:95px;"/><@s.m "template.editor"/>
+</form>
+</div>
+</div>
+<@p.form id="jvForm" action="o_ajaxUpdate.do" labelWidth="15" onsubmit="ajaxSubmit();return false;">
+<@p.td label="template.filename" help="template.source.help"><input type="text" value="${template.filename}" readonly="readonly" size="40" class="disabled"/></@p.td><@p.tr/>
+<@p.td>
+	<@p.textarea id="source" name="source" value=template.source style="width:90%;height:350px" wrap="off" maxlength="1232896" onkeydown="if((event.keyCode==115||event.keyCode==83)&&event.ctrlKey){ajaxSubmit();return false;}"/>
+</@p.td><@p.tr/>
+<@p.td>
+	<@p.hidden id="name" name="name" value=template.name/>
+	<@p.hidden id="root" name="root" value=root/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

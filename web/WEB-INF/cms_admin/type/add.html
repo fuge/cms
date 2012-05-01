@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "contentType.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text colspan="1" width="50" label="contentType.id" name="id" required="true" class="required digits" maxlength="5"/>
+<@p.text colspan="1" width="50" label="contentType.name" name="name" required="true" class="required" maxlength="150"/><@p.tr/>
+<@p.radio colspan="1" width="50" label="contentType.hasImage" name="hasImage" required="true" value="false" list={"true":"global.true","false":"global.false"}/>
+<@p.radio colspan="1" width="50" label="contentType.disabled" name="disabled" required="true" value="false" list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<@p.text colspan="1" width="50" label="contentType.imgWidth" name="imgWidth" value="139" required="true" class="required digits" maxlength="5"/>
+<@p.text colspan="1" width="50" label="contentType.imgHeight" name="imgHeight" value="139" required="true" class="required" maxlength="150"/><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsSiteFlow" table="jc_site_flow">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="integer" column="flow_id"><generator class="identity"/></id>
+		<property name="accessIp" column="access_ip" type="string" not-null="true" length="50"/>
+		<property name="accessDate" column="access_date" type="string" not-null="true" length="50"/>
+		<property name="accessTime" column="access_time" type="timestamp" length="19"/>
+		<property name="accessPage" column="access_page" type="string" not-null="true" length="255"/>
+		<property name="refererWebSite" column="referer_website" type="string" length="255"/>
+		<property name="refererPage" column="referer_page" type="string" length="255"/>
+		<property name="refererKeyword" column="referer_keyword" type="string" length="255"/>
+		<property name="area" type="string" length="50"/>
+		<property name="sessionId" column="session_id" type="string" not-null="true" length="50"/>
+		<many-to-one name="site" column="site_id" class="foo.cms.entity.main.CmsSite" not-null="true"/>
+	</class>
+</hibernate-mapping>

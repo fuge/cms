@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+	<channel>
+		<title>${site.name}</title>
+		<link>http://www.jeecms.com/</link>
+		<description>Latest 50 infos of JEECMS</description>
+		<copyright>Copyright(C) JEECMS</copyright>
+		<generator>JEECMS</generator>
+		<lastBuildDate>Sat, 03 Apr 2010 02:07:54 +0000</lastBuildDate>
+		<ttl>60</ttl>
+		[@cms_content_list count='60' orderBy='2' channelOption='1']
+		[#list tag_list as a]
+		<item>
+			<title><![CDATA[${a.title}]]></title>
+			<description><![CDATA[${a.description!}]]></description>
+			<link>${a.url}</link>
+			<guid>${a.url}</guid>
+			<category>${a.ctgName}</category>
+			<author><![CDATA[${a.author!'本站编辑'}]]></author>
+			<pubDate>${a.releaseDate}</pubDate>
+		</item>
+		[/#list]
+		[/@cms_content_list]
+	</channel>
+</rss>

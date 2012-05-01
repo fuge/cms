@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+var types = [];
+<#list typeList as t>
+	types[${t_index}] = {hasImage:${t.hasImage?string('true','false')},imgWidth:${t.imgWidth},imgHeight:${t.imgHeight}};
+</#list>
+function typeChange(n) {
+	var tr = $('#tr-typeImg');
+	tr.toggle(types[n].hasImage);
+	$('#zoomWidth0').val(types[n].imgWidth);
+	$('#zoomHeight0').val(types[n].imgHeight);
+}
+$.validator.methods.leafChannel = function(value, element, param) {
+	var i = element.selectedIndex;
+	return $(element.options[i]).attr("class")!="sel-disabled";
+}
+$(function() {
+	$("#titleColor").colorPicker();
+	$("#jvForm").validate({
+		rules: {
+			channelId: {
+				required: true,
+				leafChannel: true
+			},
+			mediaType: {
+				required: function() {return $("#mediaPath").val()!=""}
+			}
+		},
+		messages:{
+			channelId: {
+				leafChannel: "<@s.m "content.error.notLeafChannel"/>"
+			},
+			mediaType:$.validator.messages.required
+		}
+	});
+	var tr = $('#tr-typeImg');
+	tr.toggle(${content.type.hasImage?string("true","false")});
+	<#if content.typeImg??>
+	$("#preImg0").css("width","auto").css("height","auto").attr("src","${content.typeImg}?d="+new Date()*1);
+	</#if>
+	<#if content.titleImg??>
+	$("#preImg1").css("width","auto").css("height","auto").attr("src","${content.titleImg}?d="+new Date()*1);
+	</#if>
+	<#if content.contentImg??>
+	$("#preImg2").css("width","auto").css("height","auto").attr("src","${content.contentImg}?d="+new Date()*1);
+	</#if>
+	
+	$("#channelsDialog").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 280,
+		height: 400,
+		position: ["center",20],
+		buttons: {
+			"OK": function() {
+				$("#channelsSelector input[name='channels']:checked").each(function(){
+					appendChannels(this);
+					$(this).removeAttr("checked");
+				});
+				$(this).dialog("close");
+			}
+		}
+	});
+	$('#channelsLink').click(function(){
+		$('#channelsDialog').dialog('open');
+		return false;
+	});	
+	$("#channelsSelector").treeview({
+		url: "v_tree_channels.do"
+	});
+});
+
+function appendChannels(channel) {
+	var hasContain = false;
+	$("input[name=channelIds]").each(function() {
+		if($(this).val()==$(channel).val()) {
+			hasContain = true;
+		}
+	});
+	if(hasContain) {
+		return;
+	}
+	var nodeList = eval($(channel).attr("nodeList"));
+	var s = "<div style='padding-top:3px'>";
+	for(var i=0,len=nodeList.length;i<len;i++) {
+		s += nodeList[i];
+		if(i<len-1) {
+			s += " > ";
+		}
+	}
+	s += " <a href='javascript:void(0);' onclick='$(this).parent().remove();' class='pn-opt'><@s.m "global.delete"/></a>";
+	s += "<input type='hidden' name='channelIds' value='"+$(channel).val()+"'/>";
+	s += "</div>";
+	$("#channelsContainer").append(s);
+}
+</script>
+<style type="text/css">
+.sel-disabled{background-color:#ccc}
+</style>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "content.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+		<input type="hidden" name="pageNo" value="${pageNo!}"/>
+		<input type="hidden" name="cid" value="${cid!}"/>
+		<#list .data_model?keys as pkey>
+		<#if pkey?starts_with('query')><input type="hidden" name="${pkey}" value="${(.data_model[pkey])!?string}"/></#if><#t/>
+		</#list>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<#include "/common/image_upload.html"/>
+<#include "attachment_upload.html"/>
+<#include "media_upload.html"/>
+<@p.form id="jvForm" action="o_update.do" labelWidth="10">
+<#assign count=0/>
+<#list itemList as item>
+<#if !item.single><#assign count=count+1/></#if>
+<#if !item.custom>
+
+
+<#if item.field=="channelId">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.td required="true" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+<div style="float:left">
+<div>
+<select name="${item.field}">
+	<option value="" class="sel-disabled"><@s.m "global.pleaseSelect"/></option>
+<#if channelList?size gt 0>
+<#assign origDeep=channelList[0].deep+1/>
+<#list channelList as c>
+	<#if c.hasContent || c.child?size gt 0>
+	<option value="${c.id}"<#if c.id == content.channel.id> selected="selected"</#if><#if c.model.id != model.id || c.child?size gt 0> class="sel-disabled"</#if>><#if c.deep gte origDeep><#list origDeep..c.deep as i>&nbsp;&nbsp;</#list>></#if>${c.name}</option>
+	</#if>
+</#list>
+</#if>
+</select> <input class="vice-channel" id="channelsLink" type="button" value="<@s.m "content.channels"/>"/>
+<span class="pn-fhelp">${h}</span>
+</div>
+<div><label for="channelId" class="error" generated="true"></label></div>
+<div id="channelsContainer">
+<#list content.channelsWithoutMain as c>
+<div style="padding-top:3px">
+<#list c.nodeList as node><span>${node.name}</span><#if node_has_next> > </#if></#list>
+<a href="javascript:void(0);" onclick="$(this).parent().remove();" class="pn-opt"><@s.m "global.delete"/></a>
+<input type="hidden" name="channelIds" value="${c.id}"/></div>
+</#list>
+</div>
+</div>
+
+<div style="float:left;padding-left:7px;<#if topicList?size == 0>display:none</#if>">
+<@s.m "content.topicIds"/>: <span id="topics"><@p.checkboxlist valueList=topicIds list=topicList listKey="id" listValue="sname" name="topicIds"/></span>
+</div>
+<div style="clear:both"></div>
+</@p.td>
+
+<#elseif item.field=="title">
+<@p.td required="true" help=item.help helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+<@p.text value=content.title class="required" maxlength="150" size="${item.size!70}" name=item.field/>
+<label><input type="checkbox" onclick="$('#linkDiv').toggle(this.checked);if(!this.checked){$('#link').val('');}"<#if content.link??> checked="checked"</#if>/><@s.m "content.link"/></label>
+<div id="linkDiv"<#if !content.link??> style="display:none"</#if>>url: <input type="text" id="link" name="link" value="${content.link!}" size="35" maxlength="255"/></div>
+</@p.td>
+
+<#elseif item.field=="shortTitle">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.text value=content.shortTitle class="pn-fruler" maxlength="150" size="${item.size!35}" help="${h}" helpPosition="${item.helpPosition!3}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+
+<#elseif item.field=="titleColor">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.td help="${h}" helpPosition="${item.helpPosition!3}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+<input type="text" id="${item.field}" name="${item.field}" value="${content.titleColor!}" style="width:70px"/>
+&nbsp; <label><input type="checkbox" onclick="$('#bold').val(this.checked)"<#if content.bold> checked="checked"</#if>/><@s.m "content.bold"/><input type="hidden" id="bold" name="bold" value="${content.bold?string('true','false')}"/></label>
+</@p.td>
+
+<#elseif item.field=="tagStr">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.text value=content.tagStr maxlength="50" size="${item.size!35}" help="${h}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+
+<#elseif item.field=="description">
+<@p.textarea value=content.description cols="${item.cols!70}" rows="${item.rows!3}" maxlength="255" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+
+<#elseif item.field=="author">
+<@p.td help=item.help helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+<@p.text name=item.field value=content.author maxlength="100" size="${item.size!}"/>
+</@p.td>
+
+<#elseif item.field=="origin">
+<@p.td help=item.help helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+<@p.text name=item.field value=content.origin maxlength="100" style="width:70px"/> &nbsp;
+<@s.m "content.originUrl"/>: <input type="text" name="originUrl" value="${content.originUrl!}" maxlength="255" style="width:100px"/>
+</@p.td>
+
+<#elseif item.field=="viewGroupIds">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.checkboxlist list=groupList valueList=groupIds listKey="id" listValue="name" help="${h}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+
+<#elseif item.field=="topLevel">
+<@p.td help=item.help helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+<@p.select value=content.topLevel list={"0":"content.topLevel.0","1":"content.topLevel.1","2":"content.topLevel.2","3":"content.topLevel.3","4":"content.topLevel.4","5":"content.topLevel.5","6":"content.topLevel.6"} name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+&nbsp;<@s.m "content.sortDate"/>: <@p.text name="sortDate" value=content.sortDate style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/>
+</@p.td>
+
+<#elseif item.field=="releaseDate">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.text value=content.releaseDate style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" help="${h!}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+
+<#elseif item.field=="typeId">
+<@p.td help=item.help helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
+<@p.select value=content.type.id list=typeList listKey="id" listValue="name" onchange="typeChange(this.selectedIndex)" name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+&nbsp; <label><input type="checkbox" onclick="$('#recommend').val(this.checked)"<#if content.recommend> checked="checked"</#if>/><@s.m "content.recommend"/><input type="hidden" id="recommend" name="recommend" value="${content.recommend?string('true','false')}"/></label>
+&nbsp; <label><input type="checkbox" onclick="$('#draft').val(this.checked)"<#if content.draft> checked="checked"</#if>/><@s.m "content.draft"/><input type="hidden" id="draft" name="draft" value="${content.draft?string('true','false')}"/></label>
+</@p.td>
+
+<#elseif item.field=="tplContent">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.select value=tplContent list=tplList headerKey="" headerValue="global.default" name=item.field help="${h}" helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+
+<#elseif item.field=="typeImg">
+<@p.td id="typeImg" label=item.label colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath0" name="typeImg" value=content.typeImg style="width:220px"/> <input type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(0);" class="preview-button"/><br/>
+<span id="ufc0" style="position:relative">
+<input type='text' id='uploadFileText0' size="14"/>  
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText0').val(this.value)" size="14" type="file" id="uploadFile0" class="file-button"/>
+</span>
+<label><input type="checkbox" onclick="$('#mark0').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark0" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(0);" class="upload-button"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth0" value="${content.type.imgWidth}" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight0" value="${content.type.imgHeight}" size="5"/> <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(0);" class="cut-button"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg0" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#ccc;border:1px solid #333"/>
+</@p.td>
+
+<#elseif item.field=="titleImg" && (channel.hasTitleImg)!true>
+<@p.td id="titleImg" label=item.label colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath1" name="titleImg" value=content.titleImg style="width:220px"/> <input type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(1);" class="preview-button"/><br/>
+<span id="ufc1" style="position:relative">
+<input type='text' id='uploadFileText1' size="14"/>  
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText1').val(this.value)" size="14" type="file" id="uploadFile1" class="file-button"/>
+</span>
+<label><input type="checkbox" onclick="$('#mark1').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark1" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(1);" class="upload-button"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth1" value="${(channel.titleImgWidth)!}" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight1" value="${(channel.titleImgHeight)!}" size="5"/> <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(1);" class="cut-button"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg1" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#ccc;border:1px solid #333"/>
+</@p.td>
+
+<#elseif item.field=="contentImg" && (channel.hasContentImg)!true>
+<@p.td id="contentImg" label=item.label colspan="1" width="50" noHeight="true">
+<@p.text id="uploadImgPath2" name="contentImg" value=content.contentImg style="width:220px"/> <input type="button" value="<@s.m "imageupload.preview"/>" onclick="previewImg(2);" class="preview-button"/><br/>
+<span id="ufc2" style="position:relative">
+<input type='text' id='uploadFileText2' size="14"/>  
+<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+<input onchange="$('#uploadFileText2').val(this.value)" size="14" type="file" id="uploadFile2" class="file-button"/>
+</span>
+<label><input type="checkbox" onclick="$('#mark2').val(this.checked);"/><@s.m "imageupload.mark"/></label><input type="hidden" id="mark2" value="false"/> <input type="button" value="<@s.m "imageupload.upload"/>" onclick="upload(2);" class="upload-button"/><br/>
+<@s.m "global.width"/>: <input type="text" id="zoomWidth2" value="${(channel.contentImgWidth)!}" size="5"/> <@s.m "global.height"/>: <input type="text" id="zoomHeight2" value="${(channel.contentImgWidth)!}" size="5"/> <input type="button" value="<@s.m "imageupload.cut"/>" onclick="imgCut(2);" class="cut-button"/> 
+</@p.td><@p.td colspan="1" width="50">
+<img id="preImg2" alt="<@s.m "imageupload.preview"/>" style="width:100px;height:70px;background-color:#ccc;border:1px solid #333"/>
+</@p.td>
+
+<#elseif item.field=="attachments">
+<@p.td label=item.label colspan="2" noHeight="true">
+<table id="attachTable" border="0">
+<tr>
+	<td align="center"><input class="add" type="button" onclick="addAttachLine();" value="<@s.m "content.attachmentAddLine"/>"/></td>
+	<td align="center"><@s.m "content.attachmentName"/></td>
+	<td align="center"><@s.m "content.attachmentPath"/></td>
+	<td align="center"><@s.m "content.fileUpload"/></td></tr>
+<#list content.attachments as attach>
+<tr id="attachTr${attach_index}">
+	<td align="center"><a onclick="$('#attachTr${attach_index}').remove();" href="javascript:void(0);" class="pn-opt"><@s.m "content.attachmentDelLine"/></a></td>
+	<td align="center"><input type="text" id="attachmentNames${attach_index}" name="attachmentNames" value="${attach.name!}"/></td>
+	<td align="center"><input type="text" id="attachmentPaths${attach_index}" name="attachmentPaths" value="${attach.path!}"/></td>
+	<td align="center">
+		<span id="afc${attach_index}" style="position:relative;display:block;width:300px;*width:300px;">
+		<input type='text' id='attachmentText${attach_index}'/>  
+		<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+		<input onchange="$('#attachmentText${attach_index}').val(this.value)" size="19" type="file" name="attachmentFile" id="attachmentFile${attach_index}" class="file-button-other"/>
+		<input type="button" value="<@s.m "content.fileUpload"/>" onclick="uploadAttachment(${attach_index});" class="upload-button"/>
+		</span>
+		<input type="hidden" id="attachmentFilenames${attach_index}" name="attachmentFilenames" value="${attach.filename!}"/>
+	</td>
+</tr>
+</#list>
+</table>
+<textarea id="attachTr" style="display:none">
+<tr id="attachTr{0}">
+	<td align="center"><a onclick="$('#attachTr{0}').remove();" href="javascript:void(0);" class="pn-opt"><@s.m "content.attachmentDelLine"/></a></td>
+	<td align="center"><input type="text" id="attachmentNames{0}" name="attachmentNames"/></td>
+	<td align="center"><input type="text" id="attachmentPaths{0}" name="attachmentPaths"/></td>
+	<td align="center">
+		<span id="afc{0}" style="position:relative;display:block;width:300px;*width:300px;">
+		<input type='text' id='attachmentText{0}'/>  
+		<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+		<input onchange="$('#attachmentText{0}').val(this.value)" size="19" type="file" name="attachmentFile" id="attachmentFile{0}" class="file-button-other"/>
+		<input type="button" value="<@s.m "content.fileUpload"/>" onclick="uploadAttachment({0});"/ class="upload-button">
+		</span>
+		<input type="hidden" id="attachmentFilenames{0}" name="attachmentFilenames"/>
+	</td>
+</tr>
+</textarea>
+<script type="text/javascript">
+var attachIndex = ${content.attachments?size};
+var attachTpl = $.format($("#attachTr").val());
+function addAttachLine() {
+	$('#attachTable').append(attachTpl(attachIndex++));
+}
+</script>
+</@p.td>
+
+<#elseif item.field=="media">
+<@p.td label=item.label colspan="1" width="50" noHeight="true">
+<div>
+	<input type="text" id="mediaPath" name="mediaPath" value="${content.mediaPath!}" style="width:265px"/>
+	<input type="hidden" id="origFilename" value="${content.mediaPath!}"/>
+</div>
+<div>
+	<span id="mfc" style="position:relative;display:block;width:300px;*width:300px;">
+	<input type='text' id='mediaFileText'/>  
+	<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+	<input type="button" value="<@s.m "imageupload.upload"/>" onclick="uploadMedia();" class="upload-button"/>
+	<input onchange="$('#mediaFileText').val(this.value)" size="19" type="file" name="mediaFile" id="mediaFile" class="file-button-other"/>
+	</span> 
+</div>
+</@p.td>
+<@p.td colspan="1" width="50" label="content.mediaType">
+<@p.radio name="mediaType" value=content.mediaType list=["WM","REAL","FLV","FLASH"]/>
+<div><label for="mediaType" class="error" generated="true"></label></div>
+</@p.td>
+
+<#elseif item.field=="txt">
+<@p.editor value=content.txt colspan="2" help=item.help helpPosition="${item.helpPosition!}" label=item.label name=item.field/>
+
+<#elseif item.field=="txt1">
+<@p.editor value=content.txt1 colspan="2" help=item.help helpPosition="${item.helpPosition!}" label=item.label name=item.field/>
+
+<#elseif item.field=="txt2">
+<@p.editor value=content.txt2 colspan="2" help=item.help helpPosition="${item.helpPosition!}" label=item.label name=item.field/>
+
+<#elseif item.field=="txt3">
+<@p.editor value=content.txt3 colspan="2" help=item.help helpPosition="${item.helpPosition!}" label=item.label name=item.field/>
+
+<#elseif item.field=="pictures">
+<@p.td label=item.label colspan="2" noHeight="true">
+<div><input class="add-picture" type="button" onclick="addPicLine();" value="<@s.m "content.picturesAdd"/>"/></div>
+<#list content.pictures as p>
+<table id="picTable${p_index+3}" border="0" style="float:left;">
+<tr>
+	<td>
+		<div><input type="text" id="uploadImgPath${p_index+3}" name="picPaths" value="${p.imgPath}" style="width:170px"/> <a href="javascript:void(0);" onclick="$('#picTable${p_index+3}').remove();" class="pn-opt"><@s.m "content.picturesDel"/></a></div>
+		<div>
+		<span id="ufc${p_index+3}" style="position:relative">
+		<input type='text' id='uploadFileText${p_index+3}' size="10"/>  
+		<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+		<input onchange="$('#uploadFileText${p_index+3}').val(this.value)" size="10" type="file" id="uploadFile${p_index+3}" class="file-button"/>
+		</span> 
+		<input type="button" value="<@s.m "content.fileUpload"/>" onclick="upload(${p_index+3});" class="upload-button"/>
+		</div>
+		<div><textarea style="width:200px;height:60px;" name="picDescs" maxlength="255">${p.description!}</textarea></div>
+	</td>
+	<td><img id="preImg${p_index+3}" src="${p.imgPath}" alt="<@s.m "imageupload.preview"/>" noResize="true" style="width:110px;height:110px;background-color:#ccc;border:1px solid #333"/></td>
+</tr>
+</table>
+</#list>
+<div id="picBefore" style="clear:both"></div>
+<textarea id="picTable" style="display:none;">
+<table id="picTable{0}" border="0" style="float:left;">
+<tr>
+	<td>
+		<div><input type="text" id="uploadImgPath{0}" name="picPaths" style="width:160px"/> <a href="javascript:void(0);" onclick="$('#picTable{0}').remove();" class="pn-opt"><@s.m "content.picturesDel"/></a></div>
+		<div>
+		<span id="ufc{0}" style="position:relative">
+		<input type='text' id='uploadFileText{0}' size="10"/>  
+		<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+		<input onchange="$('#uploadFileText{0}').val(this.value)" size="10" type="file" id="uploadFile{0}" class="file-button"/>
+		</span> 
+		<input type="button" value="<@s.m "content.fileUpload"/>" onclick="upload({0});" class="upload-button"/>
+		</div>
+		<div>&lt;textarea style="width:200px;height:60px;" name="picDescs" maxlength="255"&gt;&lt;/textarea&gt;</div>
+	</td>
+	<td><img id="preImg{0}" alt="<@s.m "imageupload.preview"/>" noResize="true" style="width:110px;height:110px;background-color:#ccc;border:1px solid #333"/></td>
+</tr>
+</table>
+</textarea>
+<script type="text/javascript">
+var picIndex = ${content.pictures?size} + 3;
+var picTpl = $.format($("#picTable").val());
+function addPicLine() {
+	$('#picBefore').before(picTpl(picIndex++));
+}
+</script>
+</@p.td>
+</#if>
+
+<#else>
+<@p.selfDefineWidget name="attr_${item.field}" value=content.attr[item.field] size="${item.size!}" list="${item.optValue!}" help=item.help helpPosition="${item.helpPosition!2}" rows="${item.rows!}" cols="${item.cols!}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}" type="${item.dataType}"/>
+</#if>
+
+<#if count%2==0></tr><tr<#if item_has_next><#assign f=itemList[item_index+1].field/> id="tr-${f}"<#if (f=="typeImg" && !typeList[0].hasImage) || (f=="titleImg" && (!channel?? || !channel.hasTitleImg) || (f=="contentImg" && (!channel?? || !channel.hasContentImg)))> style="display:none"</#if></#if>></#if>
+
+</#list>
+<@p.td colspan="2">
+	<@p.hidden name="id" value=content.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+		<input type="hidden" name="pageNo" value="${pageNo!}"/>
+		<input type="hidden" name="cid" value="${cid!}"/>
+		<#list .data_model?keys as pkey>
+	<#if pkey?starts_with('query')><input type="hidden" name="${pkey}" value="${(.data_model[pkey])!?string}"/></#if><#t/>
+		</#list>
+</@p.td>
+</@p.form>
+</div>
+<div id="channelsDialog" title="<@s.m "content.selectChannels"/>" style="display:none;">
+<ul id="channelsSelector" class="filetree"></ul>
+</div>
+</body>
+</html>

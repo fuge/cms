@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+function disablePerms() {
+	if($("input[name=super]:checked").val()=="true") {
+		$(".perm-container input[type=checkbox]").attr("disabled","disabeld");
+	} else {
+		$(".perm-container input[type=checkbox]").removeAttr("disabled");
+	}
+}
+$(function() {
+	$("#jvForm").validate();
+	$("input[name=super]").bind("click",function(){
+		disablePerms();
+	});
+});
+</script>
+<style type="text/css">
+.perm-container{}
+.perm-layout-1{padding:3px 0;}
+.perm-layout-2{padding-left:30px;}
+</style>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsRole.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_save.do" labelWidth="15">
+<@p.text colspan="1" width="50" label="cmsRole.name" name="name" required="true" class="required" maxlength="100"/>
+<@p.text colspan="1" width="50" label="cmsRole.priority" name="priority" value="10" required="true" class="required digits" maxlength="5" style="width:70px"/><@p.tr/>
+<@p.radio colspan="2" label="cmsRole.super" name="super" value="false" list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<@p.td colspan="2" label="cmsRole.perms"><#include "perms.html"/></@p.td><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

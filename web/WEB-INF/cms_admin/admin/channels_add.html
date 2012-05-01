@@ -1,0 +1,10 @@
+<@childChannel channels=channelList deep=0/>
+
+<#macro childChannel channels deep>
+<#list channels as c>
+<option value="${c.id}"><#if deep gt 0><#list 1..deep as i>&nbsp; &nbsp;</#list>></#if>${c.name}</option>
+<#if c.child?size gt 0>
+	<@childChannel channels=c.child deep=deep+1/>
+</#if>
+</#list>
+</#macro>

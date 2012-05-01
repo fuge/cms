@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>修改密码- ${site.name} - Powered by JEECMS</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../../${res}/css/member.css" />
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+
+<body>
+[#include "会员中心页_页头.html"/]
+<div class="container">
+	 [#include "会员中心页_导航.html"/]
+    <div class="mc_right">
+        [#include "会员中心页_页顶.html"/]
+        <div class="mr-top-position">
+		     <div class="mr-top-tit fl">修改密码</div>
+		    <div class="modify fr"><a href="${base}/member/profile.jspx">修改个人资料</a></div>
+		 </div>
+        <div class="mc_content">   
+      		<form id="jvForm" action="pwd.jspx" method="post"> 
+             <table width="98%" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#C8DCF0" style="margin:5px;">
+               <tr>
+                 <td width="150" height="25" align="right" bgcolor="#f6fbff">原密码：</td>
+                 <td bgcolor="#FFFFFF"><input type="password" name="origPwd" autocomplete="off" maxlength="32" vld="{required:true,remote:'checkPwd.jspx',messages:{remote:'原密码不正确'}}"/> <span class="STYLE1">*</span></td>
+               </tr>
+               <tr>
+                 <td height="25" align="right" bgcolor="#f6fbff">新密码：</td>
+                 <td bgcolor="#FFFFFF">
+                 <input type="password" id="newPwd" name="newPwd" autocomplete="off" maxlength="32"/> 不修改请留空</td>
+               </tr>
+               <tr>
+                 <td height="25" align="right" bgcolor="#f6fbff">确认密码：</td>
+                 <td bgcolor="#FFFFFF"><input type="password" autocomplete="off" equalTo="#newPwd"/> 不修改请留空</td>
+               </tr>
+               <tr>
+                 <td height="25" align="right" bgcolor="#f6fbff">E-mail：</td>
+                 <td bgcolor="#FFFFFF"><input type="text" name="email" value="${user.email!?html}" maxlength="100" /></td>
+               </tr>      
+               <tr>
+                 <td height="25" colspan="2" align="center" bgcolor="#f6fbff">
+                 <input type="hidden" name="nextUrl" value="pwd.jspx"/>
+                 <input type="submit" value="提交" class="member_button"/> &nbsp; <input type="reset" value="重置" class="member_button"/>
+                 </td>
+                 </tr>
+             </table>
+             </form>
+   		</div>
+  </div>
+     <div style="clear:both"></div>
+</div>
+</body>
+</html>

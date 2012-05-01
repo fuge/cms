@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function(){
+	Cms.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<div class="left">
+<#include "/${admin_dir}/date.html"/>
+     <ul class="w-lful">
+		<li><a href="config_right.do" target="rightFrame"><@s.m "global.admin.index"/></a></li>
+		<@cms_perm url="/config/v_system_edit.do">
+		<li><a href="../config/v_system_edit.do" target="rightFrame"><@s.m "cmsConfig.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/site_config/v_base_edit.do">
+		<li><a href="../site_config/v_base_edit.do" target="rightFrame"><@s.m "cmsSiteConfig.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/model/v_list.do">
+		<li><a href="../model/v_list.do" target="rightFrame"><@s.m "cmsModel.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/type/v_list.do">
+		<li><a href="../type/v_list.do" target="rightFrame"><@s.m "contentType.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/ftp/v_list.do">
+		<li><a href="../ftp/v_list.do" target="rightFrame"><@s.m "ftp.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/site/v_list.do">
+		<li><a href="../site/v_list.do" target="rightFrame"><@s.m "cmsSite.function"/></a></li>
+		</@cms_perm>
+     </ul>
+</div>
+</body>
+</html>

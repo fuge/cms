@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsMember.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<@p.td width="50" colspan="1" label="cmsUser.username">${cmsMember.username}<#if cmsMember.admin> &nbsp; <span style="color:red">[<@s.m "cmsUser.admin"/>]</span></#if></@p.td>
+<@p.text width="50" colspan="1" label="cmsUser.email" name="email" value=cmsMember.email size="30" class="email"/><@p.tr/>
+<@p.password width="50" colspan="1" label="cmsUser.password" id="password" name="password" help="cmsUser.password.help"/>
+<@p.password width="50" colspan="1" label="cmsUser.pwdAgain" equalTo="#password" help="cmsUser.password.help"/><@p.tr/>
+<@p.select colspan="2" label="cmsUser.group" name="groupId" value=cmsMember.group.id list=groupList listKey="id" listValue="name" required="true"/><@p.tr/>
+<@p.radio width="50" colspan="1" label="cmsUser.disabled" name="disabled" value=cmsMember.disabled list={"true":"global.true","false":"global.false"} required="true"/>
+<@p.td width="50" colspan="1" label="cmsUser.loginCount">${cmsMember.loginCount}</@p.td><@p.tr/>
+<@p.td width="50" colspan="1" label="cmsUser.register">${cmsMember.registerTime?string('yyyy-MM-dd HH:mm:ss')} &nbsp; ${cmsMember.registerIp}</@p.td>
+<@p.td width="50" colspan="1" label="cmsUser.lastLogin">${cmsMember.lastLoginTime?string('yyyy-MM-dd HH:mm:ss')} &nbsp; ${cmsMember.lastLoginIp}</@p.td><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.realname" name="realname" value=cmsMember.realname maxlength="100"/>
+<@p.radio width="50" colspan="1" label="cmsUser.gender" name="gender" value=cmsMember.gender list={"true":"cmsUser.male","false":"cmsUser.female","":"cmsUser.secrecy"}/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.birthday" name="birthday" value=(cmsMember.birthday?string('yyyy-MM-dd'))! onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<@p.text width="50" colspan="1" label="cmsUser.comefrom" name="comefrom" value=cmsMember.comefrom maxlength="150"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.qq" name="qq" value=cmsMember.qq maxlength="100"/>
+<@p.text width="50" colspan="1" label="cmsUser.msn" name="msn" value=cmsMember.msn maxlength="100"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.phone" name="phone" value=cmsMember.phone maxlength="50"/>
+<@p.text width="50" colspan="1" label="cmsUser.mobile" name="mobile" value=cmsMember.mobile maxlength="50"/><@p.tr/>
+<@p.textarea colspan="2" label="cmsUser.intro" name="intro" value=cmsMember.intro maxlength="255" cols="70" rows="5"/><@p.tr/>
+<@p.td colspan="2">
+	<@p.hidden name="id" value=cmsMember.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

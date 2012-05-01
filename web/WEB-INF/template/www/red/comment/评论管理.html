@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>评论管理  - ${site.name} - Powered by JEECMS</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../../${res}/css/member.css" />
+<script type="text/javascript">
+function _gotoPage(pageNo) {
+    try{
+        var tableForm = document.getElementById("tableForm");
+        $("input[name=pageNo]").val(pageNo);
+        tableForm.action="news_comments.jspx";
+        tableForm.onsubmit=null;
+        tableForm.submit();
+    } catch(e) {
+        alert('_gotoPage(pageNo)方法出错');
+    }
+}
+function del_c_by_id(commentId) {
+    try{
+        if(confirm("您确定要删除此篇评论?")){
+            var tableForm = document.getElementById("tableForm");
+            $("#commentId").val(commentId);
+            $("#userId").val("");
+            $("#ip").val("");
+            tableForm.action="comment_delete.jspx";
+            tableForm.onsubmit=null;
+            tableForm.submit();
+        }
+    } catch(e) {
+        alert('del_c_by_id(commentId)方法出错');
+    }
+}
+function del_c_by_user(userId) {
+    try{
+        if(confirm("您确定要删除此人发表的所有评论?")){
+            var tableForm = document.getElementById("tableForm");
+            $("#commentId").val("");
+            $("#userId").val(userId);
+            $("#ip").val("");
+            tableForm.action="comment_delete.jspx";
+            tableForm.onsubmit=null;
+            tableForm.submit();
+        }
+    } catch(e) {
+        alert('del_c_by_user(userId)方法出错');
+    }
+}
+function del_c_by_ip(ip) {
+    try{
+        if(confirm("您确定要删除来自ip:"+ip+"发表的所有评论?")){
+            var tableForm = document.getElementById("tableForm");
+            $("#commentId").val("");
+            $("#userId").val("");
+            $("#ip").val(ip);
+            tableForm.action="comment_delete.jspx";
+            tableForm.onsubmit=null;
+            tableForm.submit();
+        }
+    } catch(e) {
+        alert('del_c_by_user(userId)方法出错');
+    }
+}
+</script>
+</head>
+
+<body>
+[#include "../member/会员中心页_页头.html"/]
+<div class="container">
+	 [#include "../member/会员中心页_导航.html"/]
+    <div class="mc_right">
+        [#include "../member/会员中心页_页顶.html"/]
+        <div class="mr-top-position">
+		     <div class="mr-top-tit fl">评论管理</div>
+		    <div class="modify fr"><a href="${base}/member/news_comments.jspx">评论管理</a></div>
+		 </div>
+        <div class="mc_content">   
+           <form id="tableForm" action="news_comments.jspx" method="post">
+            [#if pagination.list?size gt 0]
+            <table border="0" cellpadding="0" cellspacing="1" bgcolor="#C8DCF0" class="tblist">
+            <tr>
+                <th>评论的信息</th>
+                <th>评论人</th>
+                <th>评论时间</th>
+                <th>评论内容</th>
+                <th>评论ip</th>
+                <th>操作</th>
+            </tr>
+            [#list pagination.list as c]
+            <tr>	
+                <td bgcolor="#FFFFFF" title="${c.content.title!}"><a href="${c.content.url!}" target="_blank">[@text_cut s=c.content.title len='15' append='...'/]</a></td>
+                <td bgcolor="#FFFFFF">
+                    [#if c.commentUser??]
+                        <span style="cursor: pointer;" onclick="del_c_by_user('${c.commentUser.id!}')">${(c.commentUser.username)!"匿名网友"}</span>
+                    [#else]
+                        匿名网友
+                    [/#if]
+                </td>
+                <td bgcolor="#FFFFFF">${c.createTime}</td>
+                <td bgcolor="#FFFFFF" title="${c.textHtml!}">[@text_cut s=c.textHtml len='15' append='...'/]</td>
+                <td bgcolor="#FFFFFF"><span style="cursor: pointer;" onclick="del_c_by_ip('${c.ip!}')">${c.ip!}</span></td>
+                <td bgcolor="#FFFFFF"><span style="cursor: pointer;" onclick="del_c_by_id('${c.id!}')">删除</span></td>
+            </tr>
+            [/#list]
+            </table>
+            <input type="hidden" name="commentId" id="commentId"/>
+            <input type="hidden" name="userId" id="userId"/>
+            <input type="hidden" name="ip" id="ip"/>
+            <input type="hidden" name="nextUrl" id="nextUrl" value="${base}/member/news_comments.jspx"/>
+            <input type="hidden" name="pageNo"/>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center" class="pn-sp">
+                共 ${pagination.totalCount} 条&nbsp;
+                每页 ${pagination.pageSize} 条&nbsp;
+                <input type="button" value="首 页" onclick="_gotoPage('1');"[#if pagination.firstPage] disabled="disabled"[/#if]/>
+                <input type="button" value="上一页" onclick="_gotoPage('${pagination.prePage}');"[#if pagination.firstPage] disabled="disabled"[/#if]/>
+                <input type="button" value="下一页" onclick="_gotoPage('${pagination.nextPage}');"[#if pagination.lastPage] disabled="disabled"[/#if]/>
+                <input type="button" value="尾 页" onclick="_gotoPage('${pagination.totalPage}');"[#if pagination.lastPage] disabled="disabled"[/#if]/>&nbsp;
+                当前 ${pagination.pageNo}/${pagination.totalPage} 页 &nbsp;转到第<input type="text" id="_goPs" style="width:50px" onfocus="this.select();" onkeypress="if(event.keyCode==13){$('#_goPage').click();return false;}"/>页
+                <input id="_goPage" type="button" value="转" onclick="_gotoPage($('#_goPs').val());"[#if pagination.totalPage==1] disabled="disabled"[/#if]/>
+            </td>
+            </tr>
+            </table>
+            [#else]
+                <div>暂无评论</div>
+            [/#if]
+            </form>
+    	</div>
+  </div>
+     <div style="clear:both"></div>
+</div>
+</body>
+</html>

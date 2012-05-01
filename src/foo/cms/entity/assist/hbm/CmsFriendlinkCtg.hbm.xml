@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsFriendlinkCtg" table="jc_friendlink_ctg">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="integer" column="friendlinkctg_id"><generator class="identity"/></id>
+		<property name="name" column="friendlinkctg_name" type="string" not-null="true" length="50"/>
+		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
+		<many-to-one name="site" column="site_id" class="foo.cms.entity.main.CmsSite" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>

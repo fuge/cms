@@ -1,0 +1,54 @@
+[#--
+图文列表向左滚动
+
+rollLineHeight: 滚动区行高；【按像素px计算】不能为空
+rollSpeed: 滚动速度；【滚动速度，值越小越快，最小为1】不能为空
+rollSpan: 滚动跨度；【一次滚动的像素，跨度越大，滚动就越快，但越不流畅】不能为空
+--]
+[#if !picWidth?? || picWidth==''][#assign picWidth=''/][/#if]
+[#if !picHeight?? || picHeight==''][#assign picHeight=''/][/#if]
+[#if !picFloat?? || picFloat==''][#assign picFloat='0'/][/#if]
+[#if !rightPadding?? || rightPadding==''][#assign rightPadding='0'/][/#if]
+[#if !showTitleStyle?? || showTitleStyle==''][#assign showTitleStyle='1'/][/#if]
+[#if !useShortTitle?? || useShortTitle==''][#assign useShortTitle='1'/][/#if]
+[#if !target?? || target==''][#assign target='0'/][/#if]
+
+[#if !rollLineHeight?? || rollLineHeight==''][#assign rollLineHeight=''/][/#if]
+[#if !rollSpan?? || rollSpan==''][#assign rollSpan='1'/][/#if]
+[#if !rollSpeed?? || rollSpeed==''][#assign rollSpeed='20'/][/#if]
+
+[#if tag_list?size gt 0 || !emptyMsg??]
+[#assign picFloat='0'/]
+[#assign RLID][@uuid/][/#assign]
+<div id="roll-${RLID}"[#if cssClass??] class="${cssClass}"[/#if] style="width:100%;overflow:hidden;white-space:nowrap;${cssStyle!}" onmouseover="clearInterval(proll${RLID}.pevent)" onmouseout="proll${RLID}.pevent=setInterval(function(){proll${RLID}.roll.call(proll${RLID})},proll${RLID}.speed)">
+	<table width="100%" align="left" cellpadding="0" cellspacing="0" border="0"><tr>
+	<td id="roll-orig-${RLID}">
+		<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+[#list tag_list as ctt]
+<td[#if rollLineHeight!=''] style="height:${rollLineHeight}px;"[/#if] valign="middle">
+[#include 'style_1-2_core.html'/]
+</td>
+[/#list]
+		</tr></table>
+	</td>
+	<td id="roll-copy-${RLID}"></td>
+	</tr></table>
+</div>
+<script type="text/javascript">
+var proll${RLID}=new Cms.LeftRoller("${RLID}",${rollSpeed},${rollSpan});
+</script>
+[#else]
+<div class="${emptyClass!'empty-body'}"[#if emptyStyle??] style="${emptyStyle}"[/#if]>${emptyMsg!}</div>
+[/#if]
+
+[#assign rollLineHeight=''/]
+[#assign rollSpeed=''/]
+[#assign rollSpan=''/]
+
+[#assign picWidth=''/]
+[#assign picHeight=''/]
+[#assign picFloat=''/]
+[#assign rightPadding=''/]
+[#assign showTitleStyle=''/]
+[#assign useShortTitle=''/]
+[#assign target=''/]

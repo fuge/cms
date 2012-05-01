@@ -1,0 +1,41 @@
+a{text-decoration:none;}
+#info{height:25px;width:540px;font-size:12px;}
+#tab * {font-size:12px;}
+#tab h3 a {display:inline-block;}
+#tab h3 a {display:block;}
+#tab {position:relative;}
+#tab h3,#tab ul,#tab div,#tab li {margin:0;padding:0;list-style-type:none;}
+#tab ul li {position:absolute;left:0;top:0;float:left;display:block;width:100px;height:30px;font-size:0;}
+#tab ul li#tab2 {left:100px;}
+#tab ul li#tab3 {left:200px;}
+#tab ul li#tab4 {left:300px;}
+#tab ul li div {position:absolute;clear:both;}
+#tab ul li div#oDIV2 {left:-100px;}
+#tab ul li div#oDIV3 {left:-200px;}
+#tab ul li div#oDIV4 {left:-300px;}
+#tab,#tab ul li div,#tab ul li div li {width:100%;}
+#tab {height:700px;background:#FFFFFF;overflow:hidden;}
+#tab ul li h3 a {height:18px;padding:5px 0 2px;margin:5px 0px 0px 5px;text-align:center;
+border:solid #ccc 1px;border-bottom:none;color:#333;}
+#tab ul li h3 a:hover {background-color:#ddd;border-color:#fff;}
+#tab ul li.up h3 a {background:#999;border-color:#fff #999 #999 #fff;color:#fff;}
+#tab ul li div {border:solid #999;border-width:1px 0;background:#f7f7f7;width:100%;height:167px;}
+#tab ul li #oDIV1 ol {margin:8px;padding:0;}
+#tab ul li #oDIV1 ol li {position:static;float:none;font-size:0;height:auto;}
+#tab ul li #oDIV1 ol li a {font-size:12px;display:block;padding:5px 0 1px;}
+#tab ul li #oDIV2 img {margin:8px;border:none;}
+#tab #oDIV1 iframe {border:none;width:100%;height:660px;margin:5px;padding-top:40px;}
+#tab #oDIV2 iframe {border:none;width:100%;height:660px;margin:5px;padding-top:40px;}
+#tab #oDIV3 iframe {border:none;width:100%;height:660px;margin:5px;padding-top:40px;}
+#tab #oDIV4 iframe {border:none;width:100%;height:660px;margin:5px;padding-top:40px;}
+.keyupImg{background:#999;border-color:#fff #999 #999 #fff;color:#fff;}
+.beginImg{height:18px;padding:5px 0 2px;margin:5px 0px 0px 5px;text-align:center;
+border:solid #ccc 1px;border-bottom:none;color:#333;}
+
+
+.tab{ width:540px; margin-left:10px; border-left:1px solid #ccc;}
+.tab li{float:left;}
+.normaltab{background:url(../img/member/member-titbg2.gif) repeat-x; height:37px; width:82px; line-height:36px; text-align:center; cursor:pointer; color:#666; border-right:1px solid #ccc;}
+.curr{background:url(../img/member/member-titbg1.gif) no-repeat; width:75px; height:38px; line-height:36px; text-align:center;}
+.undis{display:none;}
+.mc_content iframe {border:none;width:100%;height:660px; font-size:12px; margin-top:-10px;}

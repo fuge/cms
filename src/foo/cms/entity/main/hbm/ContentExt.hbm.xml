@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="ContentExt" table="jc_content_ext">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="content_id">
+			<generator class="foreign"><param name="property">content</param></generator>
+		</id>
+		<property name="title" column="title" type="string" not-null="true" length="150"/>
+		<property name="shortTitle" column="short_title" type="string" not-null="false" length="150"/>
+		<property name="description" column="description" type="string" not-null="false" length="255"/>
+		<property name="author" column="author" type="string" not-null="false" length="100"/>
+		<property name="origin" column="origin" type="string" not-null="false" length="100"/>
+		<property name="originUrl" column="origin_url" type="string" not-null="false" length="255"/>
+		<property name="releaseDate" column="release_date" type="timestamp" not-null="true" length="19"/>
+		<property name="mediaPath" column="media_path" type="string" not-null="false" length="255"/>
+		<property name="mediaType" column="media_type" type="string" not-null="false" length="20"/>
+		<property name="titleColor" column="title_color" type="string" not-null="false" length="10"/>
+		<property name="bold" column="is_bold" type="java.lang.Boolean" not-null="true"/>
+		<property name="titleImg" column="title_img" type="string" not-null="false" length="100"/>
+		<property name="contentImg" column="content_img" type="string" not-null="false" length="100"/>
+		<property name="typeImg" column="type_img" type="string" not-null="false" length="100"/>
+		<property name="link" column="link" type="string" not-null="false" length="255"/>
+		<property name="tplContent" column="tpl_content" type="string" not-null="false" length="100"/>
+		<property name="needRegenerate" column="need_regenerate" type="java.lang.Boolean" not-null="true"/>
+		<one-to-one name="content" class="Content" constrained="true"/>
+	</class>
+</hibernate-mapping>

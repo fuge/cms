@@ -1,0 +1,35 @@
+[#-- 链接登录
+[#if user??]
+<div>欢迎您: ${user.username} &nbsp; ${user.group.name} &nbsp; <a href="logout.jspx?returnUrl=/">退出登录</a></div>
+[#else]
+<div>
+<a href="${base}/login.jspx?returnUrl=${location}">会员登录</a>
+<a href="${base}/register.jspx">会员注册</a>
+</div>
+[/#if]
+--]
+[#-- 本页登录
+[#if user??]
+<div>欢迎您: ${user.username} &nbsp; ${user.group.name} &nbsp; <a href="logout.jspx?returnUrl=/">退出登录</a></div>
+[#else]
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate($.validator.AlertError);
+});
+</script>
+<form id="jvForm" action="${base}/login.jspx" method="post">
+<input type="hidden" name="returnUrl" value="${location}"/>
+用户名：<input type="text" id="username" name="username" class="required" title="用户名不能为空"/> &nbsp;
+密码：<input type="text" id="password" name="password" class="required" title="密码不能为空"/>
+<input type="submit" value="登录"/> &nbsp;
+<a href="${base}/register.jspx">会员注册</a>
+</form>
+[/#if]
+ --]
+[#--客户端包含登录，用于静态化--]
+<div id="loginCsiDiv"></div>
+<script type="text/javascript">
+$(function(){
+	Cms.loginCsi("${base}","loginCsiDiv",{"returnUrl":"${location}"});
+});
+</script>

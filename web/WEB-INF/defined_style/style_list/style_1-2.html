@@ -1,0 +1,29 @@
+[#--
+图文列表
+--]
+[#if !picWidth?? || picWidth==''][#assign picWidth='24.9'/][/#if]
+[#if !picHeight?? || picHeight==''][#assign picHeight=''/][/#if]
+[#if !picFloat?? || picFloat==''][#assign picFloat='1'/][/#if]
+[#if !rightPadding?? || rightPadding==''][#assign rightPadding='0'/][/#if]
+[#if !target?? || target==''][#assign target='0'/][/#if]
+[#if !showTitleStyle?? || showTitleStyle==''][#assign showTitleStyle='1'/][/#if]
+[#if !useShortTitle?? || useShortTitle==''][#assign useShortTitle='1'/][/#if]
+
+[#if tag_list?size gt 0 || !emptyMsg??]
+<div class="${cssClass!'c2-body'}"[#if cssStyle??] style="${cssStyle}"[/#if]>
+[#list tag_list as ctt]
+[#include "style_1-2_core.html"/]
+[/#list]
+<div class="clear"></div>
+</div>
+[#else]
+<div class="${emptyClass!'empty-body'}"[#if emptyStyle??] style="${emptyStyle}"[/#if]>${emptyMsg!}</div>
+[/#if]
+
+[#assign picWidth=''/]
+[#assign picHeight=''/]
+[#assign picFloat=''/]
+[#assign rightPadding=''/]
+[#assign target=''/]
+[#assign showTitleStyle=''/]
+[#assign useShortTitle=''/]

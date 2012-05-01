@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="CmsLog" table="jc_log">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="integer" column="log_id"><generator class="identity"/></id>
+		<property name="category" column="category" type="integer" not-null="true" length="10"/>
+		<property name="time" column="log_time" type="timestamp" not-null="true" length="19"/>
+		<property name="ip" column="ip" type="string" not-null="false" length="50"/>
+		<property name="url" column="url" type="string" not-null="false" length="255"/>
+		<property name="title" column="title" type="string" not-null="false" length="255"/>
+		<property name="content" column="content" type="string" not-null="false" length="255"/>
+		<many-to-one name="user" column="user_id" class="CmsUser" not-null="false"></many-to-one>
+		<many-to-one name="site" column="site_id" class="CmsSite" not-null="false"></many-to-one>
+	</class>
+</hibernate-mapping>

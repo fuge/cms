@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsModel.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do'" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do">
+<@p.td colspan="2" label="cmsModel.id">${cmsModel.id}</@p.td><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsModel.name" name="name" value=cmsModel.name required="true" class="required" maxlength="100"/>
+<@p.text colspan="1" width="50" label="cmsModel.path" name="path" value=cmsModel.path required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsModel.tplChannelPrefix" name="tplChannelPrefix" value=cmsModel.tplChannelPrefix required="true" class="required" maxlength="20"/>
+<@p.text colspan="1" width="50" label="cmsModel.tplContentPrefix" name="tplContentPrefix" value=cmsModel.tplContentPrefix! maxlength="20"/><@p.tr/>
+<@p.td colspan="1" width="50" label="cmsModel.titleImg">
+<@s.m "global.width"/>: <input type="text" name="titleImgWidth" value="${cmsModel.titleImgWidth}" class="required digits" style="width:50px"/>
+<@s.m "global.height"/>: <input type="text" name="titleImgHeight" value="${cmsModel.titleImgHeight}" class="required digits" style="width:50px"/>
+</@p.td>
+<@p.td colspan="1" width="50" label="cmsModel.contentImg">
+<@s.m "global.width"/>: <input type="text" name="contentImgWidth" value="${cmsModel.contentImgWidth}" class="required digits" style="width:50px"/>
+<@s.m "global.height"/>: <input type="text" name="contentImgHeight" value="${cmsModel.contentImgHeight}" class="required digits" style="width:50px"/>
+</@p.td><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsModel.priority" name="priority" value=cmsModel.priority style="width:70px" required="true" class="required" maxlength="9"/>
+<@p.radio colspan="1" width="50" label="cmsModel.hasContent" name="hasContent" required="true" value=cmsModel.hasContent list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<@p.td colspan="2"><@p.hidden name="id" value=cmsModel.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

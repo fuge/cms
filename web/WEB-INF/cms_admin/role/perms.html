@@ -1,0 +1,191 @@
+<div class="perm-container">
+<#--图片处理权限-->
+<#assign imgPerms="/common/v_image_area_select.do,/common/o_image_cut.do,/common/o_upload_image.do"/>
+<#--默认有的权限，比如后台首页-->
+<input type="hidden" name="perms" value="/index.do,/top.do,/main.do,/left.do,/right.do"/>
+
+<div class="perm-layout-1">
+<label><input value="/personal/" type="checkbox" name="perms"/><@s.m "cmsPersonal.function"/></label>
+</div>
+
+<div class="perm-layout-1">
+<label><input value="/frame/channel,/channel/v_left.do,/channel/v_tree.do,/channel/v_list.do" type="checkbox" name="perms"/><@s.m "cms.function.channel"/></label>
+	<div class="perm-layout-2">
+	<label><input value="/channel/v_add.do,/channel/o_save.do,/fck/upload.do,${imgPerms}" type="checkbox" name="perms"/><@s.m "global.add"/></label>
+	<label><input value="/channel/v_edit.do,/channel/o_update.do,/channel/o_priority.do,/fck/upload.do,${imgPerms}" type="checkbox" name="perms"/><@s.m "global.edit"/></label>
+	<label><input value="/channel/o_delete.do" type="checkbox" name="perms"/><@s.m "global.delete"/></label>	
+	</div>
+</div>
+
+<div class="perm-layout-1">
+<label><input value="/frame/content,/content/v_left.do,/content/v_tree.do,/content/v_list.do,/content/v_view.do" type="checkbox" name="perms"/><@s.m "cms.function.content"/></label>
+	<div class="perm-layout-2">
+	<label><input value="/content/v_add.do,/content/o_save.do,/content/v_tree_channels.do,/content/o_upload_attachment.do,/content/o_upload_media.do,/fck/upload.do,/common/v_image_area_select.do,/common/o_image_cut.do,/common/o_upload_image.do" type="checkbox" name="perms"/><@s.m "global.add"/></label>
+	<label><input value="/content/v_edit.do,/content/o_update.do,/content/v_tree_channels.do,/content/o_upload_attachment.do,/content/o_upload_media.do,/fck/upload.do,/common/v_image_area_select.do,/common/o_image_cut.do,/common/o_upload_image.do" type="checkbox" name="perms"/><@s.m "global.edit"/></label>
+	<label><input value="/content/o_delete.do" type="checkbox" name="perms"/><@s.m "global.delete"/></label>
+	<label><input value="/content/o_check.do,/content/o_reject.do" type="checkbox" name="perms"/><@s.m "content.opt.check"/></label>
+	<label><input value="/content/o_static.do" type="checkbox" name="perms"/><@s.m "content.opt.static"/></label>
+	</div>
+</div>
+
+<div class="perm-layout-1">
+<label><input value="/frame/template,/template/v_left.do,/template/v_tree.do,/template/v_list.do" type="checkbox" name="perms"/><@s.m "cms.function.template"/></label>
+	<div class="perm-layout-2">
+	<label><input value="/template/v_add.do,/template/o_save.do,/template/o_swfupload.do,/template/o_create_dir.do" type="checkbox" name="perms"/><@s.m "global.add"/></label>
+	<label><input value="/template/v_edit.do,/template/o_update.do,/template/v_rename.do,/template/o_rename.do" type="checkbox" name="perms"/><@s.m "global.edit"/></label>
+	<label><input value="/template/o_delete.do,/template/o_delete_single.do" type="checkbox" name="perms"/><@s.m "global.delete"/></label>
+	<label><input value="/template/v_setting.do,/template/o_def_template.do,/template/o_export.do,/template/o_import.do" type="checkbox" name="perms"/><@s.m "template.setting"/></label>
+	</div>
+</div>
+
+<div class="perm-layout-1">
+<label><input name="perms" value="/frame/resource,/resource/v_left.do,/resource/v_tree.do,/resource/v_list.do" type="checkbox"/><@s.m "cms.function.resource"/></label>
+	<div class="perm-layout-2">
+	<label><input value="/resource/v_add.do,/resource/o_save.do,/resource/o_create_dir.do,/resource/v_upload.do,/resource/o_upload.do,/resource/o_swfupload.do" type="checkbox" name="perms"/><@s.m "global.add"/></label>
+	<label><input value="/resource/v_edit.do,/resource/o_update.do,/resource/v_rename.do,/resource/o_rename.do" type="checkbox" name="perms"/><@s.m "global.edit"/></label>
+	<label><input value="/resource/o_delete.do,/resource/o_delete_single.do" type="checkbox" name="perms"/><@s.m "global.delete"/></label>
+	</div>
+</div>
+
+<div class="perm-layout-1">
+<label><input value="/frame/assistant" type="checkbox" name="perms"/><@s.m "cms.function.assistant"/></label>
+<div>
+	<div class="perm-layout-2">
+	<label><input value="/comment/" type="checkbox" name="perms"/><@s.m "cmsComment.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/guestbook/" type="checkbox" name="perms"/><@s.m "cmsGuestbook.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/guestbook_ctg/" type="checkbox" name="perms"/><@s.m "cmsGuestbookCtg.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/vote_topic/" type="checkbox" name="perms"/><@s.m "cmsVoteTopic.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/advertising/" type="checkbox" name="perms"/><@s.m "cmsAdvertising.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/advertising_space/" type="checkbox" name="perms"/><@s.m "cmsAdvertisingSpace.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/friendlink/" type="checkbox" name="perms"/><@s.m "cmsFriendlink.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/friendlink_ctg/" type="checkbox" name="perms"/><@s.m "cmsFriendlinkCtg.function"/></label>
+	</div>
+</div>
+</div>
+
+<div class="perm-layout-1">
+<label><input value="/frame/maintain" type="checkbox" name="perms"/><@s.m "cms.function.maintain"/></label>
+<div>
+	<div class="perm-layout-2">
+	<label><input value="/topic/,${imgPerms}" type="checkbox" name="perms"/><@s.m "cmsTopic.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/tag/" type="checkbox" name="perms"/><@s.m "contentTag.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/keyword/" type="checkbox" name="perms"/><@s.m "cmsKeyword.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/sensitivity/" type="checkbox" name="perms"/><@s.m "cmsSensitivity.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/content_cycle/" type="checkbox" name="perms"/><@s.m "contentCycle.function"/></label>
+	</div>
+</div>
+</div>
+
+<div class="perm-layout-1">
+<label><input value="/frame/generate" type="checkbox" name="perms"/><@s.m "cms.function.generate"/></label>
+<div>
+	<div class="perm-layout-2">
+	<label><input value="/static/" type="checkbox" name="perms"/><@s.m "cmsStatic.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/lucene/" type="checkbox" name="perms"/><@s.m "cmsLucene.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/acquisition/" type="checkbox" name="perms"/><@s.m "cmsAcquisition.function"/></label>
+	</div>
+</div>
+</div>
+
+<div class="perm-layout-1">
+<label><input value="/frame/user" type="checkbox" name="perms"/><@s.m "cms.function.user"/></label>
+<div>
+	<div class="perm-layout-2">
+	<label><input value="/member/" type="checkbox" name="perms"/><@s.m "cmsMember.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/group/" type="checkbox" name="perms"/><@s.m "cmsGroup.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/admin_global/" type="checkbox" name="perms"/><@s.m "cmsAdminGlobal.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/admin_local/" type="checkbox" name="perms"/><@s.m "cmsAdminLocal.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/role/" type="checkbox" name="perms"/><@s.m "cmsRole.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/log/" type="checkbox" name="perms"/><@s.m "cmsLog.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/message/" type="checkbox" name="perms"/><@s.m "cmsMessage.function"/></label>
+	</div>
+</div>
+</div>
+
+<div class="perm-layout-1">
+<label><input value="/frame/config" type="checkbox" name="perms"/><@s.m "cms.function.config"/></label>
+<div>
+	<div class="perm-layout-2">
+	<label><input value="/config/" type="checkbox" name="perms"/><@s.m "cmsConfig.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/site_config/" type="checkbox" name="perms"/><@s.m "cmsSiteConfig.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/model/,/item/" type="checkbox" name="perms"/><@s.m "cmsModel.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/type/" type="checkbox" name="perms"/><@s.m "contentType.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/ftp/" type="checkbox" name="perms"/><@s.m "ftp.function"/></label>
+	</div>
+	<div class="perm-layout-2">
+	<label><input value="/site/" type="checkbox" name="perms"/><@s.m "cmsSite.function"/></label>
+	</div>
+</div>
+</div>
+
+<div class="perm-layout-1">
+<label><input value="/frame/statistic,/statistic,/flow" type="checkbox" name="perms"/><@s.m "cms.function.statistic"/></label>
+</div>
+
+</div>
+<script type="text/javascript">
+$(function() {
+	$(".perm-container input[type=checkbox]").bind("click",function() {
+		parentCheck(this);
+		childCheck(this);
+	});
+});
+function parentCheck(chk) {
+	var obj = $(chk).parent().parent().parent();
+	while(obj && obj.attr("class").indexOf("perm-container")==-1) {
+		if(chk.checked) {
+			$(obj.children()[0]).children().attr("checked",true);
+		}
+		obj = obj.parent();
+	}
+}
+function childCheck(chk) {
+	$(chk).parent().next().children().find("input[type=checkbox]").each(function(){this.checked=chk.checked});
+}
+</script>

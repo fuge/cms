@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsMember.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<#assign usernameExist><@s.m "error.usernameExist"/></#assign>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text width="50" colspan="1" label="cmsUser.username" name="username" required="true" maxlength="100" vld="{required:true,username:true,remote:'v_check_username.do',messages:{remote:'${usernameExist}'}}"/>
+<@p.text width="50" colspan="1" label="cmsUser.email" name="email" size="30" class="email"/><@p.tr/>
+<@p.password width="50" colspan="1" label="cmsUser.password" id="password" name="password" maxlength="100" required="true" class="required"/>
+<@p.password width="50" colspan="1" label="cmsUser.pwdAgain" required="true" equalTo="#password"/><@p.tr/>
+<@p.select colspan="2" label="cmsUser.group" name="groupId" list=groupList listKey="id" listValue="name" required="true"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.realname" name="realname" maxlength="100"/>
+<@p.radio width="50" colspan="1" label="cmsUser.gender" name="gender" list={"true":"cmsUser.male","false":"cmsUser.female","":"cmsUser.secrecy"}/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.birthday" name="birthday" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<@p.text width="50" colspan="1" label="cmsUser.comefrom" name="comefrom" maxlength="150"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.qq" name="qq" maxlength="100"/>
+<@p.text width="50" colspan="1" label="cmsUser.msn" name="msn" maxlength="100"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsUser.phone" name="phone" maxlength="50"/>
+<@p.text width="50" colspan="1" label="cmsUser.mobile" name="mobile" maxlength="50"/><@p.tr/>
+<@p.text colspan="2" label="cmsUser.comefrom" name="comefrom" maxlength="150" size="70"/><@p.tr/>
+<@p.textarea colspan="2" label="cmsUser.intro" name="intro" maxlength="255" cols="70" rows="5"/><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

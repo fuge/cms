@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsSite.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<#assign localeDefault><@s.m "cmsSite.locale.default"/></#assign>
+<#assign domainExist><@s.m "cmsSite.error.domainExist"/></#assign>
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text colspan="1" width="50" label="cmsSite.name" name="name" style="width:260px" required="true" class="required" maxlength="100"/>
+<@p.text colspan="1" width="50" label="cmsSite.shortName" name="shortName" required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsSite.domain" name="domain" required="true" maxlength="50" vld="{required:true,remote:'v_checkDomain.do',messages:{remote:'${domainExist}'}}"/>
+<@p.text colspan="1" width="50" label="cmsSite.path" name="path" required="true" class="required" maxlength="20" help="cmsSite.path.help"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsSite.domainAlias" name="domainAlias" style="width:200px" maxlength="255" help="cmsSite.domainAlias.help"/>
+<@p.text colspan="1" width="50" label="cmsSite.domainRedirect" name="domainRedirect" style="width:200px" maxlength="255" help="cmsSite.domainRedirect.help"/><@p.tr/>
+<@p.radio colspan="1" width="50" label="cmsSite.relativePath" name="relativePath" value="false" list={"true":"global.true","false":"global.false"} required="true" help="cmsSite.relativePath.help"/>
+<@p.select colspan="1" width="50" label="cmsSite.protocol" name="protocol" value="http://" list=["http://","https://"] required="true"/><@p.tr/>
+<@p.select colspan="1" width="50" label="cmsSite.dynamicSuffix" name="dynamicSuffix" list=[".jhtml",".htm"] required="true" help="cmsSite.dynamicSuffix.help"/>
+<@p.select colspan="1" width="50" label="cmsSite.staticSuffix" name="staticSuffix" list=[".html",".shtml"] required="true"/><@p.tr/>
+<@p.td colspan="1" width="50" label="cmsSite.staticDir">
+<@p.text name="staticDir" maxlength="50"/>
+<label><input type="checkbox" onclick="$('#indexToRoot').val(this.checked)"/><input type="hidden" id="indexToRoot" name="indexToRoot" value="false"/><@s.m "cmsSite.indexToRoot"/></label>
+</@p.td>
+<@p.radio colspan="1" width="50" label="cmsSite.staticIndex" name="staticIndex" value="false" list={"true":"global.true","false":"global.false"} required="true"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsSite.localeAdmin" name="localeAdmin" value=localeDefault required="true" class="required" maxlength="10"/>
+<@p.text colspan="1" width="50" label="cmsSite.localeFront" name="localeFront" value=localeDefault required="true" class="required" maxlength="10"/><@p.tr/>
+<@p.td colspan="1" width="50" label="cmsSite.ftp.upload">
+	<@p.select name="uploadFtpId" list=ftpList listKey="id" listValue="name" headerKey="" headerValue="global.none"/>
+</@p.td>
+<@p.radio colspan="1" width="50" label="cmsSite.resycleOn" name="resycleOn" value="true" list={"true":"global.true","false":"global.false"} required="true"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsSite.finalStep" name="finalStep" value="2" required="true" class="required digits"/>
+<@p.select colspan="1" width="50" label="cmsSite.afterCheck" name="afterCheck" value="2" list={"1":"cmsSite.afterCheck.1","2":"cmsSite.afterCheck.2","3":"cmsSite.afterCheck.3"} required="required"/><@p.tr/>
+<@p.td colspan="2">
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="CmsSite" table="jc_site">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="site_id"><generator class="identity"/></id>
+		<property name="domain" column="domain" type="string" not-null="true" length="50"/>
+		<property name="path" column="site_path" type="string" not-null="true" length="20"/>
+		<property name="name" column="site_name" type="string" not-null="true" length="100"/>
+		<property name="shortName" column="short_name" type="string" not-null="false" length="100"/>
+		<property name="protocol" column="protocol" type="string" not-null="true" length="20"/>
+		<property name="dynamicSuffix" column="dynamic_suffix" type="string" not-null="true" length="10"/>
+		<property name="staticSuffix" column="static_suffix" type="string" not-null="true" length="10"/>
+		<property name="staticDir" column="static_dir" type="string" not-null="false" length="50"/>
+		<property name="indexToRoot" column="is_index_to_root" type="java.lang.Boolean" not-null="true"/>
+		<property name="staticIndex" column="is_static_index" type="java.lang.Boolean" not-null="true"/>
+		<property name="localeAdmin" column="locale_admin" type="string" not-null="true" length="10"/>
+		<property name="localeFront" column="locale_front" type="string" not-null="true" length="10"/>
+		<property name="tplSolution" column="tpl_solution" type="string" not-null="true" length="50"/>
+		<property name="finalStep" column="final_step" type="java.lang.Byte" not-null="true" length="3"/>
+		<property name="afterCheck" column="after_check" type="java.lang.Byte" not-null="true" length="3"/>
+		<property name="relativePath" column="is_relative_path" type="java.lang.Boolean" not-null="true"/>
+		<property name="resycleOn" column="is_recycle_on" type="java.lang.Boolean" not-null="true"/>
+		<property name="domainAlias" column="domain_alias" type="string" not-null="false" length="255"/>
+		<property name="domainRedirect" column="domain_redirect" type="string" not-null="false" length="255"/>
+		<many-to-one name="uploadFtp" column="ftp_upload_id" class="foo.core.entity.Ftp" not-null="false"></many-to-one>
+		<many-to-one name="config" column="config_id" class="CmsConfig" not-null="true"></many-to-one>
+		<map name="attr" table="jc_site_attr" cascade="all-delete-orphan">
+			<cache usage="read-write"/>
+			<key column="site_id" not-null="true"/>
+			<map-key column="attr_name" type="string" length="30"/>
+			<element column="attr_value" type="string" length="255"/>
+		</map>
+		<map name="txt" table="jc_site_txt" cascade="all-delete-orphan">
+			<cache usage="read-write"/>
+			<key column="site_id" not-null="true"/>
+			<map-key column="txt_name" type="string" length="30"/>
+			<element column="txt_value" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+		</map>
+		<map name="cfg" table="jc_site_cfg" cascade="all-delete-orphan">
+			<cache usage="read-write"/>
+			<key column="site_id" not-null="true"/>
+			<map-key column="cfg_name" type="string" length="30"/>
+			<element column="cfg_value" type="string" length="255"/>
+		</map>
+	</class>
+</hibernate-mapping>

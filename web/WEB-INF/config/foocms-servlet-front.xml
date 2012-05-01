@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-lazy-init="true">
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="cacheSeconds" value="-1"/>
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/languages/foocms_front/messages</value>
+				<value>/WEB-INF/languages/foocms_tpl/messages</value>
+				<value>/WEB-INF/languages/foocore_admin/messages</value>
+				<value>/WEB-INF/languages/fck/messages</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class="foo.common.web.springmvc.BindingInitializer"/>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="frontContextInterceptor"/>
+				<ref bean="frontLocaleInterceptor"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="frontContextInterceptor" class="foo.cms.web.FrontContextInterceptor"/>
+	<bean id="frontLocaleInterceptor" class="foo.cms.web.FrontLocaleInterceptor"/>
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="cookieName" value="clientlanguage"/>
+		<property name="cookieMaxAge" value="-1"/>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.web.bind.MissingServletRequestParameterException">/WEB-INF/error/requiredParameter.html</prop>
+				<prop key="org.springframework.beans.TypeMismatchException">/WEB-INF/error/mismatchParameter.html</prop>
+				<prop key="org.springframework.web.bind.ServletRequestBindingException">/WEB-INF/error/bindException.html</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="freemarkerViewResolver" class="foo.common.web.springmvc.SimpleFreeMarkerViewResolver">
+		<property name="contentType" value="text/html; charset=UTF-8"/>
+		<property name="exposeRequestAttributes" value="false"/>
+		<property name="exposeSessionAttributes" value="false"/>
+		<property name="exposeSpringMacroHelpers" value="true"/>
+	</bean>
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="uuid" value-ref="uuid"/>
+				<entry key="process_time" value-ref="process_time"/>
+				<entry key="text_cut" value-ref="text_cut"/>
+				<entry key="html_cut" value-ref="html_cut"/>
+				<entry key="cms_pagination" value-ref="cms_pagination"/>
+				<entry key="cms_channel_list" value-ref="cms_channel_list"/>
+				<entry key="cms_channel_page" value-ref="cms_channel_page"/>
+				<entry key="cms_channel" value-ref="cms_channel"/>
+				<entry key="cms_content" value-ref="cms_content"/>
+				<entry key="cms_content_list" value-ref="cms_content_list"/>
+				<entry key="cms_content_page" value-ref="cms_content_page"/>
+				<entry key="cms_tag_list" value-ref="cms_tag_list"/>
+				<entry key="cms_tag_page" value-ref="cms_tag_page"/>
+				<entry key="cms_topic_list" value-ref="cms_topic_list"/>
+				<entry key="cms_topic_page" value-ref="cms_topic_page"/>
+				<entry key="cms_comment_list" value-ref="cms_comment_list"/>
+				<entry key="cms_comment_page" value-ref="cms_comment_page"/>
+				<entry key="cms_guestbook_ctg_list" value-ref="cms_guestbook_ctg_list"/>
+				<entry key="cms_guestbook_list" value-ref="cms_guestbook_list"/>
+				<entry key="cms_guestbook_page" value-ref="cms_guestbook_page"/>
+				<entry key="cms_vote" value-ref="cms_vote"/>
+				<entry key="cms_lucene_list" value-ref="cms_lucene_list"/>
+				<entry key="cms_lucene_page" value-ref="cms_lucene_page"/>
+				<entry key="cms_friendlink_ctg_list" value-ref="cms_friendlink_ctg_list"/>
+				<entry key="cms_friendlink_list" value-ref="cms_friendlink_list"/>
+				<entry key="cms_advertising" value-ref="cms_advertising"/>
+			</map>
+		</property>
+		<!--
+			<property name="preTemplateLoaders">
+				<list>
+					<ref bean="tplMng"/>
+				</list>
+			</property>
+			-->
+		<property name="templateLoaderPath" value=""/>
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="tag_syntax">auto_detect</prop>
+				<prop key="template_update_delay">1</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="url_escaping_charset">UTF-8</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="boolean_format">true,false</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="time_format">HH:mm:ss</prop>
+				<prop key="number_format">0.######</prop>
+				<prop key="whitespace_stripping">true</prop>
+				<!--空值处理<prop key="classic_compatible">true</prop>-->
+				<prop key="auto_import">/WEB-INF/ftl/pony/index.ftl as p,/WEB-INF/ftl/spring.ftl as s</prop>
+			</props>
+		</property>
+	</bean>
+	<context:annotation-config/>
+	
+	<import resource="foocms-servlet-front-action.xml"/>
+
+</beans>

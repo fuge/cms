@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>会员中心 - ${site.name} - Powered by JEECMS</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../../${res}/css/member.css" />
+</head>
+
+<body>
+[#include "会员中心页_页头.html"/]
+<div class="container">
+	 [#include "会员中心页_导航.html"/]
+    <div class="mc_right">
+        [#include "会员中心页_页顶.html"/]
+        <div class="mr-top-position">
+		     <div class="mr-top-tit fl">个人资料</div>
+		    <div class="modify fr"><a href="${base}/member/portrait.jspx">更换头像</a>&nbsp;&nbsp;&nbsp;<a href="${base}/member/profile.jspx">修改个人资料</a></div>
+		</div>
+        <div class="mc_content">   
+             <table width="100%" cellspacing="1" cellpadding="5" border="0" bgcolor="#C8DCF0" align="center">
+               <tbody><tr>
+                 <td width="150" height="25" bgcolor="#f6fbff" align="right">用户名： </td>
+                 <td bgcolor="#FFFFFF">${user.username}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">会员组：</td>
+                 <td bgcolor="#FFFFFF">${user.group.name}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">邮箱：</td>
+                 <td bgcolor="#FFFFFF">${user.email!}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">真实姓名：</td>
+                 <td bgcolor="#FFFFFF">${user.realname!}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">性别：</td>
+                 <td bgcolor="#FFFFFF">[#if user.gender??]${user.gender?string('男','女')}[#else]保密[/#if]</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">出生日期：</td>
+                 <td bgcolor="#FFFFFF">${(user.birthday?string('yyyy-MM-dd'))!}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">自我介绍：</td>
+                 <td bgcolor="#FFFFFF">${user.intro!}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">来自：</td>
+                 <td bgcolor="#FFFFFF">${user.comefrom!}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">QQ：</td>
+                 <td bgcolor="#FFFFFF">${user.qq!}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">MSN：</td>
+                 <td bgcolor="#FFFFFF">${user.msn!}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">电话：</td>
+                 <td bgcolor="#FFFFFF">${user.phone!}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#f6fbff" align="right">手机：</td>
+                 <td bgcolor="#FFFFFF">${user.moble!}</td>
+               </tr>
+               <tr>
+                 <td height="25" bgcolor="#FFFFFF" align="center" colspan="2">
+                 <input type="button" value="修 改" onclick="window.location.href='profile.jspx'" class="member_button"></td>
+                </tr>
+             </tbody></table>     
+    </div>
+  </div>
+     <div style="clear:both"></div>
+</div>
+</body>
+</html>

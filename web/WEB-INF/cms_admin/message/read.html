@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script src="${base}/res/common/js/message.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsMessage.function"/> - <@s.m "cmsMessage.sendMessage"/></div>
+	<form class="ropt">
+		<input type="hidden" name="box" value="${box}"/>
+		<input class="return-button" type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="v_send.do" labelWidth="15">
+
+<@p.td  label="cmsMessage.sendUser" colspan="2" width="50">
+	${message.msgSendUser.username!}
+</@p.td>
+<@p.tr/>
+
+<@p.td  label="cmsMessage.sendTime" colspan="2" width="50">
+	<#if message.sendTime??>${message.sendTime?string('yyyy-MM-dd HH:mm:ss')}</#if>
+</@p.td>
+<@p.tr/>
+
+<@p.td colspan="2" width="50" label="cmsMessage.title">
+	${message.titleHtml!}
+</@p.td>
+<@p.tr/>
+<@p.td colspan="2" width="50" label="cmsMessage.content">
+	${message.contentHtml!}
+</@p.td>
+<@p.tr/>
+<@p.td colspan="2">
+	 <input name="box" type="hidden" value="${box!}" id="box"/>
+         <input name="id" type="hidden" value="${message.id!}"/>
+         <input name="msg" type="hidden" value="${message.titleHtml!}<@s.m 'cmsMessage.trashSuccess'/>"/>
+	     <#if box??>
+	     	<#if box==3>
+	     		<input type="button" onclick="emptySingle('${message.id!}')" value="<@s.m 'cmsMessage.trash'/>"/>
+	     	<#elseif box==2>
+	     		<input type="button" onclick="toSend('${message.id!}')" value="<@s.m 'cmsMessage.send'/>"/>
+     		<#elseif box==0>
+     			<input class="reply" type="button" onclick="reply('${message.id!}')" value="<@s.m 'cmsMessage.reply'/>"/>	
+	     	</#if>
+		</#if>
+		 <input class="forward" type="button" value="<@s.m 'cmsMessage.forward'/>" onclick="forward()"/> 
+		<#if box!=3>
+	     	<input class="del-button" type="button" value="<@s.m 'global.delete'/>" onclick="trash('${message.id!}')"/>
+	     </#if>
+</@p.td>
+
+</@p.form>
+</div>
+</body>
+</html>

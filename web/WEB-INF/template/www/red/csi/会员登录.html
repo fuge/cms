@@ -1,0 +1,5 @@
+[#if user??]
+欢迎您: ${user.username} &nbsp; ${user.group.name} &nbsp; <a href="${base}/member/index.jspx">会员中心</a> &nbsp; <a href="${base}/logout.jspx?returnUrl=/">退出登录</a>
+[#else]
+游客您好，您还没有登录哦！ <a href="${base}/register.jspx">免费注册</a>|<a href="${base}/login.jspx?returnUrl=/">会员登录</a>|<a href="${base}/member/forgot_password.jspx">忘记密码</a>
+[/#if]

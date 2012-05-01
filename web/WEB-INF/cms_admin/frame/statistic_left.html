@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function(){
+	Cms.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<div class="left">
+<#include "/${admin_dir}/date.html"/>
+     <ul class="w-lful">
+		<li><a href="statistic_right.do" target="rightFrame"><@s.m "global.admin.index"/></a></li>
+		<@cms_perm url="/statistic_member/v_list.do">
+		<li><a href="../statistic_member/v_list.do" target="rightFrame"><@s.m "statistic.function.member"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/statistic_content/v_list.do">
+		<li><a href="../statistic_content/v_list.do" target="rightFrame"><@s.m "statistic.function.content"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/statistic_comment/v_list.do">
+		<li><a href="../statistic_comment/v_list.do" target="rightFrame"><@s.m "statistic.function.comment"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/statistic_guestbook/v_list.do">
+		<li><a href="../statistic_guestbook/v_list.do" target="rightFrame"><@s.m "statistic.function.guestbook"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/flow_pv/v_list.do">
+		<li><a href="../flow_pv/v_list.do" target="rightFrame"><@s.m "statistic.function.pv"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/flow_uniqueIp/v_list.do">
+		<li><a href="../flow_uniqueIp/v_list.do" target="rightFrame"><@s.m "statistic.function.uniqueIp"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/flow_uniqueVisitor/v_list.do">
+		<li><a href="../flow_uniqueVisitor/v_list.do" target="rightFrame"><@s.m "statistic.function.uniqueVisitor"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/flow_avgViews/v_list.do">
+		<li><a href="../flow_avgViews/v_list.do" target="rightFrame"><@s.m "statistic.function.avgViews"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/flow_refererWebSite/v_list.do">
+		<li><a href="../flow_refererWebSite/v_list.do" target="rightFrame"><@s.m "statistic.function.refererWebSite"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/flow_refererPage/v_list.do">
+		<li><a href="../flow_refererPage/v_list.do" target="rightFrame"><@s.m "statistic.function.refererPage"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/flow_refererKeyword/v_list.do">
+		<li><a href="../flow_refererKeyword/v_list.do" target="rightFrame"><@s.m "statistic.function.refererKeyword"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/flow_accessPage/v_list.do">
+		<li><a href="../flow_accessPage/v_list.do" target="rightFrame"><@s.m "statistic.function.accessPage"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/flow_area/v_list.do">
+		<li><a href="../flow_area/v_list.do" target="rightFrame"><@s.m "statistic.function.area"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/statistic_flow/v_init.do">
+		<li><a href="../statistic_flow/v_init.do" target="rightFrame"><@s.m "statistic.function.flowinit"/></a></li>
+    	</@cms_perm>
+     </ul>
+</div>
+</body>
+</html>

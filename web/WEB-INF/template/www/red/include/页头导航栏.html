@@ -1,0 +1,44 @@
+<div id="header" class="box">
+  <div id="logo" class="page box">
+    <div class="logo fl" onclick="window.location.href='${base}/'"></div>
+	
+	<div id="search fr" class="page3 box fr" style="padding-top:20px;">
+      <div class="searchform fr">
+	  <form action="${base}/search.jspx" target="_blank">
+        <input name="q" value="${q!'请输入关键词'}" type="text" id="txtKey" onfocus="if(this.value=='请输入关键词')this.value=''" onblur="if(this.value=='')this.value='请输入关键词'" maxlength="50" autocomplete="off" / style="width:381px !important; width:375px;">
+		<span id="fid_box">
+		<select name="channelId" id="fid">
+		  <option value="">所有信息</option>
+		  [@cms_channel_list]
+		  [#list tag_list as c]
+		  <option value="${c.id}">${c.name}</option>
+		  [/#list]
+	      [/@cms_channel_list]
+		</select>
+		</span>
+        <input type="submit" id="btnSearch" value=""/ style="background:url(/${res}/img/button_search.jpg); width:65px; height:25px; ">
+      </form>
+	  </div>
+    </div>
+</div>
+  
+  <div class="box"></div>
+  
+<div id="nav">
+	  <div id="menu" class="page box relative">
+		<dl id="topmenu">  
+		[@cms_channel_list]
+		<dt class="menu_first"><a href="${base}/" target="_self" [#if !channel??]class="selected"[/#if]><span>首 页</span></a></dt>
+		[#list tag_list as c]
+		<dt><a href="${c.url}" target="_self" [#if channel??&&channel.id==c.id] class="selected" [/#if]><span>${c.name}</span></a></dt>
+		[/#list]
+		[/@cms_channel_list]
+               <dt><a href="/guestbook.jspx" target="blank">留言版</a></dt>
+           <dt><a href="http://bbs.jeecms.com" target="blank">论坛</a></dt>
+	  </dl>
+	  </div> 
+</div>
+    
+	
+	
+</div>

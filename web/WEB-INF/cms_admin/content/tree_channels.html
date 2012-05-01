@@ -1,0 +1,34 @@
+<#if isRoot>
+[{
+	"text": "<@s.m "channel.root"/>",
+	"classes": "folder"
+	<#if list?size gt 0>,
+	"expanded": true,
+	"children": [
+	<#list list as channel>
+	<#if channel.hasContent || channel.child?size gt 0>
+		{
+		"id": "${channel.id}",
+		"text": "<#if channel.child?size gt 0>${channel.name}<#else><label><input type='checkbox' name='channels' value='${channel.id}' nodeList='[<#list channel.nodeList as node>\"${node.name}\"<#if node_has_next>,</#if></#list>]'/>${channel.name} [<span style='color:red'>${channel.model.name}</span>]</label></#if>",
+		"classes": "<#if channel.child?size gt 0>folder<#else>file</#if>",
+		"hasChildren": <#if channel.child?size gt 0>true<#else>false</#if>
+		}<#if channel_has_next>,</#if>
+	</#if>
+	</#list>
+	]
+	</#if>
+}]
+<#else>
+	[
+	<#list list as channel>
+	<#if channel.hasContent || channel.child?size gt 0>
+		{
+		"id": "${channel.id}",
+		"text": "<#if channel.child?size gt 0>${channel.name}<#else><label><input type='checkbox' name='channels' value='${channel.id}' nodeList='[<#list channel.nodeList as node>\"${node.name}\"<#if node_has_next>,</#if></#list>]'/>${channel.name} [<span style='color:red'>${channel.model.name}</span>]</label></#if>",
+		"classes": "<#if channel.child?size gt 0>folder<#else>file</#if>",
+		"hasChildren": <#if channel.child?size gt 0>true<#else>false</#if>
+		}<#if channel_has_next>,</#if>
+	</#if>
+	</#list>
+	]
+</#if>

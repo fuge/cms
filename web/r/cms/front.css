@@ -1,0 +1,33 @@
+.img-vm{vertical-align:middle}
+.f-right{float:right}
+.f-left{float:left}
+.clear{clear:both}
+/*分页样式2，当前页链接样式*/
+.p2-crr{color:#FF0000;font-weight:bold;}
+
+/*分页样式3，当前页链接样式*/
+.pg-3{font-size:12px;font-family:Verdana;margin:5px auto;padding:3px;text-align:center;}
+.pg-3 a,.total{border:#eee 1px solid; padding:2px 5px; margin:2px; color:#036cb4; text-decoration:none;}
+.pg-3 a:hover{border:#999 1px solid; color:#666;}
+.pg-3 a:active{border:#999 1px solid; color: #666;}
+.pg-3 .current{border:#036cb4 1px solid; padding:2px 5px; font-weight:bold; margin:2px; color:#fff; background:#036cb4;}
+.pg-3 .disabled{border:#eee 1px solid; padding:2px 5px; margin:2px; color:#ddd;}
+
+/*分页样式4，当前页链接样式*/
+.pg-4{font-size:12px;font-family:Verdana;margin:5px auto;padding:3px;text-align:right;}
+.pg-4 a,.count{border: #ddd 1px solid; padding:2px 5px; color: #88af3f; margin-right: 2px; text-decoration: none;}	
+.pg-4 a:hover{border: #85bd1e 1px solid; color: #638425; background-color: #f1ffd6;}	
+.pg-4 a:active{border:#85bd1e 1px solid; color: #638425; background-color: #f1ffd6;}
+.pg-4 .current{border:#b2e05d 1px solid; padding:2px 5px; font-weight:bold; color:#fff; margin-right:2px; background:#b2e05d;}
+.pg-4 .disabled{border:#f3f3f3 1px solid; padding:2px 5px; color: #ccc; margin-right:2px;}
+
+/*内容样式1，下划线*/
+.c1-bline{border-bottom:#999 1px dashed;border-top:1px;}
+
+/*###/common_res/css/front.css###*/
+label.error{background:url(unchecked.gif) no-repeat 0px 0px;padding-left:16px;margin-left:3px;}
+label.success{background:url(checked.gif) no-repeat 0px 0px;padding-left:16px;margin-left:3px;}
+
+/*###/core_res/css/front.css###*/
+.j-chkcode{position:absolute;display:none;top:50px;left:50px;z-index:100;border:1px solid #999999;background-color:#FFFFFF;}
+.j-chkcode img{cursor:pointer}

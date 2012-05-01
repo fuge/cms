@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$.validator.methods.leafChannel = function(value, element, param) {
+	var i = element.selectedIndex;
+	return $(element.options[i]).attr("class")!="sel-disabled";
+};
+$(function() {
+	$("#jvForm").validate({
+		rules: {
+			channelId: {
+				required: true,
+				leafChannel: true
+			}
+		},
+		messages:{
+			channelId: {
+				leafChannel: "<@s.m "cmsAcquisition.error.notLeafChannel"/>"
+			}
+		}
+	});
+});
+</script>
+<style type="text/css">
+.sel-disabled{background-color:#ccc}
+</style>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsAcquisition.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text colspan="1" width="50" label="cmsAcquisition.name" name="name" required="true" class="required" maxlength="50"/>
+<@p.td colspan="1" width="50" label="cmsAcquisition.info" required="true">
+<@s.m "cmsAcquisition.type"/>: <@p.select list=typeList name="typeId" listKey="id" listValue="name"/>
+&nbsp; <@s.m "cmsAcquisition.channel"/>:
+<select name="channelId">
+<#if !channel??>
+	<option value="" class="sel-disabled"><@s.m "global.pleaseSelect"/></option>
+</#if>
+<#if channelList?size gt 0>
+<#assign origDeep=channelList[0].deep+1/>
+<#list channelList as c>
+	<#if c.hasContent || c.child?size gt 0>
+	<option value="${c.id}"<#if c.child?size gt 0> class="sel-disabled"</#if>><#if c.deep gte origDeep><#list origDeep..c.deep as i>&nbsp;&nbsp;</#list>></#if>${c.name}</option>
+	</#if>
+</#list>
+</#if>
+</select> <span class="pn-fhelp"><@s.m "cmsAcquisition.channel.help"/></span>
+</@p.td><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsAcquisition.pageEncoding" name="pageEncoding" value="GBK" required="true" class="required" maxlength="20" help="cmsAcquisition.pageEncoding.help"/>
+<@p.text colspan="1" width="50" label="cmsAcquisition.pauseTime" name="pauseTime" value="500" style="width:50px" required="true" class="required" maxlength="10" help="cmsAcquisition.pauseTime.help"/><@p.tr/>
+<@p.textarea colspan="2" label="cmsAcquisition.planList" name="planList" rows="5" cols="70" help="cmsAcquisition.planList.help" helpPosition="3"/><@p.tr/>
+<@p.td colspan="2" label="cmsAcquisition.dynamicAddr">
+<div><input type="text" name="dynamicAddr" style="width:450px" maxlength="255"/> <span class="pn-fhelp"><@s.m "cmsAcquisition.dynamicAddr.help"/></span></div>
+<div><@s.m "cmsAcquisition.dynamicPage"/> <@s.m "cmsAcquisition.from"/> <input type="text" name="dynamicStart" value="2" size="7"/> &nbsp; <@s.m "cmsAcquisition.to"/>: <input type="text" name="dynamicEnd" value="10" size="7"/></div> 
+</@p.td><@p.tr/>
+
+<@p.td colspan="2" label="cmsAcquisition.linkset">
+<table border="0" width="100%">
+<tr>
+<td align="center" width="50%"><@s.m "cmsAcquisition.start"/></td>
+<td align="center" width="50%"><@s.m "cmsAcquisition.end"/></td>
+</tr>
+<tr>
+<td align="center" width="50%"><textarea name="linksetStart" rows="4" style="width:85%"></textarea></td>
+<td align="center" width="50%"><textarea name="linksetEnd" rows="4" style="width:85%"></textarea></td>
+</tr>
+</table>
+</@p.td><@p.tr/>
+
+<@p.td colspan="2" label="cmsAcquisition.link">
+<table border="0" width="100%">
+<tr>
+<td align="center" width="50%"><textarea name="linkStart" rows="4" style="width:85%"></textarea></td>
+<td align="center" width="50%"><textarea name="linkEnd" rows="4" style="width:85%"></textarea></td>
+</tr>
+</table>
+</@p.td><@p.tr/>
+
+<@p.td colspan="2" label="cmsAcquisition.title">
+<table border="0" width="100%">
+<tr>
+<td align="center" width="50%"><textarea name="titleStart" rows="4" style="width:85%"></textarea></td>
+<td align="center" width="50%"><textarea name="titleEnd" rows="4" style="width:85%"></textarea></td>
+</tr>
+</table>
+</@p.td><@p.tr/>
+<#--
+<@p.td colspan="2" label="cmsAcquisition.keywords">
+<table border="0" width="100%">
+<tr>
+<td align="center" width="50%"><textarea name="keywordsStart" rows="4" style="width:85%"></textarea></td>
+<td align="center" width="50%"><textarea name="keywordsEnd" rows="4" style="width:85%"></textarea></td>
+</tr>
+</table>
+</@p.td><@p.tr/>
+-->
+<#--
+<@p.td colspan="2" label="cmsAcquisition.description">
+<table border="0" width="100%">
+<tr>
+<td align="center" width="50%"><textarea name="descriptionStart" rows="4" style="width:85%"></textarea></td>
+<td align="center" width="50%"><textarea name="descriptionEnd" rows="4" style="width:85%"></textarea></td>
+</tr>
+</table>
+</@p.td><@p.tr/>
+-->
+<@p.td colspan="2" label="cmsAcquisition.content">
+<table border="0" width="100%">
+<tr>
+<td align="center" width="50%"><textarea name="contentStart" rows="4" style="width:85%"></textarea></td>
+<td align="center" width="50%"><textarea name="contentEnd" rows="4" style="width:85%"></textarea></td>
+</tr>
+</table>
+</@p.td><@p.tr/>
+<#--
+<@p.td colspan="2" label="cmsAcquisition.pagination">
+<table border="0" width="100%">
+<tr>
+<td align="center" width="50%"><textarea name="paginationStart" rows="4" style="width:85%"></textarea></td>
+<td align="center" width="50%"><textarea name="paginationEnd" rows="4" style="width:85%"></textarea></td>
+</tr>
+</table>
+</@p.td><@p.tr/>
+-->
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

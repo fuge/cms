@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>修改 稿件- ${site.name} - Powered by JEECMS</title>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/fckeditor/fckeditor.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../../${res}/css/member.css" />
+<script type="text/javascript">
+$.validator.methods.leafChannel = function(value, element, param) {
+	var i = element.selectedIndex;
+	return $(element.options[i]).attr("class")!="sel-disabled";
+}
+$(function() {
+	$("#jvForm").validate({
+		rules: {
+			channelId: {
+				required: true,
+				leafChannel: true
+			}
+		},
+		messages:{
+			channelId: {
+				leafChannel: "请选择末级栏目"
+			}
+		}
+	});
+});
+</script>
+</head>
+
+<body>
+[#include "会员中心页_页头.html"/]
+<div class="container">
+	 [#include "会员中心页_导航.html"/]
+    <div class="mc_right">
+        [#include "会员中心页_页顶.html"/]
+        <div class="mr-top-position">
+		     <div class="mr-top-tit fl">修改稿件</div>
+		    <div class="modify fr"><a href="${base}/member/contribute_list.jspx">稿件列表</a></div>
+		 </div>
+        <div class="mc_content">   
+            [#if channelList?size gt 0]
+            <form id="jvForm" action="contribute_update.jspx" method="post">
+             <table width="98%" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#C8DCF0" style="margin:5px;">
+               <tr>
+                 <td width="86" height="25" align="right" bgcolor="#f6fbff">标题：</td>
+                 <td width="626" bgcolor="#FFFFFF">
+                 <input type="text" name="title" value="${content.title!?html}" maxlength="150" class="required"/> <span class="STYLE1">*</span></td>
+               </tr>
+               <tr>
+                 <td height="25" align="right" bgcolor="#f6fbff">TAGS：</td>
+                 <td bgcolor="#FFFFFF">
+                 <input type="text" name="tagStr" value="${content.tagStr!?html}" maxlength="255"/> 用,分割</td>
+               </tr>
+               <tr>
+                 <td height="25" align="right" bgcolor="#f6fbff">作者：</td>
+                 <td bgcolor="#FFFFFF"><input type="text" name="author" value="${content.author!?html}" maxlength="100"/></td>
+               </tr>
+               <tr>
+                 <td height="25" align="right" bgcolor="#f6fbff">栏目：</td>
+                 <td bgcolor="#FFFFFF">
+                 <select name="channelId">
+                    [#if channelList?size gt 0]
+                    [#assign origDeep=channelList[0].deep+1/]
+                    [#list channelList as c]
+                        <option value="${c.id}"[#if c.child?size gt 0] class="sel-disabled"[/#if][#if content.channel.id==c.id] selected="selected"[/#if]>[#if c.deep gte origDeep][#list origDeep..c.deep as i]&nbsp;&nbsp;[/#list]>[/#if]${c.name}</option>
+                    [/#list]
+                    [/#if]
+                  </select>
+                 </td>
+               </tr>
+               <tr>
+                 <td height="25" align="right" bgcolor="#f6fbff">摘要：</td>
+                 <td bgcolor="#FFFFFF"><textarea name="description" rows="3" cols="70" maxlength="255"/>${content.description!?html}</textarea></td>
+               </tr> 
+               <tr>
+                 <td height="25" align="right" bgcolor="#f6fbff">内容：</td>
+                 <td bgcolor="#FFFFFF">
+                 <script type="text/javascript">
+                    [#assign editorBasePath="${base}/thirdparty/fckeditor/" filemanager="${editorBasePath}editor/filemanager/browser/default/browser.html"/]
+                    var txt = new FCKeditor("txt");
+                    txt.BasePath = "${editorBasePath}";
+                    txt.Config["CustomConfigurationsPath"]="${base}/thirdparty/fckeditor/myconfig.js";
+                    
+                    txt.Config["LinkBrowser"] = false ;
+                    txt.Config["ImageBrowser"] = false ;
+                    txt.Config["FlashBrowser"] = false ;
+                    txt.Config["MediaBrowser"] = false ;
+                    
+                    txt.Config["LinkBrowserURL"] = "${filemanager}?Connector=${base}/fck/connector.jspx" ;
+                    txt.Config["ImageBrowserURL"] = "${filemanager}?Type=Image&Connector=${base}/fck/connector.jspx" ;
+                    txt.Config["FlashBrowserURL"] = "${filemanager}?Type=Flash&Connector=${base}/fck/connector.jspx" ;
+                    txt.Config["MediaBrowserURL"] = "${filemanager}?Type=Media&Connector=${base}/fck/connector.jspx" ;
+                    
+                    txt.Config["LinkUpload"] = true ;
+                    txt.Config["ImageUpload"] = true ;
+                    txt.Config["FlashUpload"] = true ;
+                    txt.Config["MediaUpload"] = true ;
+                    
+                    txt.Config["LinkUploadURL"] = "${base}/fck/upload.jspx" ;
+                    txt.Config["ImageUploadURL"] = "${base}/fck/upload.jspx?Type=Image" ;
+                    txt.Config["FlashUploadURL"] = "${base}/fck/upload.jspx?Type=Flash" ;
+                    txt.Config["MediaUploadURL"] = "${base}/fck/upload.jspx?Type=Media" ;
+                    
+                    txt.ToolbarSet="My";
+                    txt.Height=200;
+                    txt.Value="${content.txt!?js_string}";
+                    txt.Create();
+                </script>
+                 </td>
+               </tr> 
+               <tr>
+                 <td height="25" colspan="2" align="center" bgcolor="#FFFFFF">
+                    <input type="hidden" name="nextUrl" value="contribute_list.jspx"/>
+                    <input type="hidden" name="id" value="${content.id}"/>
+                    <input type="submit" value="提交" class="member_button"/> <input type="reset" value="重置" class="member_button"/>
+                 </td>
+                 </tr>
+             </table>
+             </form>
+            [#else]
+            <div>系统不允许投稿，请联系管理员！</div>
+            [/#if]
+    	</div>
+  </div>
+     <div style="clear:both"></div>
+</div>
+</body>
+</html>

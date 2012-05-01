@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById('tableForm');
+}
+function optDelete() {
+	if(Pn.checkedCount('ids')<=0) {
+		alert("<@s.m 'error.checkRecord'/>");
+		return;
+	}
+	if(!confirm("<@s.m 'global.confirm.delete'/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete_login_failure.do";
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsLog.function.loginFailure"/> - <@s.m "global.list"/></div>
+	<form class="ropt" action="o_delete_login_failure_batch.do" method="post">
+		<span><@s.m "cmsLog.deleteBatch"/>: </span>
+		<select name="days">
+			<option value="365"><@s.m "cmsLog.yearBefore"/></option>
+			<option value="90"><@s.m "cmsLog.quarterBefore"/></option>
+			<option value="30"><@s.m "cmsLog.monthBefore"/></option>
+			<option value="7"><@s.m "cmsLog.weekBefore"/></option>
+			<option value="0"><@s.m "cmsLog.allLog"/></option>
+		</select>
+		<input class="submit" type="submit" value="<@s.m "global.submit"/>"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<form action="v_list_login_failure.do" method="post" style="padding-top:5px;">
+	<@s.m "cmsLog.title"/>: <input type="text" name="queryTitle" value="${queryTitle!}" style="width:150px"/>
+	<@s.m "cmsLog.ip"/>: <input type="text" name="queryIp" value="${queryIp!}" style="width:150px"/>
+	<input class="query" type="submit" value="<@s.m "global.query"/>"/>
+</form>
+<form id="tableForm" method="post">
+<input type="hidden" name="pageNo" value="${pageNo!}"/>
+<input type="hidden" name="queryTitle" value="${queryTitle!}"/>
+<input type="hidden" name="queryIp" value="${queryIp!}"/>
+<@p.table value=pagination listAction="v_list_login_failure.do";cmsLog,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"ids\",this.checked)'/>" width="20">
+		<input type='checkbox' name='ids' value='${cmsLog.id}'/><#t/>
+	</@p.column><#t/>
+	<@p.column title="ID">${cmsLog.id}</@p.column><#t/>
+	<@p.column code="cmsLog.time" align="center">${cmsLog.time?string("yyyy-MM-dd HH:mm:ss")}</@p.column><#t/>
+	<@p.column code="cmsLog.ip" align="center">${cmsLog.ip!}</@p.column><#t/>
+	<@p.column code="cmsLog.title" align="center">${cmsLog.title}</@p.column><#t/>
+	<@p.column code="cmsLog.content">${cmsLog.content!?html}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<a href="o_delete_login_failure.do?ids=${cmsLog.id}&pageNo=${pageNo!}&queryTitle=${queryTitle!}&queryIp=${queryIp!}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
+	</@p.column><#t/>
+</@p.table>
+<div style="margin-top:15px;"><input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="optDelete();"/></div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

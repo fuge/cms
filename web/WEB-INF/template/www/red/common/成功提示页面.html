@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/${res}/css/layout.css" rel="stylesheet" type="text/css"/>
+<title>成功提示页面 - ${site.name} - Powered by JEECMS</title>
+</head>
+<body>
+<div class="prompt">
+  <dl>
+    <dt></dt>
+    <dd class="msg">成功提示页面!</dd>
+    <dd>恭喜！您的刚才操作已经顺利提交。</dd>
+    <dd>
+    [#if nextUrl??]
+	     <script>setTimeout("window.location.href ='${nextUrl}';", 2000);</script>
+		【<a href="${nextUrl}">如果您的浏览器没有自动跳转，请点击此链接</a>】
+	[#else]
+		【<a href="javascript:history.back();">点击这里返回上一页</a>】
+	[/#if]
+    </dd>
+  </dl>
+</div>
+</body>
+</html>

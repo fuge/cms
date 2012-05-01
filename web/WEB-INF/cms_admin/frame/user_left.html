@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>jeecms-left</title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function(){
+	Cms.lmenu('lmenu');
+});
+</script>
+</head>
+<body class="lbody">
+<div class="left">
+<#include "/${admin_dir}/date.html"/>
+     <ul class="w-lful">
+		<li><a href="user_right.do" target="rightFrame"><@s.m "global.admin.index"/></a></li>
+		<@cms_perm url="/member/v_list.do">
+		<li><a href="../member/v_list.do" target="rightFrame"><@s.m "cmsMember.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/group/v_list.do">
+		<li><a href="../group/v_list.do" target="rightFrame"><@s.m "cmsGroup.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/admin_global/v_list.do">
+		<li><a href="../admin_global/v_list.do" target="rightFrame"><@s.m "cmsAdminGlobal.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/admin_local/v_list.do">
+		<li><a href="../admin_local/v_list.do" target="rightFrame"><@s.m "cmsAdminLocal.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/role/v_list.do">
+		<li><a href="../role/v_list.do" target="rightFrame"><@s.m "cmsRole.function"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/log/v_list_operating.do">
+		<li><a href="../log/v_list_operating.do" target="rightFrame"><@s.m "cmsLog.function.operating"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/log/v_list_login_success.do">
+		<li><a href="../log/v_list_login_success.do" target="rightFrame"><@s.m "cmsLog.function.loginSuccess"/></a></li>
+		</@cms_perm>
+		<@cms_perm url="/log/v_list_login_failure.do">
+		<li><a href="../log/v_list_login_failure.do" target="rightFrame"><@s.m "cmsLog.function.loginFailure"/></a></li>
+		</@cms_perm>
+	    <@cms_perm url="/message/v_list.do">
+		<li><a href="../message/v_list.do" target="rightFrame"><@s.m "cmsMessage.function"/> </a></li>
+		</@cms_perm>
+     </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<script src="${base}/r/cms/www/red/js/message.js" type="text/javascript"></script>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<link href="${resSys}/front.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="/${res}/css/member.css" />
+<div class="mc_right">
+   <div class="mc_content">  
+    <form id="jvForm" action="message_mng.jspx" method="post" target="parent">
+     <table width="98%" border="0" align="center" cellpadding="5" cellspacing="1" bgcolor="#C8DCF0" style="margin:5px;">
+     	<tr>
+         <td width="86" height="25" align="right" bgcolor="#FAF9FE">发件人：</td>
+         <td width="626" bgcolor="#FFFFFF">
+         	${message.msgSendUser.username!}
+          </td>
+       </tr>
+       <tr>
+         <td width="86" height="25" align="right" bgcolor="#FAF9FE">发件时间：</td>
+         <td width="626" bgcolor="#FFFFFF">
+         	[#if message.sendTime??]${message.sendTime?string('yyyy-MM-dd HH:mm:ss')}[/#if]
+          </td>
+       </tr>
+       <tr>
+         <td width="86" height="25" align="right" bgcolor="#FAF9FE">主题：</td>
+         <td width="626" bgcolor="#FFFFFF">${message.titleHtml!}</td>
+       </tr> 
+       <tr>
+         <td height="25" align="right" bgcolor="#FAF9FE">内容：</td>
+         <td bgcolor="#FFFFFF">
+			${message.contentHtml!}
+		 </td>
+       </tr> 
+       <tr>
+         <td height="25" colspan="2" align="center" bgcolor="#FFFFFF">
+         <input name="box" type="hidden" value="${box!}"/>
+         <input name="nextUrl" type="hidden" value="message_mng.jspx?box=1"/>
+         <input name="id" type="hidden" value="${message.id!}"/>
+         <input name="msg" type="hidden" value="${message.titleHtml!}已被成功移除！"/>
+	    [#if box??]
+	     	[#if box==2]
+	     		<input type="button" onclick="toSend('${message.id!}')" value="发送" class="member_button"/>	
+     		[#elseif box==0]
+     			<input type="button" onclick="reply('${message.id!}')" value="回复" class="member_button"/>	
+	     	[/#if]
+		[/#if]
+		<input type="button" value="转发" onclick="forward()" class="member_button"/> 
+		[#if box??]
+	     	[#if box!=3]
+	     		<input type="button" value="删除" onclick="trash('${message.id!}')" class="member_button"/>
+	     	[#else]
+	     		<input type="button" onclick="emptySingle('${message.id!}')" value="彻底删除" class="member_button"/>
+	     	[/#if]
+	    [/#if]
+		 </td>
+         </tr>
+     </table>
+	 </form>
+   </div>
+
+</div>

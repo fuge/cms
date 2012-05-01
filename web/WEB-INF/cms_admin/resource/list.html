@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script src="${base}/thirdparty/swfupload/swfupload.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/swfupload.queue.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/fileprogress.js" type="text/javascript"></script>
+<script src="${base}/thirdparty/swfupload/handlers.js" type="text/javascript"></script>
+<link href="${base}/thirdparty/swfupload/process.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+function getTableForm() {
+	return document.getElementById("tableForm");
+}
+function optDelete() {
+	if(Pn.checkedCount("names")<=0) {
+		alert("<@s.m "error.checkRecord"/>");
+		return;
+	}
+	if(!confirm("<@s.m "global.confirm.delete"/>")) {
+		return;
+	}
+	var f = getTableForm();
+	f.action="o_delete.do";
+	f.submit();
+}
+var swfu;
+window.onload=function() {
+	var uploadUrl = "o_swfupload.do";
+	//在firefox、chrome下，上传不能保留登录信息，所以必须加上jsessionid。
+	var jsessionid = $.cookie("JSESSIONID");
+	if(jsessionid) {
+		uploadUrl += ";jsessionid="+jsessionid;
+	}
+	swfu=new SWFUpload({
+		upload_url : uploadUrl,
+		flash_url : "${base}/thirdparty/swfupload/swfupload.swf",
+		file_size_limit : "1000 MB",
+		post_params: {"root" : "${root}"},
+		file_types : "*.*",
+		file_types_description : "All Files",
+		file_queue_limit : 0,
+		custom_settings : {
+			progressTarget : "fsUploadProgress",
+			cancelButtonId : "btnCancel"
+		},
+		debug: false,
+		
+		button_image_url : "${base}/thirdparty/swfupload/button_notext.png",
+		button_placeholder_id : "spanButtonPlaceHolder",
+		button_text: "<span class='btnText'><@s.m "resource.upload"/></span>",
+		button_width: 81,
+		button_height: 24,
+		button_text_top_padding: 2,
+		button_text_left_padding: 20,
+		button_text_style: '.btnText{color:#666666;}',
+		
+		file_queued_handler : fileQueued,
+		file_queue_error_handler : fileQueueError,
+		file_dialog_complete_handler : fileDialogComplete,
+		upload_start_handler : uploadStart,
+		upload_progress_handler : uploadProgress,
+		upload_error_handler : uploadError,
+		upload_success_handler : uploadSuccess,
+		upload_complete_handler : uploadComplete,
+		queue_complete_handler : queueComplete2
+	});
+};
+function queueComplete2(numFilesUploaded) {
+	//刷新页面
+	location.href="v_list.do?root=${root}";
+}
+var max=300;
+function showImage(a) {
+	var img = $("<img src='"+ a.href +"' style='border:1px solid #ccc;'/>");
+	var imgDiv = $("#sd").append(img);	
+	imgDiv.show();
+	
+	var	width = img.attr("width");
+	var	height = img.attr("height");
+	if(width>=height&&width>max) {
+		height = height*max/width;
+		width = max;
+	} else if(height>=width||height>max) {
+		width = width*max/height;
+		height = max;
+	}
+	var offset = $(a).offset();
+	imgDiv.css("left",offset.left+$(a).outerWidth()+3);	
+	var buttom = $(window).height()+$(document).scrollTop()-max-offset.top;
+	if(buttom<0) {
+		imgDiv.css("top",offset.top+buttom-3);
+	} else {
+		imgDiv.css("top",offset.top-3);
+	}
+	img.width(width);
+	img.height(height);
+}
+function hideImage(a) {
+	$("#sd").empty().hide();
+}
+</script>
+</head>
+<body>
+<div id="sd" style="display:none;position:absolute;height:300px;width:300px"></div>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "resource.function"/> - <@s.m "global.list"/></div>
+	<form class="ropt">
+		<input type="hidden" name="root" value="${root}"/>
+		<@cms_perm url="/resource/v_add.do">
+		<input class="create-file" type="submit" value="<@s.m "resource.create"/>" onclick="this.form.action='v_add.do';"/>
+		</@cms_perm>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+
+<form method="post" enctype="multipart/form-data">
+<input type="hidden" name="root" value="${root}"/>
+<table border="0" style="padding-top:3px">
+<tr>
+	<td><@s.m "resource.currentDir"/>: ${root}</td>
+	<@cms_perm url="/resource/o_swfupload.do">
+	<td width="70" align="center"><span id="spanButtonPlaceHolder"></span></td>
+	<td><input class="cancel" id="btnCancel" type="button" value="<@s.m "global.cancel"/>" onclick="swfu.cancelQueue();" disabled="disabled" /></td>
+	</@cms_perm>
+	<@cms_perm url="/resource/o_create_dir.do">
+	<td>
+&nbsp;	<@s.m "resource.addDir"/>: <input type="text" name="dirName" size="10" onkeypress="if(event.keyCode==13){$('#dirButton').click();return false;}"/>
+		<input class="create-new" id="dirButton" type="submit" value="<@s.m "resource.createDir"/>" onclick="this.form.method='post';this.form.action='o_create_dir.do';"/>
+	</td>
+	</@cms_perm>
+</tr>
+<tr><td colspan="4"><div id="fsUploadProgress"></div></td></tr>
+</table>
+</form>
+<form id="tableForm" method="post">
+<input type="hidden" name="root" value="${root}"/>
+<@p.table value=list;resource,i,has_next><#rt/>
+	<@p.column title="<input type='checkbox' onclick='Pn.checkbox(\"names\",this.checked)'/>" width="20">
+		<input type="checkbox" name="names" value="${resource.name}"/><#t/>
+	</@p.column><#t/>
+	<@p.column title=" " width="20" align="center"><img src="${base}/res/common/img/file/${resource.ico}.gif"/></@p.column><#t/>
+	<@p.column code="resource.filename">
+		<#if resource.directory>
+		<a href="v_list.do?root=${resource.name}">${resource.filename}</a>
+		<#else>
+		<a href="${base+resource.name}"<#if resource.image> onmouseover="showImage(this)" onmouseout="hideImage(this)"</#if> target="_blank">${resource.filename}</a>
+		</#if>
+	</@p.column><#t/>
+	<@p.column code="resource.size" align="right">${resource.size} KB</@p.column><#t/>
+	<@p.column code="resource.lastModified" align="center">${resource.lastModifiedDate?string('yyyy-MM-dd HH:mm:ss')}</@p.column><#t/>
+	<@p.column code="global.operate" align="center">
+		<@cms_perm url="/resource/v_rename.do">
+		<a href="v_rename.do?root=${root?url}&name=${resource.name?url}" class="pn-opt"><@s.m "resource.rename"/></a> | <#rt/>
+		</@cms_perm>
+		<@cms_perm url="/resource/v_edit.do">
+		<a <#if resource.editable>href="v_edit.do?root=${root?url}&name=${resource.name?url}" class="pn-opt"<#else>disabled="disabled"</#if>><@s.m "global.edit"/></a> | <#rt/>
+		</@cms_perm>
+		<@cms_perm url="/resource/o_delete_single.do">
+		<a href="o_delete_single.do?root=${root?url}&name=${resource.name?url}" onclick="if(!confirm('<@s.m "global.confirm.delete"/>')) {return false;}" class="pn-opt"><@s.m "global.delete"/></a><#t/>
+		</@cms_perm>
+	</@p.column><#t/>
+</@p.table>
+<div style="margin-top:15px;">
+	<@cms_perm url="/resource/o_delete.do">
+	<input type="button" value="<@s.m "global.delete"/>" onclick="optDelete();" class="del-button"/>
+	</@cms_perm>
+</div>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

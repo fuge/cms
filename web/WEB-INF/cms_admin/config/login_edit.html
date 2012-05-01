@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsConfig.function"/> - <@s.m "cmsConfig.function.login"/> - <@s.m "global.edit"/></div>
+	<#include "inc_opt.html"/>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_login_update.do" labelWidth="15">
+
+<@p.text width="50" colspan="1" label="cmsConfig.configLogin.errorTimes" name="errorTimes" value=configLogin.errorTimes required="required" class="required digits" maxlength="5" style="width:70px" help="cmsConfig.configLogin.errorTimes.help"/>
+<@p.text width="50" colspan="1" label="cmsConfig.configLogin.errorInterval" name="errorInterval" value=configLogin.errorInterval required="required" class="required digits" maxlength="5" style="width:70px" help="cmsConfig.configLogin.errorInterval.help"/><@p.tr/>
+
+<@p.text width="50" colspan="1" label="cmsConfig.emailSender.host" name="host" value=(emailSender.host)! required="required" class="required" maxlength="100"/>
+<@p.text width="50" colspan="1" label="cmsConfig.emailSender.port" name="port" value=(emailSender.port)! class="digits" maxlength="5" help="cmsConfig.emailSender.port.help"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsConfig.emailSender.username" name="username" value=(emailSender.username)! required="required" maxlength="100" class="required"/>
+<@p.text width="50" colspan="1" label="cmsConfig.emailSender.password" name="password" value=(emailSender.password)! required="required" class="required" maxlength="100"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsConfig.emailSender.encoding" name="encoding" value=(emailSender.encoding)! maxlength="20"/>
+<@p.text width="50" colspan="1" label="cmsConfig.emailSender.personal" name="personal" value=(emailSender.personal)! maxlength="100"/><@p.tr/>
+
+<@p.text colspan="2" label="cmsConfig.messageTemplate.forgotpassword.subject" name="forgotPasswordSubject" value=(forgotPasswordTemplate.forgotPasswordSubject)! required="true" class="required" maxlength="255" style="width:220px"/><@p.tr/>
+<@p.textarea colspan="2" label="cmsConfig.messageTemplate.forgotpassword.text" name="forgotPasswordText" value=(forgotPasswordTemplate.forgotPasswordText)! required="true" class="required" maxlength="255" cols="50" rows="5" help="cmsConfig.messageTemplate.forgotpassword.text.help" helpPosition="3"/><@p.tr/>
+
+<@p.text colspan="2" label="cmsConfig.messageTemplate.register.subject" name="registerSubject" value=(registerTemplate.registerSubject)! required="true" class="required" maxlength="255" style="width:220px"/><@p.tr/>
+<@p.textarea colspan="2" label="cmsConfig.messageTemplate.register.text" name="registerText" value=(registerTemplate.registerText)! required="true" class="required" maxlength="255" cols="50" rows="5" help="cmsConfig.messageTemplate.register.text.help" helpPosition="3"/><@p.tr/>
+
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

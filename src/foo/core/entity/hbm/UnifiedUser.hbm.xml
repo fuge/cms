@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.core.entity">
+	<class name="UnifiedUser" table="jo_user">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="java.lang.Integer" column="user_id"><generator class="identity"/></id>
+		<property name="username" column="username" type="string" not-null="true" length="100"/>
+		<property name="email" column="email" type="string" not-null="false" length="100"/>
+		<property name="password" column="password" type="string" not-null="true" length="32"/>
+		<property name="registerTime" column="register_time" type="timestamp" not-null="true" length="19"/>
+		<property name="registerIp" column="register_ip" type="string" not-null="true" length="50"/>
+		<property name="lastLoginTime" column="last_login_time" type="timestamp" not-null="false" length="19"/>
+		<property name="lastLoginIp" column="last_login_ip" type="string" not-null="false" length="50"/>
+		<property name="loginCount" column="login_count" type="integer" not-null="true" length="10"/>
+		<property name="resetKey" column="reset_key" type="string" not-null="false" length="32"/>
+		<property name="resetPwd" column="reset_pwd" type="string" not-null="false" length="10"/>
+		<property name="errorTime" column="error_time" type="timestamp" not-null="false" length="19"/>
+		<property name="errorCount" column="error_count" type="integer" not-null="true" length="10"/>
+		<property name="errorIp" column="error_ip" type="string" not-null="false" length="50"/>
+		<property name="activation" type="java.lang.Boolean" not-null="true"/>
+		<property name="activationCode" column="activation_code" type="string" not-null="false" length="32"/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsVoteTopic" table="jc_vote_topic">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="integer" column="votetopic_id"><generator class="identity"/></id>
+		<property name="title" column="title" type="string" not-null="true" length="255"/>
+		<property name="description" column="description" type="string" not-null="false" length="255"/>
+		<property name="startTime" column="start_time" type="timestamp" not-null="false" length="19"/>
+		<property name="endTime" column="end_time" type="timestamp" not-null="false" length="19"/>
+		<property name="repeateHour" column="repeate_hour" type="integer" not-null="false" length="10"/>
+		<property name="totalCount" column="total_count" type="integer" not-null="true" length="10"/>
+		<property name="multiSelect" column="multi_select" type="integer" not-null="true" length="10"/>
+		<property name="restrictMember" column="is_restrict_member" type="java.lang.Boolean" not-null="true"/>
+		<property name="restrictIp" column="is_restrict_ip" type="java.lang.Boolean" not-null="true"/>
+		<property name="restrictCookie" column="is_restrict_cookie" type="java.lang.Boolean" not-null="true"/>
+		<property name="disabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
+		<property name="def" column="is_def" type="java.lang.Boolean" not-null="true"/>
+		<many-to-one name="site" column="site_id" class="foo.cms.entity.main.CmsSite" not-null="true"></many-to-one>		
+		<set name="items" inverse="true" cascade="delete-orphan" sort="foo.common.hibernate3.PriorityComparator">
+			<cache usage="read-write"/>
+			<key column="votetopic_id"/>
+			<one-to-many class="CmsVoteItem"/>
+		</set>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="CmsUserExt" table="jc_user_ext">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="user_id">
+			<generator class="foreign"><param name="property">user</param></generator>
+		</id>
+		<property name="realname" column="realname" type="string" not-null="false" length="100"/>
+		<property name="gender" column="gender" type="java.lang.Boolean" not-null="false"/>
+		<property name="birthday" column="birthday" type="timestamp" not-null="false" length="19"/>
+		<property name="intro" column="intro" type="string" not-null="false" length="255"/>
+		<property name="comefrom" column="comefrom" type="string" not-null="false" length="150"/>
+		<property name="qq" column="qq" type="string" not-null="false" length="100"/>
+		<property name="msn" column="msn" type="string" not-null="false" length="100"/>
+		<property name="phone" column="phone" type="string" not-null="false" length="50"/>
+		<property name="mobile" column="mobile" type="string" not-null="false" length="50"/>
+		<property name="userImg" column="user_img" type="string" not-null="false" length="255"/>
+		<property name="userSignature" column="user_signature" type="string" not-null="false" length="255"/>
+		<one-to-one name="user" class="CmsUser" constrained="true"/>
+	</class>
+</hibernate-mapping>

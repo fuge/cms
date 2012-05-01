@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <#if isChannel><@s.m "cmsModel.modelChannel"/><#else><@s.m "cmsModel.modelContent"/></#if> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input id="modelId" type="hidden" name="modelId" value="${modelId}"/>
+		<input id="isChannel" type="hidden" name="isChannel" value="${isChannel?string("true","false")}"/>
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text colspan="1" width="50" label="cmsModelItem.field" name="field" required="true" class="required" maxlength="50"/>
+<@p.text colspan="1" width="50" label="cmsModelItem.label" name="label" required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.select colspan="1" width="50" label="cmsModelItem.dataType" name="dataType" required="true" list={"1":"cmsModelItem.type1","2":"cmsModelItem.type2","3":"cmsModelItem.type3","4":"cmsModelItem.type4","5":"cmsModelItem.type5","6":"cmsModelItem.type6","7":"cmsModelItem.type7","8":"cmsModelItem.type8"}/>
+<@p.text colspan="1" width="50" label="cmsModelItem.priority" name="priority" value="70" required="true" class="required digits" maxlength="10"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsModelItem.help" name="help" maxlength="255"/>
+<@p.text colspan="1" width="50" label="cmsModelItem.helpPosition" name="helpPosition" class="digits" maxlength="10" help="cmsModelItem.helpPosition.help"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsModelItem.defValue" name="defValue" maxlength="255"/>
+<@p.text colspan="1" width="50" label="cmsModelItem.size" name="size" class="digits" maxlength="10"/><@p.tr/>
+<@p.text colspan="2" label="cmsModelItem.optValue" name="optValue" size="70" maxlength="255" help="cmsModelItem.optValue.help"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsModelItem.rows" name="rows" value="3" class="digits" maxlength="3"/>
+<@p.text colspan="1" width="50" label="cmsModelItem.cols" name="cols" value="30" class="digits" maxlength="3"/><@p.tr/>
+<@p.td colspan="2">
+	<input type="hidden" name="modelId" value="${modelId}"/>
+	<input type="hidden" name="channel" value="${isChannel?string("true","false")}"/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

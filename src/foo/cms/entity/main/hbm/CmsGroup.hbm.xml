@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="CmsGroup" table="jc_group">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="group_id"><generator class="identity"/></id>
+		<property name="name" column="group_name" type="string" not-null="true" length="100"/>
+		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
+		<property name="allowPerDay" column="allow_per_day" type="integer" not-null="true" length="10"/>
+		<property name="allowMaxFile" column="allow_max_file" type="integer" not-null="true" length="10"/>
+		<property name="allowSuffix" column="allow_suffix" type="string" not-null="false" length="255"/>
+		<property name="needCaptcha" column="need_captcha" type="java.lang.Boolean" not-null="true"/>
+		<property name="needCheck" column="need_check" type="java.lang.Boolean" not-null="true"/>
+		<property name="regDef" column="is_reg_def" type="java.lang.Boolean" not-null="true"/>
+		<set name="viewChannels" table="jc_chnl_group_view" inverse="true">
+			<cache usage="read-write"/>
+			<key column="group_id"/>
+			<many-to-many column="channel_id" class="Channel"/>
+		</set>
+		<set name="contriChannels" table="jc_chnl_group_contri" inverse="true">
+			<cache usage="read-write"/>
+			<key column="group_id"/>
+			<many-to-many column="channel_id" class="Channel"/>
+		</set>
+	</class>
+</hibernate-mapping>

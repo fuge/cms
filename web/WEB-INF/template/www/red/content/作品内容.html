@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${title} - ${site.name} - Powered by JEECMS</title>
+<meta http-equiv="keywords" content="${content.tagStr!}"/>
+<meta http-equiv="description" content="${content.description!}"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script src="/${res}/js/common.js" type="text/javascript"></script>
+<link href="/${res}/css/album.css" rel="stylesheet" media="screen" type="text/css">
+<link href="/${res}/css/style.css" rel="stylesheet" media="screen" type="text/css">
+<link href="/${res}/css/layout.css" rel="stylesheet" media="screen" type="text/css">
+<SCRIPT language="javascript" type="text/javascript" src="/${res}/js/sinaflash.js"></SCRIPT>
+<SCRIPT language="javascript" type="text/javascript" src="/${res}/js/heiphoto.js"></SCRIPT>
+<script type="text/javascript"> 
+function showhidden(id){
+	$("#ttt"+id).toggle("slow");	
+}
+</script>
+<link href="/${res}/css/layout.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(function() {
+  Cms.attachment("${base}","${content.id}","${content.attachments?size}","attach");
+  Cms.viewCount("${base}","${content.id}");
+  Cms.siteFlow("${base}", location.href, document.referrer);
+});
+</script>
+</head>
+<body>[#include "../include/页头顶栏.html"/]
+[#include "../include/页头导航栏.html"/]
+<div id="wrapper" style="margin-bottom:10px;">
+  <div class="page4 position1"> 您现在正在浏览： <a href="${base}/">首页</a> &raquo; [#list channel.nodeList as n]<a href="${n.url}" target="_blank">${n.name}</a>[#if n_has_next] &raquo; [/#if][/#list] &raquo; 正文</div>
+  [#if pic??]
+<div class="pic">
+              <!--相册代码开始-->
+              <div class="eTitle">
+                <H1><SPAN id="txtTitle">${content.title}</SPAN><SPAN id="total">(<SPAN class=cC00>0</SPAN>/0)</SPAN></H1>
+              </div>
+              <DIV class=eControl>
+                <DIV class=ecCont>
+                  <DIV id=ecbSpeed>
+                    <DIV class=buttonCont id=ecbSpeedInfo>5秒</DIV>
+                  </DIV>
+                  <DIV id=ecbPre title=上一张>
+                    <DIV class=buttonCont></DIV>
+                  </DIV>
+                  <DIV id=ecbPlay>
+                    <DIV class=play id=ecpPlayStatus></DIV>
+                  </DIV>
+                  <DIV id=ecbNext title=下一张>
+                    <DIV class=buttonCont></DIV>
+                  </DIV>
+                  <DIV id=ecbLine>
+                    <DIV class=buttonCont></DIV>
+                  </DIV>
+                  <DIV id=ecbMode title=列表模式(tab)>
+                    <DIV class=buttonCont></DIV>
+                  </DIV>
+                  <DIV id=ecbModeReturn title=返回幻灯模式(tab)>
+                    <DIV class=buttonCont></DIV>
+                  </DIV>
+                  <DIV id=ecbFullScreen title=全屏浏览>
+                    <DIV class=buttonCont id=fullScreenFlash></DIV>
+                  </DIV>
+                  <!-- 速度条 begin -->
+                  <DIV id=SpeedBox>
+                    <DIV id=SpeedCont>
+                      <DIV id=SpeedSlide></DIV>
+                      <DIV id=SpeedNonius></DIV>
+                    </DIV>
+                  </DIV>
+                  <!-- 速度条 end -->
+                </DIV>
+              </DIV>
+              <DIV id=eFramePic>
+                <DIV id=efpBigPic>
+                  <DIV id=efpClew></DIV>
+                  <DIV id=d_BigPic></DIV>
+                  <DIV class=arrLeft id=efpLeftArea title=上一张></DIV>
+                  <DIV class=arrRight id=efpRightArea title=下一张></DIV>
+                  <DIV id=endSelect>
+                    <DIV id=endSelClose></DIV>
+                    <DIV class=bg></DIV>
+                    <DIV class=E_Cont>
+                      <P>您已经浏览完所有图片</P>
+                      <P><A id=rePlayBut href="javascript:void(0)"></A><A id=nextPicsBut href="javascript:void(0)"></A></P>
+                    </DIV>
+                  </DIV>
+                  <!-- endSelect end -->
+                </DIV>
+                <DIV id=efpTxt>
+                  <H2 id=d_picTit></H2>
+                  <DIV id=d_picTime></DIV>
+                  <DIV id=d_picIntro>
+                  </DIV>
+                  <DIV class=others> 发布时间: ${content.releaseDate} | 浏览<span id="views"></span>次 </DIV>
+                </DIV>
+                <DIV id=efpTxt style="display:none">
+                  <H2 id=d_picTit></H2>
+                  <DIV id=d_picTime></DIV>
+                  <DIV id=d_picIntro></DIV>
+                </DIV>
+                <DIV id=efpContent>
+                  ${txt!}
+                </DIV>
+                <DIV id=efpPicList>
+                  <DIV id=efpPreGroup>
+                    <DIV id=efpPrePic onmouseover="this.className='selected'" onmouseout="this.className=''">
+                      <table cellSpacing=0>
+                        <tr>
+                          <td>			
+						  [@cms_content id=content.id next='1' channelId=channel.id]
+						  [#if tag_bean??]
+						  <a href="${tag_bean.url}"><img src="${tag_bean.typeImg!site.defImg}" alt="${tag_bean.title}"/></a>
+						  [#else]
+						   <a href="javascript:void(0)" alt=""><img src="/${res}/img/nophoto.jpg" alt="对不起，没有上一图集了！"/>
+						  [/#if]
+						  [/@cms_content]						  						
+						  </td>
+                        </tr>
+                      </table>
+                    </DIV>
+                    <DIV id=efpPreTxt><< 上一图集</DIV>
+                  </DIV>
+                  <DIV id=efpListLeftArr onMouseOver="this.className='selected'" onmouseout="this.className=''"></DIV>
+                  <DIV id=efpPicListCont></DIV>
+                  <DIV id=efpListRightArr onMouseOver="this.className='selected'" onmouseout="this.className=''"></DIV>
+                  <DIV id=efpNextGroup>
+                    <DIV id=efpNextPic onmouseover="this.className='selected'" onmouseout="this.className=''">
+                      <table cellSpacing=0>
+                        <tr>
+                          <td>			
+						  [@cms_content id=content.id next='0' channelId=channel.id]
+						  [#if tag_bean??]
+						  <a href="${tag_bean.url}"><img src="${tag_bean.typeImg!site.defImg}" alt="${tag_bean.title}"/></a>
+						  [#else]
+						   <a href="javascript:void(0)" alt=""><img src="/${res}/img/nophoto.jpg" alt="对不起，没有下一图集了！"/>
+						  [/#if]
+						  [/@cms_content]
+						  </td>
+                        </tr>
+                      </table>
+                    </DIV>
+                    <DIV id=efpPreTxt>下一图集 >></DIV>
+                  </DIV>
+                </DIV>
+              </DIV>
+              <DIV id=ePicList></DIV>
+              <DIV id=eData style="DISPLAY: none">		
+			    [#list content.pictures as p]	  
+                <dl>
+                  <dt>
+                  <dd>${p.imgPath}
+                  <dd>${p.imgPath}
+                  <dd>${p.imgPath}
+                  <dd>
+                  <dd>
+                    <div></div>
+                    <div></div>
+                  <dd>
+                  <dd>${p_index+1}</dd>
+                </dl>
+				[/#list]
+              </DIV>
+              <SCRIPT language=javascript type="text/javascript">
+          <!--//--><![CDATA[//><!--
+          var dataInfo = {
+              title : "${content.title}"
+          };
+          function echoFocus(){
+              var flashPic = "",flashTxt = "";
+              var newHref;
+              var datas = sina.$('eData').getElementsByTagName('dl');
+              for(var i=0;i<datas.length;i++){
+                  //try{
+                      var title,pic,middlePic,smallPic,datetime,intro,commUrl;
+                      title = datas[i].getElementsByTagName('dt');
+                      if(title){
+                          title = title[0].innerHTML;
+                      }else{
+                          title = 'null';
+                      };
+
+                      var info = datas[i].getElementsByTagName('dd');
+                      if(info){
+                          pic = info[0].innerHTML;
+                          middlePic = info[1].innerHTML;
+                          smallPic = info[2].innerHTML;
+                          datetime = info[3].innerHTML;
+                          intro = info[4].innerHTML;
+                          commUrl = info[5].getElementsByTagName('a');
+                          imageId = info[6].innerHTML;
+                          commUrl = '';
+          
+                      };
+                      epidiascope.add({
+                                      src : pic,
+                                      lowsrc_b : middlePic,
+                                      lowsrc_s : smallPic,
+                                      date : datetime,
+                                      title : title,
+                                      text : intro,
+                                      comment : commUrl,
+                                      id : imageId
+                                  });
+                      if(flashPic != ""){flashPic += "|"};
+                      flashPic += encodeURIComponent(pic);
+                      
+                      if(flashTxt != ""){flashTxt += "|"};
+                      flashTxt += encodeURIComponent(title) + "#" + encodeURIComponent(intro.replace(/<.*?>/g,'')); 
+                  //}catch(e){}
+              };
+              epidiascope.autoPlay = false;
+              epidiascope.init();
+              fullFlash(flashTxt,flashPic);
+              
+              if(Math.random()<=0.01){
+                  epidiascope.stop();
+              };
+          };
+          function fullFlash(txt,pic){	
+              var flashurl = "/${res}/img/photo.swf";
+              var fullScreen = new sinaFlash(flashurl, "fullScreenObj", "100%", "100%", "8", "#000000");
+              fullScreen.addParam("quality", "best");
+              fullScreen.addParam("wmode", "transparent");
+              fullScreen.addParam("allowFullScreen", "true");
+              fullScreen.addParam("allowScriptAccess","always");
+              fullScreen.addVariable("mylinkpic", pic);		
+              fullScreen.addVariable("infotxt",dataInfo.title);
+              fullScreen.addVariable("mytxt",txt);
+              fullScreen.addVariable("fulls_btnx","0");
+              fullScreen.addVariable("fulls_btny","0");
+              fullScreen.addVariable("fulls_btnalpha","0")
+              fullScreen.write("fullScreenFlash");
+          };
+          function flash_to_js(name){
+              name = new String(name);
+              var status = name.split("|");
+              epidiascope.speedBar.setGrade(status[1]);
+              epidiascope.select(parseInt(status[0]));
+          };
+          function js_to_flash(){
+              epidiascope.stop();
+              return epidiascope.selectedIndex + "|" + epidiascope.speedBar.grade;
+          };
+          var sendT = {
+              getHeader : function(){
+                  return document.getElementById("txtTitle").innerHTML + '-' + document.getElementById("d_picTit").innerHTML;
+              },
+              getFirstImgSrc : function(){
+                  if (document.getElementById("d_BigPic").getElementsByTagName("img")[0]){
+                      return document.getElementById("d_BigPic").getElementsByTagName("img")[0].src;
+                  }else{
+                      return null;
+                  }
+              }
+          }
+          
+          echoFocus();
+          //--><!]]>
+          </SCRIPT>
+              <div style="clear:both "></div>
+            </div>
+[#else]
+ <div class="prompt">
+	<dl>
+		<dt></dt>
+		<dd class="msg">尚未添加图集图片！</dd>
+	</dl>
+ </div>		
+[/#if]  
+</div>
+[#include "../include/页脚友情链接栏.html"/]
+[#include "../include/页脚信息栏.html"/]
+</body>
+</html>

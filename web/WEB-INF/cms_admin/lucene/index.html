@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+function luceneSubmit() {
+	$.post("o_create.do", {
+		"startDate" : $("#startDate").val(),
+		"endDate" : $("#endDate").val(),
+		"max" : $("#max").val(),
+		"siteId" : $("#siteId").val(),
+		"channelId" : $("#channelId").val(),
+		"startId" : $("#startId").val()
+	}, function(data) {
+		if(data.success) {
+			if(data.lastId && $("#stop").val()=="") {
+				$("#startId").val(data.lastId);
+				luceneSubmit();
+			} else {
+				$("#startId").val("");
+				alert("<@s.m "global.success"/>");
+				$("#submitButton").removeAttr("disabled");
+				$("#cancelButton").attr("disabled","disabled");
+				$("#stop").val("");
+			}
+		} else {
+			alert(data.msg);
+			$("#submitButton").removeAttr("disabled");
+			$("#cancelButton").attr("disabled","disabled");
+			$("#stop").val("");
+		}
+	}, "json");
+}
+
+$(function() {
+	$("#jvForm").validate( {
+		submitHandler : function(form) {
+			$("#submitButton").attr("disabled","disabled");
+			$("#cancelButton").removeAttr("disabled");
+			$("#stop").val("");		
+			luceneSubmit();
+		}
+	});
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsLucene.function"/></div>
+	<form class="ropt">
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_create.do">
+<@p.select label="cmsLucene.channelId" id="channelId" name="channelId" list=channelList listKey="id" listValue="name" listDeep="deep" headerKey="" headerValue="cmsLucene.allChannel"/>
+<@p.text label="cmsLucene.startDate" id="startDate" name="startDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<@p.text label="cmsLucene.endDate" id="endDate" name="endDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<@p.text label="cmsLucene.max" id="max" name="max" value="1000" required="true" class="required digits" min="10"/>
+<@p.td>
+	<input type="hidden" id="siteId" name="siteId" value="${site.id}"/>
+	<input type="hidden" id="startId" name="startId"/>
+	<input type="hidden" id="stop" value=""/>
+	<input class="generate-index" type="submit" id="submitButton" value="<@s.m "cmsLucene.createIndex"/>"/>
+&nbsp; <input class="cancel" type="button" id="cancelButton" value="<@s.m "global.cancel"/>" disabled="disabled" onclick="$('#stop').val('1')"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

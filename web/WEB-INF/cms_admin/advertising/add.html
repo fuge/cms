@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	attrChange("image");
+	$("#textColor").colorPicker();
+	$("#jvForm").validate();
+});
+var attr_all=["image","flash","text","code"];
+function attrChange(value) {
+	for(var attr in attr_all) {
+		if(attr_all[attr]==value) {
+			showAttr(attr_all[attr]);
+		} else {
+			hideAttr(attr_all[attr]);
+		}
+	}
+}
+function hideAttr(value) {
+	var name = "#attr_"+value;
+	$(name).hide();
+	$(name+" input,"+name+" select,"+name+" textarea").each(function() {
+		$(this).attr("disabled","disabled");
+	});
+}
+function showAttr(value) {
+	var name = "#attr_"+value;
+	$("#attr_"+value).show();
+	$(name+" input,"+name+" select,"+name+" textarea").each(function() {
+		$(this).removeAttr("disabled");
+	});
+}
+</script>
+<style type="text/css">
+.attr{padding:3px;margin:0;}
+</style>
+</head>
+<body>
+<#include "/common/image_upload.html"/>
+<#include "flash_upload.html"/>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsAdvertising.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text colspan="1" width="50" label="cmsAdvertising.name" name="name" required="true" class="required" maxlength="100"/>
+<@p.select colspan="1" width="50" label="cmsAdvertising.adspace" name="adspaceId" list=adspaceList listKey="id" listValue="name" required="true"/><@p.tr/>
+<@p.radio colspan="2" label="cmsAdvertising.category" name="category" value="image" list={"image":"cmsAdvertising.category.image","flash":"cmsAdvertising.category.flash","text":"cmsAdvertising.category.text","code":"cmsAdvertising.category.code"} onclick="attrChange(this.value)" required="true"/><@p.tr/>
+<@p.td colspan="2" label="cmsAdvertising.attr" required="true">
+<div id="attr_image">
+	<p class="attr"><@s.m "cmsAdvertising.image.url"/>: <input type="text" id="uploadImgPath1" name="attr_image_url" class="required" maxlength="255" style="width:300px;"/></p>
+	<p class="attr"><@s.m "cmsAdvertising.image.upload"/>:
+	<span id="ufc1" style="position:relative">
+	<input type='text' id='uploadFileText1'/>
+	<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+	<input onchange="$('#uploadFileText1').val(this.value)" type="file" id="uploadFile1" class="file-button"/>
+	</span>
+	<input class="upload-button" type="button" value="<@s.m "cmsAdvertising.image.submit"/>" onclick="upload(1);"/><input type="hidden" id="mark1" value="false"/>
+	</p>
+	<p class="attr"><@s.m "cmsAdvertising.image.size"/>: <input type="text" name="attr_image_width" maxlength="50" style="width:70px;"/> * <input type="text" name="attr_image_height" maxlength="50" style="width:70px;"/> <span class="pn-fhelp"><@s.m "cmsAdvertising.image.size.help"/></span></p>
+	<p class="attr"><@s.m "cmsAdvertising.image.link"/>: <input type="text" name="attr_image_link" value="http://" maxlength="255" style="width:300px;"/></p>
+	<p class="attr"><@s.m "cmsAdvertising.image.title"/>: <input type="text" name="attr_image_title" maxlength="255" style="width:300px;"/></p>
+	<p class="attr"><@s.m "cmsAdvertising.image.target"/>: <@p.radio name="attr_image_target" value="_blank" list={"_blank":"cmsAdvertising.image.target._blank","_self":"cmsAdvertising.image.target._self"}/></p>
+</div>
+<div id="attr_flash" style="display:none;">
+	<p class="attr"><@s.m "cmsAdvertising.flash.url"/>: <input type="text" id="flashPath1" name="attr_flash_url" class="required" maxlength="255" style="width:300px;"/></p>
+	<p class="attr"><@s.m "cmsAdvertising.flash.upload"/>: 
+	<span id="ffc1" style="position:relative">
+	<input type='text' id='flashFileText1'/>  
+	<input class="browse" type='button' value='<@s.m "global.browse"/>'/>
+	<input onchange="$('#flashFileText1').val(this.value)" type="file" id="flashFile1" name="flashFile" class="file-button"/>
+	</span>
+	<input class="upload-button" type="button" value="<@s.m "cmsAdvertising.flash.submit"/>" onclick="uploadFlash(1);"/>
+	</p>
+	<p class="attr"><@s.m "cmsAdvertising.flash.size"/>: <input type="text" name="attr_flash_width" maxlength="50" style="width:70px;"/> * <input type="text" name="attr_flash_height" maxlength="50" style="width:70px;"/> <span class="pn-fhelp"><@s.m "cmsAdvertising.flash.size.help"/></span></p>
+</div>
+<div id="attr_text" style="display:none;">
+	<p class="attr"><@s.m "cmsAdvertising.text.title"/>: <input type="text" name="attr_text_title" class="required" maxlength="255" style="width:300px;"/></p>
+	<p class="attr"><@s.m "cmsAdvertising.text.link"/>: <input type="text" name="attr_text_link" value="http://" maxlength="255" style="width:300px;"/></p>
+	<p class="attr"><@s.m "cmsAdvertising.text.color"/>: <input type="text" id="textColor" name="attr_text_color" maxlength="50" style="width:70px"/></p>
+	<p class="attr"><@s.m "cmsAdvertising.text.font"/>: <input type="text" name="attr_text_font" maxlength="50" style="width:70px;"/> <span class="pn-fhelp"><@s.m "cmsAdvertising.text.font.help"/></span></p>
+	<p class="attr"><@s.m "cmsAdvertising.text.target"/>: <@p.radio name="attr_text_target" value="_blank" list={"_blank":"cmsAdvertising.text.target._blank","_self":"cmsAdvertising.text.target._self"}/></p>
+</div>
+<div id="attr_code" style="display:none;">
+	<textarea name="code" rows="7" cols="60" maxlength="655350"></textarea>
+</div>
+</@p.td><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsAdvertising.startTime" name="startTime" style="width:120px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/>
+<@p.text colspan="1" width="50" label="cmsAdvertising.endTime" name="endTime" style="width:120px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsAdvertising.clickCount" name="clickCount" value="0" required="true" class="required digits" style="width:70px"/>
+<@p.text colspan="1" width="50" label="cmsAdvertising.displayCount" name="displayCount" value="0" required="true" class="required digits" style="width:70px"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsAdvertising.weight" name="weight" value="1" required="true" class="required digits" style="width:70px"/>
+<@p.radio colspan="1" width="50" label="cmsAdvertising.enabled" name="enabled" value="true" list={"true":"global.true","false":"global.false"} required="true"/><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+<style type="text/css">
+.items{padding-top:1px;}
+</style>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsVoteTopic.function"/> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="submit" class="return-button" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_update.do">
+
+<@p.text label="cmsVoteTopic.title" name="title" value=cmsVoteTopic.title required="true" class="required" style="width:400px" maxlength="255"/>
+<@p.textarea label="cmsVoteTopic.description" name="description" value=cmsVoteTopic.description rows="3" style="width:400px" maxlength="255"/>
+<@p.td label="cmsVoteTopic.time">
+<table>
+	<tr>
+		<td><@s.m "cmsVoteTopic.startTime"/></td>
+		<td><input type="text" name="startTime" value="${cmsVoteTopic.startTime!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/></td>
+		<td rowspan="2" valign="middle"><span class="pn-fhelp"><@s.m "cmsVoteTopic.time.help"/></span></td>
+	</tr>
+	<tr>
+		<td><@s.m "cmsVoteTopic.endTime"/></td>
+		<td><input type="text" name="endTime" value="${cmsVoteTopic.endTime!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/></td>
+	<tr/>
+</table>
+</@p.td><@p.tr/>
+<@p.text label="cmsVoteTopic.repeateHour" name="repeateHour" value=cmsVoteTopic.repeateHour class="digits" maxlength="10" help="cmsVoteTopic.repeateHour.help"/>
+<@p.radio label="cmsVoteTopic.restrictMember" name="restrictMember" value=cmsVoteTopic.restrictMember list={"true":"global.true","false":"global.false"} help="cmsVoteTopic.restrictMember.help"/>
+<@p.radio label="cmsVoteTopic.restrictIp" name="restrictIp" value=cmsVoteTopic.restrictIp list={"true":"global.true","false":"global.false"}/>
+<@p.radio label="cmsVoteTopic.restrictCookie" name="restrictCookie" value=cmsVoteTopic.restrictCookie list={"true":"global.true","false":"global.false"} help="cmsVoteTopic.restrictCookie.help"/>
+<@p.td label="cmsVoteTopic.multiSelect" required="true">
+<input type="text" name="multiSelect" value=${cmsVoteTopic.multiSelect} class="required digits" style="width:100px"/>
+<label style="padding-left:20px"><input type="checkbox" onclick="$('#def').val(this.checked);"<#if cmsVoteTopic.def> checked="checked"</#if>/><@s.m "cmsVoteTopic.def"/><input type="hidden" id="def" name="def" value="${cmsVoteTopic.def?string}"/></label>
+<label style="padding-left:10px"><input type="checkbox" onclick="$('#disabled').val(this.checked);"<#if cmsVoteTopic.disabled> checked="checked"</#if>/><@s.m "cmsVoteTopic.disabled"/><input type="hidden" id="disabled" name="disabled" value="${cmsVoteTopic.disabled?string}"/></label>
+</@p.td><@p.tr/>
+<@p.td>
+<div class="items">
+	<@s.m "cmsVoteTopic.items"/>
+&nbsp; <input type="button" value="<@s.m "cmsVoteItem.addLines"/>" onclick="addLines();"/>
+</div>
+<div id="itemsContainer">
+<#list cmsVoteTopic.items as item>
+<div class="items">
+<@s.m "cmsVoteItem.title"/>: <input type="text" name="itemTitle" value="${item.title}" style="width:300px"/>
+&nbsp; <@s.m "cmsVoteItem.voteCount"/>: <input type="text" name="itemVoteCount" value="${item.voteCount}" style="width:50px"/>
+&nbsp; <@s.m "cmsVoteItem.priority"/>: <input type="text" name="itemPriority" value="${item.priority}" style="width:30px"/>
+&nbsp; <input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="$(this).parent().remove();"/>
+<input type="hidden" name="itemId" value="${item.id}"/>
+</div>
+</#list>
+</div>
+</@p.td><@p.tr/>
+<@p.td><@p.hidden name="id" value=cmsVoteTopic.id/><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+
+<textarea id="itemTpl" style="display:none;">
+<div class="items">
+<@s.m "cmsVoteItem.title"/>: <input type="text" name="itemTitle" style="width:300px"/>
+&nbsp; <@s.m "cmsVoteItem.voteCount"/>: <input type="text" name="itemVoteCount" value="0" style="width:50px"/>
+&nbsp; <@s.m "cmsVoteItem.priority"/>: <input type="text" name="itemPriority" value="{0}" style="width:30px"/>
+&nbsp; <input class="del-button" type="button" value="<@s.m "global.delete"/>" onclick="$(this).parent().remove();"/>
+<input type="hidden" name="itemId" value=""/>
+</div>
+</textarea>
+<script type="text/javascript">
+var tpl = $.format($("#itemTpl").val());
+var index = 10;
+function addLines() {
+	$("#itemsContainer").append(tpl(index));
+}
+</script>
+
+</body>
+</html>

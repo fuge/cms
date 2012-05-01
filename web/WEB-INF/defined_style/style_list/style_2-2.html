@@ -1,0 +1,43 @@
+[#--
+图文列表向上滚动
+--]
+[#if !picWidth?? || picWidth==''][#assign picWidth=''/][/#if]
+[#if !picHeight?? || picHeight==''][#assign picHeight=''/][/#if]
+[#if !picFloat?? || picFloat==''][#assign picFloat='1'/][/#if]
+[#if !rightPadding?? || rightPadding==''][#assign rightPadding='0'/][/#if]
+[#if !showTitleStyle?? || showTitleStyle==''][#assign showTitleStyle='1'/][/#if]
+[#if !useShortTitle?? || useShortTitle==''][#assign useShortTitle='1'/][/#if]
+[#if !target?? || target==''][#assign target='0'/][/#if]
+
+[#if !rollDisplayHeight?? || rollDisplayHeight==''][#assign rollDisplayHeight='180'/][/#if]
+[#if !rollLineHeight?? || rollLineHeight==''][#assign rollLineHeight='180'/][/#if]
+[#if !rollCols?? || rollCols==''][#assign rollCols=1/][#else][#assign rollCols=rollCols?number/][/#if]
+[#if !rollSpeed?? || rollSpeed==''][#assign rollSpeed='1'/][/#if]
+[#if !rollSleepTime?? || rollSleepTime==''][#assign rollSleepTime='50'/][/#if]
+[#if !rollRows?? || rollRows==''][#assign rollRows='1'/][/#if]
+[#if !rollSpan?? || rollSpan==''][#assign rollSpan='1'/][/#if]
+[#if !isSleep?? || isSleep==''][#assign isSleep='1'/][/#if]
+
+[#if tag_list?size gt 0 || !emptyMsg??]
+[#assign style_core="style_1-2_core.html"/]
+[#include "style_2-1_core.html"/]
+[#else]
+<div class="${emptyClass!'empty-body'}"[#if emptyStyle??] style="${emptyStyle}"[/#if]>${emptyMsg!}</div>
+[/#if]
+
+[#assign picWidth=''/]
+[#assign picHeight=''/]
+[#assign picFloat=''/]
+[#assign rightPadding=''/]
+[#assign showTitleStyle=''/]
+[#assign useShortTitle=''/]
+[#assign target=''/]
+
+[#assign rollDisplayHeight=''/]
+[#assign rollLineHeight=''/]
+[#assign rollCols=''/]
+[#assign rollSpeed=''/]
+[#assign rollSleepTime=''/]
+[#assign rollRows=''/]
+[#assign rollSpan=''/]
+[#assign isSleep=''/]

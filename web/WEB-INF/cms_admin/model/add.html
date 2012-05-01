@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsModel.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_save.do" labelWidth="12">
+<@p.text colspan="2" label="cmsModel.id" name="id" required="true" class="required digits" maxlength="5"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsModel.name" name="name" required="true" class="required" maxlength="100"/>
+<@p.text colspan="1" width="50" label="cmsModel.path" name="path" required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsModel.tplChannelPrefix" name="tplChannelPrefix" required="true" class="required" maxlength="20"/>
+<@p.text colspan="1" width="50" label="cmsModel.tplContentPrefix" name="tplContentPrefix" maxlength="20"/><@p.tr/>
+<@p.td colspan="1" width="50" label="cmsModel.titleImg">
+<@s.m "global.width"/>: <input type="text" name="titleImgWidth" value="139" style="width:50px"/>
+<@s.m "global.height"/>: <input type="text" name="titleImgHeight" value="139" style="width:50px"/>
+</@p.td>
+<@p.td colspan="1" width="50" label="cmsModel.contentImg">
+<@s.m "global.width"/>: <input type="text" name="contentImgWidth" value="310" style="width:50px"/>
+<@s.m "global.height"/>: <input type="text" name="contentImgHeight" value="310" style="width:50px"/>
+</@p.td><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsModel.priority" name="priority" value="10" style="width:70px" required="true" class="required" maxlength="9"/>
+<@p.radio colspan="1" width="50" label="cmsModel.hasContent" name="hasContent" required="true" value="true" list={"true":"global.true","false":"global.false"}/><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+</body>
+</html>

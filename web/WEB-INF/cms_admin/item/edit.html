@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <#if cmsModelItem.channel><@s.m "cmsModel.modelChannel"/><#else><@s.m "cmsModel.modelContent"/></#if> - <@s.m "global.edit"/></div>
+	<form class="ropt">
+		<input type="button" value="<@s.m "global.backToList"/>" onclick="history.back();" class="return-button"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<#assign custom=cmsModelItem.custom/>
+<#assign type=cmsModelItem.dataType/>
+<@p.form id="jvForm" action="o_update.do" labelWidth="12">
+<#if custom>
+	<@p.text colspan="1" width="50" label="cmsModelItem.field" name="field" value=cmsModelItem.field required="true" class="required" maxlength="100"/>
+<#else>
+	<@p.td colspan="1" width="50" label="cmsModelItem.field">${cmsModelItem.field}</@p.td>
+</#if>
+<@p.text colspan="1" width="50" label="cmsModelItem.label" name="label" value=cmsModelItem.label required="true" class="required" maxlength="100"/><@p.tr/>
+<@p.text colspan="1" width="50" label="cmsModelItem.help" name="help" value=cmsModelItem.help! maxlength="255"/>
+<@p.text colspan="1" width="50" label="cmsModelItem.helpPosition" name="helpPosition" value=cmsModelItem.helpPosition! class="digits" maxlength="10" help="cmsModelItem.helpPosition.help"/><@p.tr/>
+<#if !custom>
+	<@p.td colspan="2" label="cmsModelItem.dataType"><@s.m "cmsModelItem.type${cmsModelItem.dataType}"/></@p.td><@p.tr/>
+	<#if type==1 || type==2 || type==3>
+		<@p.text colspan="1" width="50" label="cmsModelItem.defValue" name="defValue" value=cmsModelItem.defValue! maxlength="255"/>
+		<@p.text colspan="1" width="50" label="cmsModelItem.size" name="size" value=cmsModelItem.size! class="digits" maxlength="10"/><@p.tr/>
+	<#elseif type==4>
+		<@p.text colspan="2" label="cmsModelItem.defValue" name="defValue" value=cmsModelItem.defValue! maxlength="255"/><@p.tr/>
+		<@p.text colspan="1" width="50" label="cmsModelItem.rows" name="rows" value=cmsModelItem.rows! class="digits" maxlength="3"/>
+		<@p.text colspan="1" width="50" label="cmsModelItem.cols" name="cols" value=cmsModelItem.cols! class="digits" maxlength="3"/><@p.tr/>
+	</#if>
+<#else>
+	<@p.select colspan="2" label="cmsModelItem.dataType" name="dataType" value=cmsModelItem.dataType list={"1":"cmsModelItem.type1","2":"cmsModelItem.type2","3":"cmsModelItem.type3","4":"cmsModelItem.type4","5":"cmsModelItem.type5","6":"cmsModelItem.type6","7":"cmsModelItem.type7","8":"cmsModelItem.type8"}/><@p.tr/>
+	<@p.text colspan="1" width="50" label="cmsModelItem.defValue" name="defValue" value=cmsModelItem.defValue! maxlength="255"/>
+	<@p.text colspan="1" width="50" label="cmsModelItem.size" name="size" value=cmsModelItem.size! class="digits" maxlength="10"/><@p.tr/>
+	<@p.text colspan="2" label="cmsModelItem.optValue" name="optValue" value=cmsModelItem.optValue! size="70" maxlength="255" help="cmsModelItem.optValue.help"/><@p.tr/>
+	<@p.text colspan="1" width="50" label="cmsModelItem.rows" name="rows" value=cmsModelItem.rows! class="digits" maxlength="3"/>
+	<@p.text colspan="1" width="50" label="cmsModelItem.cols" name="cols" value=cmsModelItem.cols! class="digits" maxlength="3"/><@p.tr/>
+</#if>
+
+<@p.td colspan="2">
+	<@p.hidden name="id" value=cmsModelItem.id/>
+	<@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/>
+</@p.td>
+</@p.form>
+</div>
+</body>
+</html>

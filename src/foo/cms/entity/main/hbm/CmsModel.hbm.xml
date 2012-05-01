@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.main">
+	<class name="CmsModel" table="jc_model">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="model_id"><generator class="assigned"/></id>
+		<property name="name" column="model_name" type="string" not-null="true" length="100"/>
+		<property name="path" column="model_path" type="string" not-null="true" length="100"/>
+		<property name="tplChannelPrefix" column="tpl_channel_prefix" type="string" not-null="false" length="20"/>
+		<property name="tplContentPrefix" column="tpl_content_prefix" type="string" not-null="false" length="20"/>
+		<property name="titleImgWidth" column="title_img_width" type="integer" not-null="true" length="10"/>
+		<property name="titleImgHeight" column="title_img_height" type="integer" not-null="true" length="10"/>
+		<property name="contentImgWidth" column="content_img_width" type="integer" not-null="true" length="10"/>
+		<property name="contentImgHeight" column="content_img_height" type="integer" not-null="true" length="10"/>
+		<property name="priority" column="priority" type="integer" not-null="true" length="10"/>
+		<property name="hasContent" column="has_content" type="java.lang.Boolean" not-null="true"/>
+		<property name="disabled" column="is_disabled" type="java.lang.Boolean" not-null="true"/>
+		<property name="def" column="is_def" type="java.lang.Boolean" not-null="true"/>
+		<set name="items" inverse="true" cascade="all-delete-orphan">
+			<key column="model_id"/>
+			<one-to-many class="CmsModelItem"/>
+		</set>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,36 @@
+[#if ad??]
+
+[#if ad.category=="image"]
+[#assign html]
+<a href="${(ad.attr.image_link)!}" target="${ad.attr.image_target!}" title="${(ad.attr.image_title)!}">
+<img src="${ad.attr.image_url}" border="0"[#if (ad.attr.image_width)??] width="${ad.attr.image_width}"[/#if][#if (ad.attr.image_height)??] height="${ad.attr.image_height}"[/#if]/>
+</a>
+[/#assign]
+document.write("${html?js_string}");
+
+[#elseif ad.category=="flash"]
+[#assign html]
+<embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" play="true" loop="true" menu="true"
+ src="${(ad.attr.flash_url)!}"[#if ad.attr.flash_width?? && ad.attr.flash_width!=""] width="${ad.attr.flash_width}"[/#if][#if ad.attr.flash_height?? && ad.attr.flash_height!=""] height="${ad.attr.flash_height}"[/#if]></embed>
+[/#assign]
+document.write("${html?js_string}");
+
+[#elseif ad.category=="text"]
+[#assign html]
+<a href="${(ad.attr.text_link)!}" target="${(ad.attr.text_target)!}">
+	<span style="[#if (ad.attr.text_color)??]color:${ad.attr.text_color};[/#if][#if (ad.attr.text_font)??]font-size:${ad.attr.text_font};[/#if]">${(ad.attr.text_title)!}</span>
+</a>
+[/#assign]
+document.write("${html?js_string}");
+
+[#elseif ad.category=="code"]
+${ad.code!}
+
+[#else]
+document.write("未知的广告类型：${ad.category!}");
+[/#if]
+
+
+[#else]
+document.write("广告不存在");
+[/#if]

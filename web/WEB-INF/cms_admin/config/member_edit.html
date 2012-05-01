@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/${admin_dir}/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+</script>
+</head>
+<body>
+<div class="box-positon">
+	<div class="rpos"><@s.m "global.position"/>:  <@s.m "cmsConfig.function"/> - <@s.m "cmsConfig.function.member"/> - <@s.m "global.edit"/></div>
+	<#include "inc_opt.html"/>
+	<div class="clear"></div>
+</div>
+<div class="body-box">
+<@p.form id="jvForm" action="o_member_update.do" labelWidth="15">
+<@p.radio width="50" colspan="1" label="cmsConfig.member.memberOn" name="memberOn" value=memberConfig.memberOn list={"true":"global.true","false":"global.false"} required="true"/>
+<@p.radio width="50" colspan="1" label="cmsConfig.member.registerOn" name="registerOn" value=memberConfig.registerOn list={"true":"global.true","false":"global.false"} required="true"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsConfig.member.usernameMinLen" name="usernameMinLen" value=memberConfig.usernameMinLen required="required" class="required digits"/>
+<@p.text width="50" colspan="1" label="cmsConfig.member.passwordMinLen" name="passwordMinLen" value=memberConfig.passwordMinLen required="required" class="required digits"/><@p.tr/>
+<@p.text width="50" colspan="1" label="cmsConfig.member.userImgWidth" name="userImgWidth" value=memberConfig.userImgWidth required="required" class="required digits"/>
+<@p.text width="50" colspan="1" label="cmsConfig.member.userImgHeight" name="userImgHeight" value=memberConfig.userImgHeight required="required" class="required digits"/><@p.tr/>
+<@p.textarea colspan="2" label="cmsConfig.member.usernameReserved" name="usernameReserved" value=memberConfig.usernameReserved maxlength="255" cols="30" rows="5" help="cmsConfig.member.usernameReserved.help" helpPosition="3"/><@p.tr/>
+<@p.td colspan="2"><@p.submit code="global.submit"/> &nbsp; <@p.reset code="global.reset"/></@p.td>
+</@p.form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>

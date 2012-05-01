@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="foo.cms.entity.assist">
+	<class name="CmsAcquisition" table="jc_acquisition">
+		<meta attribute="sync-DAO">false</meta>
+		<id name="id" type="integer" column="acquisition_id"><generator class="identity"/></id>
+		<property name="name" column="acq_name" type="string" not-null="true" length="50"/>
+		<property name="startTime" column="start_time" type="timestamp" not-null="false" length="19"/>
+		<property name="endTime" column="end_time" type="timestamp" not-null="false" length="19"/>
+		<property name="status" column="status" type="integer" not-null="true" length="10"/>
+		<property name="currNum" column="curr_num" type="integer" not-null="true" length="10"/>
+		<property name="currItem" column="curr_item" type="integer" not-null="true" length="10"/>
+		<property name="totalItem" column="total_item" type="integer" not-null="true" length="10"/>
+		<property name="pauseTime" column="pause_time" type="integer" not-null="true" length="10"/>
+		<property name="pageEncoding" column="page_encoding" type="string" not-null="true" length="20"/>
+		<property name="planList" column="plan_list" type="string" not-null="false"/>
+		<property name="dynamicAddr" column="dynamic_addr" type="string" not-null="false" length="255"/>
+		<property name="dynamicStart" column="dynamic_start" type="integer" not-null="false" length="10"/>
+		<property name="dynamicEnd" column="dynamic_end" type="integer" not-null="false" length="10"/>
+		<property name="linksetStart" column="linkset_start" type="string" not-null="false" length="255"/>
+		<property name="linksetEnd" column="linkset_end" type="string" not-null="false" length="255"/>
+		<property name="linkStart" column="link_start" type="string" not-null="false" length="255"/>
+		<property name="linkEnd" column="link_end" type="string" not-null="false" length="255"/>
+		<property name="titleStart" column="title_start" type="string" not-null="false" length="255"/>
+		<property name="titleEnd" column="title_end" type="string" not-null="false" length="255"/>
+		<property name="keywordsStart" column="keywords_start" type="string" not-null="false" length="255"/>
+		<property name="keywordsEnd" column="keywords_end" type="string" not-null="false" length="255"/>
+		<property name="descriptionStart" column="description_start" type="string" not-null="false" length="255"/>
+		<property name="descriptionEnd" column="description_end" type="string" not-null="false" length="255"/>
+		<property name="contentStart" column="content_start" type="string" not-null="false" length="255"/>
+		<property name="contentEnd" column="content_end" type="string" not-null="false" length="255"/>
+		<property name="paginationStart" column="pagination_start" type="string" not-null="false" length="255"/>
+		<property name="paginationEnd" column="pagination_end" type="string" not-null="false" length="255"/>
+		<property name="queue" type="integer" not-null="true" length="11"/>
+		<many-to-one name="user" column="user_id" class="foo.cms.entity.main.CmsUser" not-null="true"></many-to-one>
+		<many-to-one name="type" column="type_id" class="foo.cms.entity.main.ContentType" not-null="true"></many-to-one>
+		<many-to-one name="site" column="site_id" class="foo.cms.entity.main.CmsSite" not-null="true"></many-to-one>
+		<many-to-one name="channel" column="channel_id" class="foo.cms.entity.main.Channel" not-null="true"></many-to-one>
+	</class>
+</hibernate-mapping>
